@@ -1,2 +1,1 @@
-# WordPress Theme
-## Theme Builder
+# WordPress Theme Builder
