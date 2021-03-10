@@ -6,6 +6,7 @@ import ScreenWidthModel from './screenWidthModel.js';
 import DataModel from './dataModel.js';
 import AnimationModel from './animationModel.js';
 import WordPressMediaModel from './wordPressMediaModel.js';
+import MathUtils from '../utils/mathUtils';
 
 /**
  * Customizer Model
@@ -75,6 +76,16 @@ class Model {
     this.jsn = {};
     this.jsonDefault = '{"hdr":{"cs":{"type":"hdr","ptID":"","postType":"","name":"-","description":"-"}}}';
 
+    // this.setModel();
+
+    this.rwdDflt = null;
+    // this.getStyleSheet();
+    // this.getCstmStyleSheet();
+
+    // console.log(`${this.set.names.version}: ${this.set.ATHM_VER} status: ok`);
+  }
+
+  init() {
     this.setModel();
 
     this.rwdDflt = this.set.rwdDflt;
@@ -298,6 +309,9 @@ class Model {
   * @param {int} id
   */
   setTimerID(id) {
+    if (id === undefined || MathUtils.isNaturalNumber(id)) {
+      throw new Error('Incorrect Passed Num');
+    }
     this.timerID = id;
   }
 

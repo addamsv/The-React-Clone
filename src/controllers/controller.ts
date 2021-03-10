@@ -10,6 +10,7 @@ class Controller implements ControllerInterface {
 
   constructor() {
     this.model = new Model();
+    this.model.init();
     this.theme = new Theme(this.model);
     this.setEventsListeners();
   }
