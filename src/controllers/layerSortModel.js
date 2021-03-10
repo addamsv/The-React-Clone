@@ -57,15 +57,9 @@ class LayerSortModel {
 
       // аватар создан успешно
       // создать вспомогательные свойства shiftX/shiftY
-      // var coords = this.getCoords(this.dragObject.avatar);
-      // this.dragObject.shiftX = this.dragObject.downX - coords.left;
-      // this.dragObject.shiftY = this.dragObject.downY - coords.top;
-      // аватар создан успешно
-      // создать вспомогательные свойства shiftX/shiftY
       const coords = this.getCoords(this.dragObject.avatar);
-      // console.log(this.dragObject.downY +' '+ coords.top);
-      this.dragObject.shiftX = coords.x; // this.dragObject.downX - coords.left
-      this.dragObject.shiftY = coords.y; // this.dragObject.downY - coords.top
+      this.dragObject.shiftX = this.dragObject.downX - coords.left;
+      this.dragObject.shiftY = this.dragObject.downY - coords.top;
 
       this.startDrag(e); // отобразить начало переноса
     }
@@ -79,12 +73,9 @@ class LayerSortModel {
 
   getCoords(elem) { // кроме IE8-
     const box = elem.getBoundingClientRect();
-    // const wrapper = elem.parentNode.getBoundingClientRect();
     return {
       top: box.top + window.pageYOffset,
       left: box.left + window.pageXOffset,
-      x: box.x,
-      y: box.y,
     };
   }
 
@@ -163,6 +154,9 @@ class LayerSortModel {
 
   startDrag() {
     // var avatar = this.dragObject.avatar;
+    if (this.dragObject.avatar.parentNode !== document.body) {
+      document.body.appendChild(this.dragObject.avatar); // переместить в BODY, если надо
+    }
     this.dragObject.avatar.style.zIndex = 9999;
     this.dragObject.avatar.style.position = 'absolute';
   }
