@@ -99,7 +99,6 @@ class LayerSortModel {
       // const xCoord = e.clientX - dropElemCoords.left;
       const yCoord = e.clientY - dropElemCoords.top;
       if ((dropElemCoords.height - yCoord) > (dropElemCoords.height / 2)) {
-        // console.log('Top');
         dropElem.classList.add('computer-smile');
         setTimeout(() => {
           dropElem.classList.remove('computer-smile');
@@ -107,7 +106,6 @@ class LayerSortModel {
         dropElem.insertAdjacentElement('beforebegin', this.dragObject.elem);
         this.dragObject.elem.removeAttribute('style');
       } else {
-        // console.log('Bott');
         dropElem.classList.add('computer-smile');
         setTimeout(() => {
           dropElem.classList.remove('computer-smile');
@@ -116,16 +114,21 @@ class LayerSortModel {
         this.dragObject.elem.removeAttribute('style');
       }
 
-      // console.log(dropElem.parentNode.classList.contains('cstmzLst'));
       const inputList = dropElem.parentNode.querySelectorAll('input');
       let count = 1;
       inputList.forEach((inputEl) => {
         const input = inputEl;
-        input.value = count;
-        count += 1;
-        input.click();
+        if (this.isContainerInputPriority(input)) {
+          input.value = count;
+          count += 1;
+          input.click();
+        }
       });
     }
+  }
+
+  isContainerInputPriority(input) {
+    return input.hasAttribute('data-input') && JSON.parse(input.getAttribute('data-input')).subcntnr === 'priority';
   }
 
   createAvatar() {
