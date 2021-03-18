@@ -54,11 +54,11 @@ class Controller implements ControllerInterface {
       }
     }
     if (this.model.scrWidth.widthD === '') {
-      console.log(`scrWidth: ${out}`);
+      // console.log(`scrWidth: ${out}`);
       this.model.scrWidth.widthD = out;
     }
     if (this.model.scrWidth.widthD !== out) {
-      console.log(`scrWidth: ${out}`);
+      // console.log(`scrWidth: ${out}`);
       this.model.scrWidth.widthD = out;
     }
 
