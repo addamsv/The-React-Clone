@@ -1,29 +1,28 @@
-export const debounce = (callback, delay) => {
-  let timeoutId;
+export const debounce = (callback: any, delay: any) => {
+  let timeoutId: any;
 
-  return function (...args) {
+  return function (...args: any) {
     clearTimeout(timeoutId);
 
     timeoutId = setTimeout(() => {
-      callback.apply(this, args);
+      callback.apply(null, args);
     }, delay);
   }
 }
 
-export const throttle = (callback, delay) => {
+export const throttle = (callback: any, delay: any) => {
   let isWaiting = false;
-  let savedArgs = null;
-  let savedThis = null;
+  let savedArgs: any = null;
+  let savedThis: any = null;
 
-  return function wrapper(...args) {
+  return function wrapper(...args: any) {
     if (isWaiting) {
       savedArgs = args;
-      // eslint-disable-next-line @typescript-eslint/no-this-alias
-      savedThis = this;
+      // savedThis = this;
       return;
     }
 
-    callback.apply(this, args);
+    callback.apply(null, args);
 
     isWaiting = true;
 
