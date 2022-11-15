@@ -1,0 +1,117 @@
+.input-range-main {
+	display: block;
+	position: relative;
+	margin: 10px 0 10px;
+	.input-range{
+		display: block;
+		position: absolute;
+		background-color: #202020;
+		top:0px;
+		left: 55px;
+		width: 177px;
+		height: 16px;
+		margin: 2px;
+		border-radius: 4px;
+		opacity: 0.2;
+		/*line*/
+		.input__range__wrp{
+			background: var(--main-color);
+		}
+		.input__range{
+		  -webkit-appearance: none;
+			-webkit-border-radius:2px;
+	   	-moz-border-radius:2px;
+			border-radius:2px;
+			width:88px;
+			height:2px;
+			outline : none;
+			border:none;
+			background-color: #191919;
+			padding: 0px;
+			margin-top: 7px;
+			vertical-align: top;
+		}
+		.input__range::-moz-range-track{
+			-webkit-appearance: none;
+			-moz-border-radius:2px;
+			border-radius:2px;
+			width:88px;
+			height:2px;
+			outline : none;
+			background-color: #191919;
+			margin-top: 7px;
+			vertical-align: top;
+		  	padding: 0px;
+		}
+		.input__range::-ms-track{
+		  -ms-appearance: none;  
+			border-radius:2px;
+			width:88px;
+			height:2px;
+			outline : none;
+			background-color: #191919;
+			margin-top: 7px;
+			vertical-align: top;
+		  	padding: 0px;
+		}
+		.input__range::-ms-fill-lower{}
+		.input__range::-ms-fill-upper{}
+		.input__range::-webkit-slider-thumb {
+		  -webkit-appearance: none;
+			-webkit-border-radius:2px 2px 15px 15px;
+			border-radius:2px 2px 15px 15px;
+			background:#777;
+			cursor:pointer;
+			width:8px;
+			height:8px;
+		}
+		.input__range::-moz-range-thumb{
+			-moz-appearance: none;
+			-moz-border-radius:2px 2px 15px 15px;
+			border-radius:2px 2px 15px 15px;
+			background:#777;
+			cursor:pointer;
+			width:8px;
+			height:8px;
+		}
+		.input__range::-ms-thumb {
+			-webkit-appearance: none;
+			border-radius:2px 2px 15px 15px;
+			background:#777;
+			cursor:pointer;
+			width:8px;
+			height:8px;
+		}
+		.input__range::-webkit-slider-thumb:hover,
+		.input__range::-webkit-slider-thumb:active {
+			background-color: #bbb;
+		}
+		.input__range::-moz-range-thumb:hover,
+		.input__range::-moz-range-thumb:active {
+		    background-color: #bbb;
+		}
+		.input-range-num {
+			width: 100%;
+			max-width: 38px;
+			background: #202020;
+			color: #999;
+			height: 12px;
+			text-align: right;
+			margin: 0;
+			padding: 0;
+			border: none;
+		}
+	}
+	.input-range:hover{
+		opacity: 0.9;
+	}
+	.input-range-label-m{
+		display: inline-block;
+		position: relative;
+		font-size: 9.5px;
+		padding: 0;
+		color: #999;
+		line-height: 2.2em;
+		margin-left: 2px;
+	}
+}

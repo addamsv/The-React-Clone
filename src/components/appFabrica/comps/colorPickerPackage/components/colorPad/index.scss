@@ -1,0 +1,22 @@
+.pickerField {
+  width: 100%;
+  height: 100%;
+}
+
+.colorPickerCursor {
+  position:absolute;
+  background:none;
+  width:20px;
+  height:20px;
+  box-shadow: 1px 1px 5px #000;
+  border:1px solid white;
+  border-radius:50%;
+  cursor:crosshair;
+}
+
+.color-picker {
+  width:255px;height:255px;display:inline-block;position:relative;vertical-align:top;
+  .colorPickerGradientOverlay__black {
+    background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0), rgb(0, 0, 0));position: absolute;left: 0;right: 0;top: 0;bottom: 0;
+  }
+}

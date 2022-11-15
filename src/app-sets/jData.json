@@ -1,0 +1,1653 @@
+{
+"mainMenuContext": {
+    "c1": {
+    "type": "menuContext"
+    }
+},
+"mainMenuFile": {
+    "c1": {
+    "type": "menuFile"
+    }
+},
+"menuMode": {
+    "c1": {
+    "type": "menuMode"
+    }
+},
+"menuScale": {
+    "c1": {
+    "type": "menuScale"
+    }
+},
+"mainMenuSliderSettings": {
+    "c1": {
+    "type": "input",
+    "hint": "Name",
+    "subCr": "name"
+    },
+    "c2": {
+    "type": "input",
+    "hint": "Description",
+    "subCr": "description"
+    },
+    "c3": {
+    "type": "input_range",
+    "hint": "Headers Height",
+    "m": "%",
+    "subCr": "heightPercent"
+    },
+    "h1": {
+    "type": "title",
+    "hint": "Slider:"
+    },
+    "c5": {
+    "type": "input_range",
+    "hint": "Timeout",
+    "m": "sec",
+    "subCr": "timeout"
+    },
+    "c7": {
+    "type": "select",
+    "hint": "Pause on Page Hover",
+    "subCr": "pauseOnPagerHover"
+    },
+    "c8": {
+    "type": "select",
+    "hint": "Stop at the End",
+    "subCr": "autostop"
+    },
+    "h2": {
+    "type": "title",
+    "hint": "Pager:"
+    },
+    "c9": {
+    "type": "select",
+    "hint": "Show\/Hide",
+    "subCr": "pauseOnPagerHover"
+    },
+    "m3": {
+    "title": "Pager Style",
+    "type": "menu",
+    "content": []
+    }
+},
+"collectionElementStyle": {
+    "m1": {
+        "title": "Backgrnd",
+        "type": "menu",
+        "subCr": "backgroundImage",
+        "content": {
+            "m1": {
+                "type": "menu",
+                "title": "Gradient",
+                "content": {
+                    "i1": {
+                    "type": "gradientCntrs",
+                    "hint": ""
+                    }
+                }
+            },
+            "m2": {
+                "type": "menu",
+                "title": "Image",
+                "content": {
+                    "i1": {
+                    "type": "image",
+                    "hint": "image",
+                    "subCr": "background"
+                    }
+                }
+            },
+            "m4": {
+                "type": "menu",
+                "title": "Color",
+                "content": {
+                    "thumbComponent": {
+                        "type": "thumb",
+                        "subCr": "backgroundColor"
+                    }
+                }
+            }
+        }
+    }
+},
+"collectionGradientPoints": {
+    "m1": {
+        "title": "Stop Color",
+        "type": "menu",
+        "content": {
+            "grdlinePos": {
+                "type": "input_range",
+                "hint": "Stop Pos",
+                "m": "%",
+                "subCr": "grdLinePos"
+            },
+            "grdColor": {
+                "title": "Color",
+                "type": "menu",
+                "subTypesubCr": "backgroundColor",
+                "content": {
+                    "crColor": {
+                        "type": "color",
+                        "hint": "Color",
+                        "subCr": "backgroundColor"
+                    }
+                }
+            }
+        }
+    }
+},
+"collectionGradientPointsType2": {
+    "m1": {
+        "title": "Stop Color",
+        "type": "menu",
+        "content": {
+            "clrMnuBtn": {
+                "type": "clrMenuButton"
+            },
+            "remBtn": {
+                "type": "remGrt__btn"
+            },
+            "stopColorThumb": {
+                "type": "thumb",
+                "subCr": "backgroundColor"
+            }
+        }
+    }
+},
+"collectionGradients": {
+  "grdType": {
+    "type": "select",
+    "hint": "Type",
+    "subCr": "gradientType"
+  },
+  "grdAngle": {
+    "type": "input_range",
+    "hint": "Angle",
+    "m": "Deg",
+    "subCr": "gradientAngl"
+  },
+  "grdX": {
+    "type": "input_range",
+    "hint": "X",
+    "m": "%",
+    "subCr": "gradientPosX"
+  },
+  "grdY": {
+    "type": "input_range",
+    "hint": "Y",
+    "m": "%",
+    "subCr": "gradientPosY"
+  }
+},
+"collectionShadowForText": {
+    "menutextShadow": {
+        "title": "Shad",
+        "type": "menu",
+        "content": {
+            "textShadowColor": {
+                "type": "thumb",
+                "subCr": "textShadowColor"
+            },
+            "crtextShadowLR": {
+                "type": "input_range",
+                "hint": "Horizontal",
+                "m": "px",
+                "subCr": "textShadowLR"
+            },
+            "crtextShadowTB": {
+                "type": "input_range",
+                "hint": "Vertical",
+                "m": "px",
+                "subCr": "textShadowTB"
+            },
+            "crtextShadowBlur": {
+                "type": "input_range",
+                "hint": "Blur Radius",
+                "m": "px",
+                "subCr": "textShadowBlur"
+            }
+        }
+    }
+},
+"collectionShadowForCntr": {
+    "menuBoxShadow": {
+        "type": "menu",
+        "title": "Shad",
+        "content": {
+            "boxShadowColor": {
+                "type": "thumb",
+                "subCr": "boxShadowColor"
+            },
+            "crBoxShadowPosition": {
+                "type": "select",
+                "hint": "Position",
+                "subCr": "boxShadowPosition"
+            },
+            "crBoxShadowLR": {
+                "type": "input_range",
+                "hint": "Horizontal",
+                "m": "px",
+                "subCr": "boxShadowLR"
+            },
+            "crBoxShadowTB": {
+                "type": "input_range",
+                "hint": "Vertical",
+                "m": "px",
+                "subCr": "boxShadowTB"
+            },
+            "crBoxShadowBlur": {
+                "type": "input_range",
+                "hint": "Blur Radius",
+                "m": "px",
+                "subCr": "boxShadowBlur"
+            },
+            "crBoxShadowSpread": {
+                "type": "input_range",
+                "hint": "Spread Radius",
+                "m": "px",
+                "subCr": "boxShadowSpread"
+            }
+        }
+    }
+},
+"collectionTransform": {
+    "m1": {
+        "type": "menu",
+        "title": "Transform",
+        "content": {
+            "h1_6": {
+                "type": "title",
+                "hint": "Perspective:"
+            },
+            "perspectiveOriginX": {
+                "type": "input_range",
+                "hint": "X",
+                "m": "%",
+                "subCr": "perspectiveOriginX"
+            },
+            "perspectiveOriginY": {
+                "type": "input_range",
+                "hint": "Y",
+                "m": "%",
+                "subCr": "perspectiveOriginY"
+            },
+            "perspective": {
+                "type": "input_range",
+                "hint": "Z",
+                "m": "px",
+                "subCr": "perspective"
+            },
+            "h1_5": {
+                "type": "title",
+                "hint": "Rotate:"
+            },
+            "rotateX": {
+                "type": "input_range",
+                "hint": "X",
+                "m": "Deg",
+                "subCr": "rotateX"
+            },
+            "rotateY": {
+                "type": "input_range",
+                "hint": "Y",
+                "m": "Deg",
+                "subCr": "rotateY"
+            },
+            "rotateZ": {
+                "type": "input_range",
+                "hint": "Z",
+                "m": "Deg",
+                "subCr": "rotateZ"
+            },
+            "h1_7": {
+                "type": "title",
+                "hint": "Skew:"
+            },
+            "skewX": {
+                "type": "input_range",
+                "hint": "X",
+                "m": "deg",
+                "subCr": "skewX"
+            },
+            "skewY": {
+                "type": "input_range",
+                "hint": "Y",
+                "m": "Deg",
+                "subCr": "skewY"
+            },
+            "h1_4": {
+                "type": "title",
+                "hint": "Scale:"
+            },
+            "scaleX": {
+                "type": "input_range",
+                "hint": "X",
+                "subCr": "scaleX"
+            },
+            "scaleY": {
+                "type": "input_range",
+                "hint": "Y",
+                "subCr": "scaleY"
+            }
+        }
+    }
+},
+"collectionRadiuses": {
+    "m1": {
+        "type": "menu",
+        "title": "All",
+        "content": {
+            "crborderRadius": {
+                "type": "input_range",
+                "hint": "All",
+                "m": "px",
+                "subCr": "borderRadius"
+            }
+        }
+    },
+    "m2": {
+        "type": "menu",
+        "title": "Top Left",
+        "content": {
+            "crborderTopLeftRadius": {
+                "type": "input_range",
+                "hint": "Top Left",
+                "m": "px",
+                "subCr": "borderTopLeftRadius"
+            }
+        }
+    },
+    "m3": {
+        "type": "menu",
+        "title": "Top Right",
+        "content": {
+            "crborderTopRightRadius": {
+                "type": "input_range",
+                "hint": "Top Right",
+                "m": "px",
+                "subCr": "borderTopRightRadius"
+            }
+        }
+    },
+    "m4": {
+        "type": "menu",
+        "title": "Bottom Right",
+        "content": {
+            "crBorderRadiusBottomRight": {
+                "type": "input_range",
+                "hint": "Bottom Right",
+                "m": "px",
+                "subCr": "borderBottomRightRadius"
+            }
+        }
+    },
+    "m5": {
+        "type": "menu",
+        "title": "Bottom Left",
+        "content": {
+            "crBorderRadius": {
+                "type": "input_range",
+                "hint": "Bottom Left",
+                "m": "px",
+                "subCr": "borderBottomLeftRadius"
+            }
+        }
+    }
+},
+"collectionBoxBorders": {
+    "m0": {
+        "type": "menu",
+        "title": "All",
+        "content": {
+            "crBorderAll": {
+                "type": "select",
+                "hint": "Type",
+                "subCr": "borderType"
+            },
+            "crBorderWeight": {
+                "type": "input_range",
+                "hint": "Weight",
+                "m": "px",
+                "subCr": "borderWeight"
+            },
+            "thumbComponent": {
+                "type": "thumb",
+                "subCr": "borderColor"
+            }
+        }
+    },
+    "m1": {
+        "title": "Top",
+        "type": "menu",
+        "content": {
+            "crBorderTypeTop": {
+                "type": "select",
+                "hint": "Type",
+                "subCr": "borderTopType"
+            },
+            "crBorderTopWeight": {
+                "type": "input_range",
+                "hint": "Weight",
+                "m": "px",
+                "subCr": "borderTopWeight"
+            },
+            "thumbComponent": {
+                "type": "thumb",
+                "subCr": "borderTopColor"
+            }
+        }
+    },
+    "m2": {
+        "title": "Right",
+        "type": "menu",
+        "content": {
+            "crBorderTypeRight": {
+            "type": "select",
+            "hint": "Type",
+            "subCr": "borderRightType"
+            },
+            "crBorderRightWeight": {
+            "type": "input_range",
+            "hint": "Weight",
+            "m": "px",
+            "subCr": "borderRightWeight"
+            },
+            "thumbComponent": {
+                "type": "thumb",
+                "subCr": "borderRightColor"
+            }
+        }
+    },
+    "m3": {
+        "title": "Bottom",
+        "type": "menu",
+        "content": {
+            "crBorderTypeBottom": {
+                "type": "select",
+                "hint": "Type",
+                "subCr": "borderBottomType"
+            },
+            "crBorderBottomWeight": {
+                "type": "input_range",
+                "hint": "Weight",
+                "m": "px",
+                "subCr": "borderBottomWeight"
+            },
+            "thumbComponent": {
+                "type": "thumb",
+                "subCr": "borderBottomColor"
+            }
+        }
+    },
+    "m4": {
+        "title": "Left",
+        "type": "menu",
+        "content": {
+            "crBorderTypeLeft": {
+                "type": "select",
+                "hint": "Type",
+                "subCr": "borderLeftType"
+            },
+            "crBorderLeftWeight": {
+                "type": "input_range",
+                "hint": "Weight",
+                "m": "px",
+                "subCr": "borderLeftWeight"
+            },
+            "thumbComponent": {
+                "type": "thumb",
+                "subCr": "borderLeftColor"
+            }
+        }
+    }
+},
+"collectionFilters": {
+    "blur": {
+        "type": "input_range",
+        "hint": "Blur",
+        "m": "px",
+        "subCr": "blur"
+    },
+    "brightness": {
+        "type": "input_range",
+        "hint": "Brightness",
+        "m": "%",
+        "subCr": "brightness"
+    },
+    "contrast": {
+        "type": "input_range",
+        "hint": "Contrast",
+        "m": "%",
+        "subCr": "contrast"
+    },
+    "grayscale": {
+        "type": "input_range",
+        "hint": "Grayscale",
+        "m": "%",
+        "subCr": "grayscale"
+    },
+    "hue-rotate": {
+        "type": "input_range",
+        "hint": "Hue-Rotate",
+        "m": "deg",
+        "subCr": "hue-rotate"
+    },
+    "invert": {
+        "type": "input_range",
+        "hint": "Invert",
+        "m": "%",
+        "subCr": "invert"
+    },
+    "saturate": {
+        "type": "input_range",
+        "hint": "Saturate",
+        "m": "%",
+        "subCr": "saturate"
+    },
+    "sepia": {
+        "type": "input_range",
+        "hint": "Sepia",
+        "m": "%",
+        "subCr": "sepia"
+    }
+},
+"collectionImgSETS": {
+    "position": {
+        "type": "select",
+        "hint": "Position",
+        "subCr": "backgroundPosition"
+    },
+    "Repeat": {
+        "type": "select",
+        "hint": "Repeat",
+        "subCr": "backgroundRepeat"
+    },
+    "Size": {
+        "type": "select",
+        "hint": "Size",
+        "subCr": "backgroundSize"
+    },
+    "Attachment": {
+        "type": "select",
+        "hint": "Attachment",
+        "subCr": "backgroundAttachment"
+    }
+},
+"collectionPaddings": {
+    "m0": {
+        "title": "All",
+        "type": "menu",
+        "content": {
+            "All": {
+                "type": "input_range",
+                "hint": "All",
+                "m": "px",
+                "subCr": "padding"
+            }
+        }
+    },
+    "m1": {
+        "title": "Top",
+        "type": "menu",
+        "content": {
+            "Top": {
+                "type": "input_range",
+                "hint": "Top",
+                "m": "px",
+                "subCr": "paddingTop"
+            }
+        }
+    },
+    "m2": {
+        "title": "Right",
+        "type": "menu",
+        "content": {
+            "Right": {
+                "type": "input_range",
+                "hint": "Right",
+                "m": "px",
+                "subCr": "paddingRight"
+            }
+        }
+    },
+    "m3": {
+        "title": "Bottom",
+        "type": "menu",
+        "content": {
+            "Bottom": {
+                "type": "input_range",
+                "hint": "Bottom",
+                "m": "px",
+                "subCr": "paddingBottom"
+            }
+        }
+    },
+    "m4": {
+        "title": "Left",
+        "type": "menu",
+        "content": {
+            "Left": {
+                "type": "input_range",
+                "hint": "Left",
+                "m": "px",
+                "subCr": "paddingLeft"
+            }
+        }
+    }
+},
+"collectionMargins": {
+    "m0": {
+    "title": "All",
+    "type": "menu",
+    "content": {
+        "All": {
+            "type": "input_range",
+            "hint": "All",
+            "m": "px",
+            "subCr": "margin"
+        }
+    }
+    },
+    "m1": {
+        "title": "Top",
+        "type": "menu",
+        "content": {
+            "Top": {
+                "type": "input_range",
+                "hint": "Top",
+                "m": "px",
+                "subCr": "marginTop"
+            }
+        }
+    },
+    "m2": {
+        "title": "Right",
+        "type": "menu",
+        "content": {
+            "Right": {
+                "type": "input_range",
+                "hint": "Right",
+                "m": "px",
+                "subCr": "marginRight"
+            }
+        }
+    },
+    "m3": {
+        "title": "Bottom",
+        "type": "menu",
+        "content": {
+            "Bottom": {
+                "type": "input_range",
+                "hint": "Bottom",
+                "m": "px",
+                "subCr": "marginBottom"
+            }
+        }
+    },
+    "m4": {
+        "title": "Left",
+        "type": "menu",
+        "content": {
+            "Left": {
+                "type": "input_range",
+                "hint": "Left",
+                "m": "px",
+                "subCr": "marginLeft"
+            }
+        }
+    }
+},
+"collectionAnimation": {
+    "menuElementStyleEntranceAnimation": {
+    "title": "Frame",
+    "type": "menu",
+    "content": {
+        "akfTimelinePos": {
+            "type": "input_range",
+            "hint": "Timeline Pos",
+            "m": "%",
+            "subCr": "akfTimelinePos"
+        },
+        "opacity": {
+            "type": "input_range",
+            "hint": "Opacity",
+            "m": "%",
+            "subCr": "opacity"
+        },
+        "h1": {
+            "type": "title",
+            "hint": "Position:"
+        },
+        "translateX": {
+            "type": "input_range",
+            "hint": "X",
+            "m": "px",
+            "subCr": "translateX"
+        },
+        "translateY": {
+            "type": "input_range",
+            "hint": "Y",
+            "m": "px",
+            "subCr": "translateY"
+        },
+        "translateZ": {
+            "type": "input_range",
+            "hint": "Z",
+            "m": "px",
+            "subCr": "translateZ"
+        },
+        "m1": {
+        "title": "Transform",
+        "type": "menu",
+        "content": {
+            "h1_6": {
+            "type": "title",
+            "hint": "Perspective:"
+            },
+            "perspectiveOriginX": {
+            "type": "input_range",
+            "hint": "X",
+            "m": "%",
+            "subCr": "perspectiveOriginX"
+            },
+            "perspectiveOriginY": {
+            "type": "input_range",
+            "hint": "Y",
+            "m": "%",
+            "subCr": "perspectiveOriginY"
+            },
+            "perspective": {
+            "type": "input_range",
+            "hint": "Z",
+            "m": "px",
+            "subCr": "perspective"
+            },
+            "h1_5": {
+            "type": "title",
+            "hint": "Rotate:"
+            },
+            "rotateX": {
+            "type": "input_range",
+            "hint": "X",
+            "m": "Deg",
+            "subCr": "rotateX"
+            },
+            "rotateY": {
+            "type": "input_range",
+            "hint": "Y",
+            "m": "Deg",
+            "subCr": "rotateY"
+            },
+            "rotateZ": {
+            "type": "input_range",
+            "hint": "Z",
+            "m": "Deg",
+            "subCr": "rotateZ"
+            },
+            "h1_7": {
+            "type": "title",
+            "hint": "Skew:"
+            },
+            "skewX": {
+            "type": "input_range",
+            "hint": "X",
+            "m": "deg",
+            "subCr": "skewX"
+            },
+            "skewY": {
+            "type": "input_range",
+            "hint": "Y",
+            "m": "Deg",
+            "subCr": "skewY"
+            },
+            "h1_4": {
+            "type": "title",
+            "hint": "Scale:"
+            },
+            "scaleX": {
+            "type": "input_range",
+            "hint": "X",
+            "subCr": "scaleX"
+            },
+            "scaleY": {
+            "type": "input_range",
+            "hint": "Y",
+            "subCr": "scaleY"
+            }
+        }
+        },
+        "fltrMenu": {
+        "title": "Filters",
+        "type": "menu",
+        "content": {
+            "containerPos": {
+            "type": "filters"
+            }
+        }
+        }
+    }
+    }
+},
+"collectionAnimations": {
+    "entranceAnimation": {
+    "type": "select",
+    "hint": "Preset",
+    "subCr": "entranceAnimation"
+    },
+    "animationTimingFn": {
+    "type": "select",
+    "hint": "Timing",
+    "subCr": "animationTimingFn"
+    },
+    "animationDuration": {
+    "type": "input_range",
+    "hint": "Duration",
+    "m": "sec",
+    "subCr": "animationDuration"
+    },
+    "iterationCount": {
+    "type": "input_range",
+    "hint": "Iteration Count",
+    "m": "times",
+    "subCr": "iterationCount"
+    },
+    "animationKeyframesCntrs": {
+    "type": "animationKeyframesCntrs",
+    "hint": ""
+    }
+},
+"collectionPosition": {
+    "crTextDecoration": {
+    "type": "select",
+    "hint": "Overflow: ",
+    "subCr": "overflow"
+    },
+    "opacity": {
+    "type": "input_range",
+    "hint": "Opacity",
+    "m": "%",
+    "subCr": "opacity"
+    },
+    "crElTo": {
+    "type": "select",
+    "hint": "Stick to:",
+    "subCr": "elTo"
+    },
+    "crElPosX": {
+    "type": "input_range",
+    "hint": "X",
+    "m": "px",
+    "subCr": "elPosX"
+    },
+    "crElPosY": {
+    "type": "input_range",
+    "hint": "Y",
+    "m": "px",
+    "subCr": "elPosY"
+    },
+    "h1": {
+    "type": "title",
+    "hint": "Width:"
+    },
+    "crFullWidth": {
+    "type": "select",
+    "hint": "Type",
+    "subCr": "elFullWidth"
+    },
+    "crElWidth": {
+    "type": "input_range",
+    "hint": "width(px)",
+    "m": "px",
+    "subCr": "elWidth"
+    },
+    "h2": {
+    "type": "title",
+    "hint": "Height:"
+    },
+    "crFullHeight": {
+    "type": "select",
+    "hint": "Type",
+    "subCr": "elFullHeight"
+    },
+    "crElHeight": {
+    "type": "input_range",
+    "hint": "height(px)",
+    "m": "px",
+    "subCr": "elHeight"
+    }
+},
+"collectionTypo": {
+    "crFontFamily": {
+    "type": "select",
+    "hint": "Family",
+    "subCr": "fontFamily"
+    },
+    "crTextTransform": {
+    "type": "select",
+    "hint": "Trans-form",
+    "subCr": "textTransform"
+    },
+    "crTextAlign": {
+    "type": "select",
+    "hint": "Align",
+    "subCr": "textAlign"
+    },
+    "crFontStyle": {
+    "type": "select",
+    "hint": "Style",
+    "subCr": "fontStyle"
+    },
+    "crFontWeight": {
+    "type": "select",
+    "hint": "Weight",
+    "subCr": "fontWeight"
+    },
+    "crTextDecoration": {
+    "type": "select",
+    "hint": "Decora-tion",
+    "subCr": "textDecoration"
+    },
+    "crFontSize": {
+    "type": "input_range",
+    "hint": "Size",
+    "m": "px",
+    "subCr": "fontSize"
+    },
+    "crLineHeight": {
+    "type": "input_range",
+    "hint": "Line Height",
+    "m": "em",
+    "subCr": "lineHeight"
+    },
+    "crWordSpacing": {
+    "type": "input_range",
+    "hint": "Word Spacing",
+    "m": "em",
+    "subCr": "wordSpacing"
+    },
+    "crLetterSpacing": {
+    "type": "input_range",
+    "hint": "Letter Spacing",
+    "m": "em",
+    "subCr": "letterSpacing"
+    },
+    "thumbComponent": {
+        "type": "thumb",
+        "subCr": "color"
+    }
+},
+"collectionHover": {
+    "m1": {
+    "title": "on Hover",
+    "type": "menu",
+    "content": {
+        "s1": {
+        "type": "select",
+        "hint": "Cursor",
+        "subCr": "cursor"
+        },
+        "i1": {
+        "type": "input_range",
+        "hint": "Transition:",
+        "m": "Sec",
+        "subCr": "transition"
+        },
+        "m1": {
+        "title": "Typography",
+        "type": "menu",
+        "content": {
+            "c1": {
+            "type": "collectionTypo"
+            }
+        }
+        },
+        "m2": {
+        "title": "Layer",
+        "type": "menu",
+        "content": {
+            "c1": {
+            "type": "collectionPosition"
+            }
+        }
+        }
+    }
+    }
+},
+"collectionClick": {
+    "m1": {
+    "title": "on Click",
+    "type": "menu",
+    "content": {
+        "m1": {
+        "title": "URL",
+        "type": "menu",
+        "content": {
+            "c1": {
+            "type": "collectionTypo"
+            }
+        }
+        },
+        "m2": {
+        "title": "ID",
+        "type": "menu",
+        "content": {
+            "c1": {
+            "type": "collectionTypo"
+            }
+        }
+        }
+    }
+    }
+},
+"video": {
+    "videoMenu": {
+    "title": "Video",
+    "type": "menu",
+    "content": {
+        "crURL": {
+        "type": "input",
+        "hint": "URL link",
+        "subCr": "url"
+        },
+        "crStart": {
+        "type": "input",
+        "hint": "Start",
+        "subCr": "url"
+        },
+        "crEnd": {
+        "type": "input",
+        "hint": "End",
+        "subCr": "url"
+        },
+        "crSlug": {
+        "type": "input",
+        "hint": "Save Text",
+        "subCr": "content"
+        },
+        "crCollectionElementStyle": {
+        "type": "collectionElementStyle"
+        },
+        "animMenu": {
+        "title": "Animation",
+        "type": "menu",
+        "content": {
+            "crAnm": {
+            "type": "collectionAnimations"
+            }
+        }
+        },
+        "possMenu": {
+        "title": "Layer",
+        "type": "menu",
+        "content": {
+            "crPos": {
+            "type": "collectionPosition"
+            }
+        }
+        },
+        "transform": {
+        "type": "transform"
+        },
+        "shdwMenu": {
+        "title": "Shad",
+        "type": "menu",
+        "content": {
+            "shadowForCntrs": {
+            "subType": "bsc",
+            "type": "collectionShadowForCntr"
+            }
+        }
+        },
+        "brdrMenu": {
+        "title": "Border",
+        "type": "menu",
+        "content": {
+            "containerPos": {
+            "type": "boxBordersCr"
+            }
+        }
+        },
+        "radiusesMenu": {
+        "title": "Radius",
+        "type": "menu",
+        "content": {
+            "containerPos": {
+            "type": "radiuses"
+            }
+        }
+        },
+        "pdgsMenu": {
+        "title": "Padding",
+        "type": "menu",
+        "content": {
+            "containerPos": {
+            "type": "paddings"
+            }
+        }
+        },
+        "mrgsMenu": {
+        "title": "Margin",
+        "type": "menu",
+        "content": {
+            "containerPos": {
+            "type": "margins"
+            }
+        }
+        },
+        "fltrMenu": {
+            "title": "Filters",
+            "type": "menu",
+            "content": {
+                "containerPos": {
+                    "type": "filters"
+                }
+            }
+        },
+        "menuEventsNdActions": {
+            "title": "Events",
+            "type": "menu",
+            "content": {
+                "c1": {
+                    "type": "collectionHover"
+                }
+            }
+        }
+    }
+    }
+},
+"mainSlug": {
+    "mainSlugMenu": {
+    "title": "Slug",
+    "type": "menu",
+    "content": {
+        "crSlug": {
+            "type": "input",
+            "hint": "Slug",
+            "subCr": "content"
+        },
+        "crCollectionElementStyle": {
+            "type": "collectionElementStyle"
+        },
+        "animMenu": {
+            "title": "Animation",
+            "type": "menu",
+            "content": {
+                "crAnm": {
+                    "type": "collectionAnimations"
+                }
+            }
+        },
+        "typoMenu": {
+            "title": "Typography",
+            "type": "menu",
+            "content": {
+                "crTypo": {
+                    "type": "collectionTypo"
+                }
+            }
+        },
+        "possMenu": {
+            "title": "Layer",
+            "type": "menu",
+            "content": {
+                "crPos": {
+                    "type": "collectionPosition"
+                }
+            }
+        },
+        "transform": {
+            "type": "transform"
+        },
+        "shdwMenu": {
+            "title": "Shad",
+            "type": "menu",
+            "content": {
+                "shdwMenu": {
+                    "title": "Layer",
+                    "type": "menu",
+                    "content": {
+                        "shadowForCntrs": {
+                            "subType": "bsc",
+                            "type": "collectionShadowForCntr"
+                        }
+                    }
+                },
+                "textShadowMenu": {
+                    "title": "Text",
+                    "type": "menu",
+                    "content": {
+                        "crShadowPosition": {
+                            "subType": "tsc",
+                            "type": "collectionShadowForCntr"
+                        }
+                    }
+                }
+            }
+        },
+        "brdrMenu": {
+            "title": "Border",
+            "type": "menu",
+            "content": {
+                "containerPos": {
+                    "type": "boxBordersCr"
+                }
+            }
+        },
+        "radiusesMenu": {
+            "title": "Radius",
+            "type": "menu",
+            "content": {
+                "containerPos": {
+                    "type": "radiuses"
+                }
+            }
+        },
+        "pdgsMenu": {
+            "title": "Padding",
+            "type": "menu",
+            "content": {
+                "containerPos": {
+                    "type": "paddings"
+                }
+            }
+        },
+        "mrgsMenu": {
+            "title": "Margin",
+            "type": "menu",
+            "content": {
+                "containerPos": {
+                    "type": "margins"
+                }
+            }
+        },
+        "fltrMenu": {
+            "title": "Filters",
+            "type": "menu",
+            "content": {
+                "containerPos": {
+                    "type": "filters"
+                }
+            }
+        },
+        "menuEventsNdActions": {
+            "title": "Events",
+            "type": "menu",
+            "content": {
+            "c1": {"type": "collectionHover"}
+            }
+        }
+    }
+    }
+},
+"subSlug": {
+    "subSlugMenu": {
+    "title": "Subslug",
+    "type": "menu",
+    "content": {
+        "containerSubSlug": {
+            "type": "input",
+            "hint": "Subslug",
+            "subCr": "content"
+        },
+        "crCollectionElementStyle": {
+            "type": "collectionElementStyle"
+        },
+        "animMenu": {
+            "title": "Animation",
+            "type": "menu",
+            "content": {
+                "crAnm": {
+                    "type": "collectionAnimations"
+                }
+            }
+        },
+        "typoMenu": {
+            "title": "Typography",
+            "type": "menu",
+            "content": {
+                "containerTypo": {
+                    "type": "collectionTypo"
+                }
+            }
+        },
+        "possMenu": {
+            "title": "Layer",
+            "type": "menu",
+            "content": {
+                "containerPos": {
+                    "type": "collectionPosition"
+                }
+            }
+        },
+        "transform": {
+            "type": "transform"
+        },
+        "shdwMenu": {
+        "title": "Shad",
+        "type": "menu",
+        "content": {
+            "shdwMenu": {
+                "title": "Layer",
+                "type": "menu",
+                "content": {
+                    "shadowForCntrs": {
+                        "subType": "bsc",
+                        "type": "collectionShadowForCntr"
+                    }
+                }
+            },
+            "textShadowMenu": {
+                "title": "Text",
+                "type": "menu",
+                "content": {
+                    "crShadowPosition": {
+                        "subType": "tsc",
+                        "type": "collectionShadowForCntr"
+                    }
+                }
+            }
+        }
+        },
+        "brdrMenu": {
+            "title": "Border",
+            "type": "menu",
+            "content": {
+                "containerPos": {
+                    "type": "boxBordersCr"
+                }
+            }
+        },
+        "radiusesMenu": {
+            "title": "Radius",
+            "type": "menu",
+            "content": {
+                "containerPos": {
+                    "type": "radiuses"
+                }
+            }
+        },
+        "pdgsMenu": {
+        "title": "Padding",
+        "type": "menu",
+        "content": {
+            "containerPos": {
+            "type": "paddings"
+            }
+        }
+        },
+        "mrgsMenu": {
+        "title": "Margin",
+        "type": "menu",
+        "content": {
+            "containerPos": {
+            "type": "margins"
+            }
+        }
+        },
+        "fltrMenu": {
+        "title": "Filters",
+        "type": "menu",
+        "content": {
+            "containerPos": {
+            "type": "filters"
+            }
+        }
+        },
+        "menuEventsNdActions": {
+        "title": "Events",
+        "type": "menu",
+        "content": {
+            "c1": {
+            "type": "collectionHover"
+            }
+        }
+        }
+    }
+    }
+},
+"btnData": {
+    "btnDataMenu": {
+    "title": "Button",
+    "type": "menu",
+    "content": {
+        "containerBtnData": {
+        "type": "input",
+        "hint": "Button Slug",
+        "subCr": "content"
+        },
+        "containerBtnDataUrl": {
+        "type": "input",
+        "hint": "Link",
+        "subCr": "url"
+        },
+        "crCollectionElementStyle": {
+        "type": "collectionElementStyle"
+        },
+        "animMenu": {
+        "title": "Animation",
+        "type": "menu",
+        "content": {
+            "crAnm": {
+            "type": "collectionAnimations"
+            }
+        }
+        },
+        "menuTypo": {
+        "title": "Typography",
+        "type": "menu",
+        "content": {
+            "containerTypo": {
+            "type": "collectionTypo"
+            }
+        }
+        },
+        "menuPoss": {
+        "title": "Layer",
+        "type": "menu",
+        "content": {
+            "containerPos": {
+            "type": "collectionPosition"
+            }
+        }
+        },
+        "transform": {
+        "type": "transform"
+        },
+        "shdwMenu": {
+        "title": "Shad",
+        "type": "menu",
+        "content": {
+            "shdwMenu": {
+                "title": "Layer",
+                "type": "menu",
+                "content": {
+                    "shadowForCntrs": {
+                        "subType": "bsc",
+                        "type": "collectionShadowForCntr"
+                    }
+                }
+            },
+            "textShadowMenu": {
+                "title": "Text",
+                "type": "menu",
+                "content": {
+                    "crShadowPosition": {
+                        "subType": "tsc",
+                        "type": "collectionShadowForCntr"
+                    }
+                }
+            }
+        }
+        },
+        "brdrMenu": {
+        "title": "Border",
+        "type": "menu",
+        "content": {
+            "containerPos": {
+            "type": "boxBordersCr"
+            }
+        }
+        },
+        "radiusesMenu": {
+        "title": "Radius",
+        "type": "menu",
+        "content": {
+            "containerPos": {
+            "type": "radiuses"
+            }
+        }
+        },
+        "pdgsMenu": {
+        "title": "Padding",
+        "type": "menu",
+        "content": {
+            "containerPos": {
+            "type": "paddings"
+            }
+        }
+        },
+        "mrgsMenu": {
+        "title": "Margin",
+        "type": "menu",
+        "content": {
+            "containerPos": {
+            "type": "margins"
+            }
+        }
+        },
+        "fltrMenu": {
+        "title": "Filters",
+        "type": "menu",
+        "content": {
+            "containerPos": {
+            "type": "filters"
+            }
+        }
+        },
+        "menuEventsNdActions": {
+        "title": "Events",
+        "type": "menu",
+        "content": {
+            "c1": {
+            "type": "collectionHover"
+            }
+        }
+        }
+    }
+    }
+},
+"shortcode": {
+  "shortcodeMenu": {
+  "title": "shortcode",
+  "type": "menu",
+  "content": {
+    "containerShortcodeSelect": {
+    "type": "select",
+    "hint": "shortcodes",
+    "subCr": "content"
+    },
+    "containerShortcodeTextarea": {
+    "type": "textarea",
+    "hint": "shortcode",
+    "subCr": "url"
+    }
+  }
+  }
+},
+"sdAddnlHtml": {
+  "sdAddnlHtmlMenu": {
+  "title": "HTML",
+  "type": "menu",
+  "content": {
+    "containersdAddnlHtmlSelect": {
+      "type": "sdAddnlHtml",
+      "subCr": "content"
+    }
+  }
+  }
+},
+"cntnr":{
+  "cntnrMenu":{
+  "title": "Set Cr",
+  "type": "menu",
+  "subCr": "backgroundImage",
+  "content": {
+    "crCollectionElementStyle": {
+        "type": "collectionElementStyle"
+    },
+    "animMenu": {
+      "title": "Animation",
+      "type": "menu",
+      "content": {
+        "crAnm": { "type": "collectionAnimations" }
+      }
+    },
+    "menuPoss": {
+      "title": "Layer",
+      "type": "menu",
+      "content": {
+        "containerPos": {
+          "type": "collectionPosition"
+        }
+      }
+    },
+    "transform": {
+    "type": "transform"
+    },
+    "shdwMenu": {
+    "title": "Shad",
+    "type": "menu",
+    "content": {
+      "shadowForCntrs": {
+        "subType": "bsc",
+        "type": "collectionShadowForCntr"
+      }
+    }
+    },
+    "brdrMenu": {
+    "title": "Border",
+    "type": "menu",
+    "content": {
+      "containerPos": {"type": "boxBordersCr"}
+    }
+    },
+    "radiusesMenu": {
+    "title": "Radius",
+    "type": "menu",
+    "content": {
+      "containerPos": {"type": "radiuses"}
+    }
+    },
+    "pdgsMenu": {
+    "title": "Padding",
+    "type": "menu",
+    "content": {
+      "containerPos": {"type": "paddings"}
+    }
+    },
+    "mrgsMenu": {
+    "title": "Margin",
+    "type": "menu",
+    "content": {
+      "containerPos": {"type": "margins"}
+    }
+    },
+    "fltrMenu": {
+    "title": "Filters",
+    "type": "menu",
+    "content": {
+      "containerPos": {"type": "filters"}
+    }
+    },
+    "menuEventsNdActions": {
+    "title": "Events",
+    "type": "menu",
+    "content": {
+      "c1": {"type": "collectionHover"}
+    }
+    }
+    }
+  }
+}
+}

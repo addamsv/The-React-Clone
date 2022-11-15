@@ -1,0 +1,46 @@
+.add-layer-button{
+	position: relative;
+	 -webkit-border-radius:3px;
+		-moz-border-radius:3px;
+			 border-radius:3px;
+	background-color:#353535;
+	border:none;
+	color:var(--main-color);
+	padding:0 6px 0px 4px;
+	margin:3px 4px 3px 3px;
+	font-size:12px;	
+	-webkit-transition: .2s;
+	-moz-transition: .2s;
+	-ms-transition: .2s;
+	-o-transition: .2s;
+	transition: .2s;
+	cursor: pointer;
+}
+
+.add-layer-button:hover{
+	background-color:#555;
+	color:#fff;
+}
+
+.add-layer-item {
+	position: relative;
+	-webkit-border-radius:3px;
+		-moz-border-radius:3px;
+			border-radius:3px;
+	background-color:#353535;
+	border:none;
+	color:var(--main-color);
+	font-size: 10px;
+	padding:0 6px 0px 4px;
+	margin:3px 4px 3px 3px;	
+	-webkit-transition: .2s;
+	-moz-transition: .2s;
+	-ms-transition: .2s;
+	-o-transition: .2s;
+	transition: .2s;
+	cursor: pointer;
+}
+.add-layer-item:hover{
+	background-color:#555;
+	color:#fff;
+}

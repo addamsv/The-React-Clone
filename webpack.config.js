@@ -1,72 +1,131 @@
-const path = require('path');
+const path = require("path");
+
+const app_dir = __dirname + '/src';
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-// const CopyPlugin = require('copy-webpack-plugin');
+const HTMLWebpackPluginConfig = new HtmlWebpackPlugin({
+  template: app_dir + '/index.html',
+  filename: 'index.html',
+  inject: 'body'
+});
 
-module.exports = {
-  mode: 'development',
-  // mode: 'production',
-  devtool: 'inline-source-map',
-  entry: path.join(__dirname, './src/index.ts'),
-  resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPluginConfig = new MiniCssExtractPlugin({
+  // Options similar to the same options in webpackOptions.output
+  // all options are optional
+  filename: "[name].css",
+  chunkFilename: "[id].css",
+  ignoreOrder: false, // Enable to remove warnings about conflicting order
+});
+
+const MODE = 'development'; // "production" | "development" | "none"
+// const IS_PRODUCTION_MODE = process.env.NODE_ENV === 'build';
+
+const getSetts = () => {
+  return MODE === 'production' ? {mode: 'production'} : {mode: 'development', devtool: 'inline-source-map'}
+};
+
+const config = {
+  // mode: 'development',
+  // entry: app_dir + '/index.tsx',
+  // output: {
+  //   path: __dirname + '/dist',
+  //   filename: 'index.js',
+  //   publicPath: '',
+  // },
+
+  /* Prodact Mode */
+  ...getSetts(),
+
+  entry: {
+    index: { import: app_dir + '/index.tsx', dependOn: 'iChunk' },
+    iChunk: [app_dir + '/iChunk.ts'],
   },
   output: {
-    path: path.join(__dirname, './dist'),
-    filename: 'bundle.js',
+    filename: '[name].js',
+    path: __dirname + '/dist',
     publicPath: '',
   },
+  optimization: {
+    splitChunks: {
+      chunks: 'all'
+    }
+  },
+
+
+
+
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
-        use: 'ts-loader',
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.(sc|sa|c)ss$/,
+        test: /\.s[ac]ss$/i,
         use: [
-          MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader',
-        ],
-      },
-      {
-        test: /\.(png|jpe?g|svg|gif)$/i,
-        use: [
-          {
-            loader: 'file-loader',
-          },
+          MiniCssExtractPlugin.loader,
+          // Creates `style` nodes from JS strings
+          // 'style-loader',
+          // Translates CSS into CommonJS
+          'css-loader',
+          // Compiles Sass to CSS
+          'sass-loader',
         ],
       },
       // {
-      //   test: /\.(glb|gltf)$/,
+      //   test: /\.s?css$/,
       //   use: [
-      //     {
-      //       loader: 'file-loader',
-      //     },
-      //   ],
+      //     'style-loader',
+      //     'css-loader',
+      //     'sass-loader'
+      //   ]
+      // },
+      {
+        test: /\.tsx?$/,
+        loader: "ts-loader",
+        exclude: /(node_modules|bower_components)/
+      },
+      // {
+      //   test: /\.(jpe?g|png|gif|svg)$/i, 
+      //   loader: 'file-loader',
+      //   options: { name: 'images/[hash]-[name].[ext]' }
       // },
       // {
-      //   test: /\.worker\.js$/,
-      //   use: { loader: 'worker-loader' },
+      //   test: /\.(png|jpe?g|gif)$/i,
+      //   use: [{ loader: 'file-loader' }],
       // },
-    ],
+      // {
+      //   test: /\.(jpe?g|png|gif|svg)$/i,
+      //   exclude: [/node_modules/],
+      //   loader: "file-loader"
+      // },
+      // {
+      //   test: /\.(woff|woff2|ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+      //   exclude: [/node_modules/],
+      //   loader: "file-loader"
+      // },
+      // {
+      //   test: /\.(pdf)$/i,
+      //   exclude: [/node_modules/],
+      //   loader: "file-loader",
+      //   options: { name: '[name].[ext]' },
+      // },
+    ]
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: path.join(__dirname, './src/index.html'),
-    }),
-    new MiniCssExtractPlugin({ filename: 'index.css' }),
-    // new CopyPlugin({
-    //   patterns: [
-    //     { from: './src/assets/', to: 'assets/' },
-    //   ],
-    // }),
-    new CleanWebpackPlugin(),
-  ],
+  plugins: [HTMLWebpackPluginConfig, MiniCssExtractPluginConfig],
+  resolve: {
+    extensions: [".ts", ".tsx", ".js", ".jsx"]
+  },
+  // externals: {
+  //     react: 'react',
+  // },
+  // optimization: {
+  //   removeAvailableModules: false,
+  //   removeEmptyChunks: false,
+  //   splitChunks: false,
+  // },
   devServer: {
-    contentBase: './src/public',
-    port: 3000,
+    port: 8080,
+    hot: true,
+    historyApiFallback: true,
   },
 };
+
+module.exports = config;

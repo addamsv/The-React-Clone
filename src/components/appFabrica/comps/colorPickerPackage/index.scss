@@ -1,0 +1,58 @@
+/**
+*  ╭───────────────────────────────────────────────────────────────╮
+*  │                                                               │
+*  │                   C O L O R P I C K E R                       │
+*  │                                                               │
+*  ╰───────────────────────────────────────────────────────────────╯
+*/
+
+.clear-background {
+	background-image:  url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAIAAABLbSncAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAChJREFUeNpiPHPmDAMMGBsbw9lMDDgA6RKM%2F%2F%2F%2Fh3POnj1LCzsAAgwAQtYIcFfEyzkAAAAASUVORK5CYII%3D);
+}
+
+.color-picker-main {
+	display:block;
+	position:absolute;
+	top:-100px;
+	left:55px;
+	z-index: 100;
+}
+
+.color-picker-pad {
+	display:block;position:relative;width:300px;height:255px;background:rgba(200,200,200,.4);border-radius:3px;box-shadow: 1px 1px 5px #000;
+}
+
+.rgb-hex-wrapper {
+	display:block;position:relative;height:25px;width:250px;margin:0;border-radius:5px;
+	// <pgbPalette />
+	.rgb-palette-wrapper {
+		display:inline-block;font-family: Arial;font-size: 12px;
+		.rgb-palette-input-field {
+			margin-left: 0px; width: 28px;height:18px;background-color:#191919;color:#aaa;font-size:10px;border:none;text-align:center;padding:0;
+		}
+		.color-palette {
+			display:inline-block;width:7px;height:5px;vertical-align:top;border-radius:2px;margin-left:-6px;
+		}
+		.red {
+			background-color:red
+		}
+		.green {
+			background-color:green
+		}
+		.blue {
+			background-color:blue
+		}
+	}
+	// <hex-opacity />
+	.hex-opacity {
+		display:inline-block;position:relative;margin-left:9px;vertical-align:bottom;
+		.hex-input {
+			padding:0;height:16px;margin-left: 0px; width: 54px;height:18px; font-size:10px;color:#aaa;background:#191919;border:none;text-align:center;padding:0;
+		}
+		.opacity-input {
+			margin-left:0;width:33px;height:18px;background-color:#191919;color:#aaa;font-size:10px;border:none;text-align:center;padding:0;
+		}
+	}
+}
+
+// <colorPickerPad />

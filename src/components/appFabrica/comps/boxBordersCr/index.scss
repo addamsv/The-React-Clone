@@ -1,0 +1,91 @@
+.border-lft{
+	display:block;
+	position:absolute;
+	left:0px;
+	top:6px;
+	height:17px;
+	width:4px;
+	background-color:var(--main-bgcolor);
+	cursor:pointer;
+	border-radius:2px;
+}
+.border-lft.active{
+	background-color:var(--main-color);
+}
+.border-lft:hover{
+	background-color:var(--main-color);
+}
+
+.border-rht{
+	display:block;
+	position:absolute;
+	left:32px;
+	top:6px;
+	height:17px;
+	width:4px;
+	background-color:var(--main-bgcolor);
+	cursor:pointer;
+	border-radius:2px;
+}
+.border-rht.active{
+	background-color:var(--main-color);
+}
+.border-rht:hover{
+	background-color:var(--main-color);
+}
+
+.border-btm{
+	display:block;
+	position:absolute;
+	left:7px;
+	top:26px;
+	height:4px;
+	width:22px;
+	background-color:var(--main-bgcolor);
+	cursor:pointer;
+	border-radius:2px;
+}
+.border-btm.active{
+	background-color:var(--main-color);
+}
+.border-btm:hover{
+	background-color:var(--main-color);
+}
+
+.border-top{
+	display:block;
+	position:absolute;
+	left:7px;
+	top:0px;
+	height:4px;
+	width:22px;
+	background-color:var(--main-bgcolor);
+	cursor:pointer;
+	border-radius:2px;
+}
+.border-top.active{
+	background-color:var(--main-color);
+}
+.border-top:hover{
+	background-color:var(--main-color);
+}
+
+.border-all{
+	box-sizing: border-box;
+	display:block;
+	position:absolute;
+	left:8px;
+	top:8px;
+	height:14px;
+	width:20px;
+	border-radius:2px;
+	border:4px solid var(--main-bgcolor);
+	background-color:none;
+	cursor: pointer;
+}
+.border-all.active{
+	border:4px solid var(--main-color);
+}
+.border-all:hover{
+	border:4px solid var(--main-color);
+}

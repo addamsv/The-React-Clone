@@ -1,0 +1,142 @@
+/**
+*  ╭───────────────────────────────────────────────────────────────╮
+*  │                                                               │
+*  │      L A Y E R  C O L L E C T I O N  C O M P O N E N T        │
+*  │                                                               │
+*  ╰───────────────────────────────────────────────────────────────╯
+*/
+.layer-title{
+  display: inline;
+  position: relative;
+  padding-left: 2px;
+  font-size: 10px;
+  color: #999;
+  cursor: pointer
+}
+.layer-title.active{
+  color: #fff;
+}
+.layer-title:hover{
+  color: #fff;
+}
+
+.layer-angle-brackets{
+  display: inline-block;
+  position: relative;
+  font-size: 14px;
+  color: #999;
+  transform: scale(0.5, 1.2);
+  cursor: pointer
+}
+.layer-angle-brackets:hover{
+  color: #fff;
+  // font-weight: bold;
+}
+
+.layer-angle-brackets.active{
+  transform: scaleX(1) scaleY(0.5) rotate(90deg);
+  text-align: center;
+  vertical-align: middle;
+}
+
+
+.item-title{
+  display: block;
+  position: relative;
+  padding-left: 2px;
+  font-size: 10px;
+  color: #999;
+  cursor: pointer
+}
+.item-title.active{
+  color: #fff;
+}
+.item-title:hover{
+  color: #fff;
+}
+
+
+
+
+
+.cstm-nav-balls{
+	display: block;
+	position: relative;
+	border-radius: 20%;
+	background: var(--main-bgcolor);
+	height: 7px;
+	width: 7px;
+	cursor: pointer;
+}
+.cstm-nav-balls.active{
+	background: #ddd;
+}
+.cstm-nav-balls:hover{
+	background: #fff;
+}
+
+/**
+*  ╭───────────────────────────────────────────────────────────────╮
+*  │                                                               │
+*  │           menuLayersButton  C O M P O N E N T                 │
+*  │                                                               │
+*  ╰───────────────────────────────────────────────────────────────╯
+*/
+
+.layers-btn{
+	content:"";
+	display: inline-block;
+	position: relative;
+	background-color:rgba(70,70,70,1);
+	height:11px;
+	width:10px;
+	margin-left: 10px;
+	margin-top: 0px;
+	margin-right: auto;
+	cursor: pointer;
+}
+.layers-btn:before{
+	content: '';
+	position: absolute;
+	border-top: 1px solid rgba(70,70,70,0);
+	border-left: 1px solid rgba(70,70,70,0);
+	border-right: 1px solid rgba(70,70,70,1);
+	border-bottom: 1px solid rgba(70,70,70,1);
+	width: 8px;
+	height: 8px;
+	top:3px;
+	left:2px;
+	background-color:  transparent;
+}
+.layers-btn:hover{
+	background-color:rgba(255,255,255,.6);
+}
+.layers-btn:hover:before{
+	background-color:rgba(255,255,255,.6);
+}
+.layers-btn-abs{	
+	position: absolute;
+	top: 4px;
+	left: 8px;
+	content:"";
+	background-color:rgba(70,70,70,1);
+	height:11px;
+	width:10px;
+	cursor: pointer;
+}
+.layers-btn-abs:before{
+	content: '';
+	position: absolute;
+	border-top: 1px solid rgba(70,70,70,0);
+	border-left: 1px solid rgba(70,70,70,0);
+	border-right: 1px solid rgba(70,70,70,1);
+	border-bottom: 1px solid rgba(70,70,70,1);
+	width: 8px;
+	height: 8px;
+	top:3px;
+	left:2px;
+	background-color:  transparent;
+}
+.layers-btn-abs:hover{
+	background-color:rgba(120,120,120,1);
+}

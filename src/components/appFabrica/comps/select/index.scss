@@ -1,0 +1,42 @@
+
+.select-container{
+	display: block;
+	position: relative;
+	.dark-stl-input {
+		display: block;
+		position: absolute;
+		font-size: 10px;
+		color: #999;
+		width: initial;
+		top: 0px;
+		left: 55px;
+		background:#252525;
+		height: 16px;
+		max-width: 260px;
+		opacity: 0.2;
+		line-height:1em;
+		border:none;
+		cursor: pointer;
+		-webkit-border-radius:3px;
+			 -moz-border-radius:3px;
+				border-radius:3px;
+		-webkit-appearance:none;
+			 -moz-appearance:none;
+				appearance:none;
+	}
+	.dark-stl-input:hover{
+		opacity: 0.9;
+	}
+}
+
+@media screen and (max-width: 782px) {
+	#wpbody .select-container select.dark-stl-input{
+		display:inline-block;
+		max-width: 166px;
+		padding: 0;
+		line-height: 1;
+		margin: 0;
+		height: 20px;
+		font-size: 14px;
+	}
+}

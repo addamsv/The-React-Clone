@@ -1,0 +1,23 @@
+.thumb-check {
+  position: relative;
+  height: 30px;
+  width:  100%;
+  margin: 0;
+  border-radius: 5px
+}
+.check-rgba__container {
+  position: relative;
+  height: 30px;
+  width: 100%;
+  margin: 0;
+  border-radius: 3px
+}
+.check-solid__container {
+  border-radius: 3px;
+  right: 3px;
+  top: 1px;
+  display: block;
+  position: absolute;
+  height: 10px;
+  width: 15px;
+}

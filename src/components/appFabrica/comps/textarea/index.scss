@@ -1,0 +1,10 @@
+.input-textarea {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	max-width: 260px;
+	textarea {
+		position: absolute;
+		left: 55px;
+	}
+}

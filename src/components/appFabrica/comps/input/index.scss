@@ -1,0 +1,19 @@
+
+.label-component{
+	display: inline-block;
+	padding: 3px 0;
+	color: var(--main-color);
+	vertical-align: bottom;
+	font-size: 11px;
+	width: 100%;
+	max-width: 53px;
+	line-height: 1.1em;
+}
+
+
+.input-text {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	max-width: 260px;
+}
