@@ -16,14 +16,14 @@
 import React, { useState } from "react";
 import Scene from "./components/Scene";
 import DataManager from "../../core/dataManager";
-// import Preloader from "./components/Preloader";
-// import LoginView from "./components/LoginView";
+import Preloader from "./components/Preloader";
+import LoginView from "./components/LoginView";
 
 
-// type stateType = { isLoading?: boolean, isLoggedin?: boolean, d?: string };
+type stateType = { isLoading?: boolean, isLoggedin?: boolean, d?: string };
 
 const App = () => {
-  // const [appState, setAppState] = useState<stateType>({ isLoading: true, isLoggedin: false, d: '' });
+  const [appState, setAppState] = useState<stateType>({ isLoading: true, isLoggedin: false, d: '' });
 
   // Similar to componentDidMount / componentDidUpdate:
   //   useEffect(() => {
@@ -35,49 +35,49 @@ const App = () => {
   //    return;
   //  }
 
-  // const onLoad = (isSetsDefault: boolean) => {
-  //   const d = `${isSetsDefault ? 'Default' : 'Server'}`;
-  //   setAppState((appState: stateType) => { return {...appState, ...{isLoading: false, d}} });
-  // }
+  const onLoad = (isSetsDefault: boolean) => {
+    const d = `${isSetsDefault ? 'Default' : 'Server'}`;
+    setAppState((appState: stateType) => { return {...appState, ...{isLoading: false, d}} });
+  }
 
-  // const onLogin = () => setAppState((appState: stateType) => { return {...appState, ...{isLoggedin: true}} });
+  const onLogin = () => setAppState((appState: stateType) => { return {...appState, ...{isLoggedin: true}} });
 
-  // const { isLoading, isLoggedin } = appState;
+  const { isLoading, isLoggedin } = appState;
 
-  // const preloader = isLoading ? <Preloader onLoad={onLoad} /> : null;
+  const preloader = isLoading ? <Preloader onLoad={onLoad} /> : null;
   
   /* uncomment this line for test */
-  // const test = null; // !isLoggedin && !isLoading ? <TestReact /> : null;
+  const test = null; // !isLoggedin && !isLoading ? <TestReact /> : null;
 
-  // const loginView = !test && !isLoggedin && !isLoading ? <LoginView onLogin={onLogin} /> : null;
-  // const scene = isLoggedin && !isLoading 
-  //   ? (
-  //     <>
-  //       <CommonMenu />
-  //       <LayersMenu />
-  //       <AnimationMenu />
-  //       <AlertMenu />
-  //       <ContextMenu />
-  //       <Scene />
-  //     </>
-  //   )
-  //   : null;
-  const scene = (
-    <>
-      <AlertMenu />
-      <AnimationMenu />
-      <LayersMenu />
-      <CommonMenu />
-      <ContextMenu />
-      <Scene />
-    </>
-  );
+  const loginView = !test && !isLoggedin && !isLoading ? <LoginView onLogin={onLogin} /> : null;
+  const scene = isLoggedin && !isLoading 
+    ? (
+      <>
+        <CommonMenu />
+        <LayersMenu />
+        <AnimationMenu />
+        <AlertMenu />
+        <ContextMenu />
+        <Scene />
+      </>
+    )
+    : null;
+  // const scene = (
+  //   <>
+  //     <AlertMenu />
+  //     <AnimationMenu />
+  //     <LayersMenu />
+  //     <CommonMenu />
+  //     <ContextMenu />
+  //     <Scene />
+  //   </>
+  // );
 
   return (
     <>
-      {/* {preloader} */}
+      {preloader}
       {/* {test} */}
-      {/* {loginView} */}
+      {loginView}
       {scene}
     </>
   );
