@@ -2,20 +2,11 @@ import jData from './app-sets/jData.json';
 import sets from './app-sets/sets.json';
 import custom from './app-sets/custom.json';
 
-const getJData = () => {
-  // console.log('getJData');
-  return jData;
-}
+const getJData = () => jData;
 
-const getSets = () => {
-  // console.log('getSets');
-  return sets;
-}
+const getSets = () => sets;
 
-const getCustom = (): Array<ISection> | undefined => {
-  // console.log('getCustom');
-  return custom;
-}
+const getCustom = (): Array<ISection> | undefined => custom;
 
-export { getSets, getCustom };
 export default getJData;
+export { getSets, getCustom };
