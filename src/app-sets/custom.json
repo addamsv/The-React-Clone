@@ -44,7 +44,7 @@
           "translateX": "140",
           "elPosX": "25",
           "translateY": "25",
-          "akfTimelinePos": 20,
+          "akfTimelinePos": "20",
           "opacity": "0.25",
           "rotateZ": "3",
           "elPosY": "25"
@@ -260,12 +260,12 @@
           "cs": {
             "backgroundColor": "#d32300",
             "backgroundColorOpacity": "0.8",
-            "grdLinePos": 95
+            "grdLinePos": "95"
           }
         },
         "grt5000k1": {
           "cs": {
-            "grdLinePos": 3.3333333333333335
+            "grdLinePos": "3.3333333333333335"
           }
         }
       },
@@ -273,7 +273,7 @@
         "grt5000k0": {
           "cs": {
             "backgroundColor": "#004293",
-            "grdLinePos": 99.58333333333333,
+            "grdLinePos": "99.58333333333333",
             "backgroundColorOpacity": "0.9"
           }
         },
@@ -284,7 +284,7 @@
         },
         "grt5000k2": {
           "cs": {
-            "grdLinePos": 1.25
+            "grdLinePos": "1.25"
           }
         }
       },

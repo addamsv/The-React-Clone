@@ -32,20 +32,20 @@ interface IGradientContainer {
     gradientAngl?: string;
   };
 
-  grt: Array<{ cs: IGradientPoint }>;
-  grt5000k0: { cs: IGradientPoint };
-  grt5000k1: { cs: IGradientPoint };
-  grt5000k2: { cs: IGradientPoint };
-  grt5000k3: { cs: IGradientPoint };
-  grt5000k4: { cs: IGradientPoint };
-  grt5000k5: { cs: IGradientPoint };
-  grt5000k6: { cs: IGradientPoint };
-  grt5000k7: { cs: IGradientPoint };
-  grt5000k8: { cs: IGradientPoint };
-  grt5000k9: { cs: IGradientPoint };
-  grt5000k10: { cs: IGradientPoint };
-  grt5000k11: { cs: IGradientPoint };
-  grt5000k12: { cs: IGradientPoint };
+  grt?: Array<{ cs: IGradientPoint }>;
+  grt5000k0?: { cs: IGradientPoint };
+  grt5000k1?: { cs: IGradientPoint };
+  grt5000k2?: { cs: IGradientPoint };
+  grt5000k3?: { cs: IGradientPoint };
+  grt5000k4?: { cs: IGradientPoint };
+  grt5000k5?: { cs: IGradientPoint };
+  grt5000k6?: { cs: IGradientPoint };
+  grt5000k7?: { cs: IGradientPoint };
+  grt5000k8?: { cs: IGradientPoint };
+  grt5000k9?: { cs: IGradientPoint };
+  grt5000k10?: { cs: IGradientPoint };
+  grt5000k11?: { cs: IGradientPoint };
+  grt5000k12?: { cs: IGradientPoint };
 }
 
 interface ICrProto {
