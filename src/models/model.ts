@@ -45,7 +45,7 @@
 // import sets from '../app-sets/sets.json';
 // import custom from '../app-sets/custom.json';
 import Data from './dataPackage/dataModel';
-import DbModel, { IDbModel } from './dbModel';
+import { setUrl } from './dbModel';
 import StyleSheetModel from './styleSheetPackage/styleSheetModel';
 
 import CssFile from './styleSheetPackage/cssFile/CssFile';
@@ -54,7 +54,6 @@ import getWpMedia from '../components/appFabrica/comps/menuImage/wpMedia';
 import setWPStyle from '../components/appFabrica/comps/menuImage/wordPress';
 
 class Model {
-  db: IDbModel = new DbModel();
   styleSheetMdl: any = new StyleSheetModel();
   set: any = null;
   jData: any = null;
@@ -80,7 +79,7 @@ class Model {
     }
     this.setModel();
     this.rwdDflt = this.set.rwdDflt;
-    this.db.setUrl(this.set.ajaxURL);
+    setUrl(this.set.ajaxURL);
     this.styleSheetMdl.getStyleSheet();
     this.styleSheetMdl.getCustomStyleSheet();
 

@@ -4,6 +4,7 @@ import DataManager from "../../../../core/dataManager";
 import ID from "../../../../core/id";
 import Container from "../../../../models/dataPackage/containerModel";
 import Data from "../../../../models/dataPackage/dataModel";
+import { saveAllHeaderObj } from "../../../../models/dbModel";
 import Model from "../../../../models/model";
 import Strings from '../../../../sets/lang/strings';
 import CollectionLayers from "../../../collectionLayers/collectionLayers";
@@ -192,7 +193,7 @@ const MenuFileBtn = () => {
 
 const SaveBtn = () => {
   const onSave = () => {
-    Model.ob().db.saveAllHeaderObj(Data.getJsn(), 'save');
+    saveAllHeaderObj(Data.getJsn(), 'save');
   }
 
   return (
