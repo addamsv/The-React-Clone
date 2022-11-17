@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { hexToRgbJSN } from '../../colorPickerPackage/colorUtils'; // colorPickerPackage/colorUtils';
-import Model from '../../../../../models/model';
 import State from '../../../../../utils/state';
 import JFab from '../../../JFab';
 import CssMaker from '../../../../../models/styleSheetPackage/cssMakerModel';
 import Data from '../../../../../models/dataPackage/dataModel';
 import Container from '../../../../../models/dataPackage/containerModel';
+import { addCSSRule } from '../../../../../models/styleSheetPackage/styleSheetModel';
 
 const GradientPointContainers = ({ crName, type, isOpen }: { isOpen: boolean, crName: string, type: string }) => {
   // const idToInsertColorMenu = `tglID_${ID.new()}`;
@@ -83,7 +83,7 @@ const GradientPointContainers = ({ crName, type, isOpen }: { isOpen: boolean, cr
         opacity = (jsnCr[c].cs.backgroundColorOpacity) ? jsnCr[c].cs.backgroundColorOpacity : Data.getDefaultData(type, 'backgroundColorOpacity');
         const { red, grn, blu } = hexToRgbJSN(color);
 
-        Model.ob().styleSheetMdl.addCSSRule(`.stop_color_bg_id_${crName}_${c}`, 'backgroundColor', `rgba(${red}, ${grn}, ${blu}, ${opacity})`);
+        addCSSRule(`.stop_color_bg_id_${crName}_${c}`, 'backgroundColor', `rgba(${red}, ${grn}, ${blu}, ${opacity})`);
 
         let element: HTMLElement;
         let pEl: HTMLElement;

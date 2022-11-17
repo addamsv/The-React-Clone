@@ -5,6 +5,7 @@ import Model from '../model';
 import Animation from '../../components/app/components/mainMenu/components/animationMenu/animationModel';
 import Data from '../dataPackage/dataModel';
 import Container from '../dataPackage/containerModel';
+import { addCSSRule, getClassRule, getKeyframesRule, getStyleSheet } from './styleSheetModel';
 
 const hexToRgb = (hex: string): string => {
   return parseInt(hex, 16).toString();
@@ -212,7 +213,7 @@ const CssMaker = {
   },
 
   getCertainPosCssAkfObj(crName: string) {
-    let keyframes = Model.ob().styleSheetMdl.getKeyframesRule(`${this.getCssClassName(crName, false)}__keyframes`);
+    let keyframes: any = getKeyframesRule(`${this.getCssClassName(crName, false)}__keyframes`);
     let l;
     let pos;
     if (keyframes) {
@@ -235,7 +236,7 @@ const CssMaker = {
     let obItself;
     let obResult;
 
-    const cssObj = Model.ob().styleSheetMdl.getClassRule(`.${cssClassName}.animated`);
+    const cssObj: any = getClassRule(`.${cssClassName}.animated`);
     if (cssObj) {
       obItself = document.getElementById(cssClassName);
       changeCSSClass(obItself, 'animated', 'animate');
@@ -270,11 +271,11 @@ const CssMaker = {
 
     if (this.isCrHdrType(crName)) {
       if (originalArgValType === 'heightPercent') {
-        const cssObj = Model.ob().styleSheetMdl.getClassRule('.scale-100-percent');
+        const cssObj: any = getClassRule('.scale-100-percent');
         if (!cssObj) {
-          const ss = Model.ob().styleSheetMdl.getStyleSheet();
-          ss.addRule('.scale-100-percent', `height: ${value}vh; overflow: hidden;`, ss.cssRules.length);
-          // cssObj = Model.ob().styleSheetMdl.getClassRule('cntnrh5');
+          const ss = getStyleSheet();
+          ss?.addRule('.scale-100-percent', `height: ${value}vh; overflow: hidden;`, ss.cssRules.length);
+          // cssObj = getClassRule('cntnrh5');
           return;
         }
 
@@ -287,7 +288,7 @@ const CssMaker = {
 
     let valType = originalArgValType;
     const cssClassName = this.getCssClassName(crName);
-    let cssObj = Model.ob().styleSheetMdl.getClassRule(cssClassName);
+    let cssObj: any = getClassRule(cssClassName);
     // const cssVal = '';
     // const cssPairs = '';
     // const cssName = Model.ob().set.cssNames[valType];
@@ -306,9 +307,9 @@ const CssMaker = {
     }
 
     if (!cssObj) {
-      const ss = Model.ob().styleSheetMdl.getStyleSheet();
-      ss.addRule(cssClassName, this.getDefaultCSS(crName), ss.cssRules.length);
-      cssObj = Model.ob().styleSheetMdl.getClassRule(cssClassName);
+      const ss = getStyleSheet();
+      ss?.addRule(cssClassName, this.getDefaultCSS(crName), ss.cssRules.length);
+      cssObj = getClassRule(cssClassName);
     }
 
     if (valType === 'backgroundColor' || valType === 'backgroundColorOpacity') {
@@ -364,24 +365,24 @@ const CssMaker = {
       case 'addKeyframe':
       case 'remKeyframe':
       case 'animationDuration':
-        cssObj = Model.ob().styleSheetMdl.getClassRule(`${cssClassName}.animated`);
+        cssObj = getClassRule(`${cssClassName}.animated`);
         cssObj.style.animationDuration = `${value}s`;
         this.rewriteAkfObj(crName);
         return;
 
       case 'iterationCount':
-        cssObj = Model.ob().styleSheetMdl.getClassRule(`${cssClassName}.animated`);
+        cssObj = getClassRule(`${cssClassName}.animated`);
         cssObj.style.animationIterationCount = value;
         return;
 
       case 'animationTimingFn':
-        cssObj = Model.ob().styleSheetMdl.getClassRule(`${cssClassName}.animated`);
+        cssObj = getClassRule(`${cssClassName}.animated`);
         cssObj.style.animationTiming = value;
         return;
 
       case 'akfTimelinePos': {
         const oldValue = `${oldVal}%`;
-        const keyframes = Model.ob().styleSheetMdl.getKeyframesRule(`${this.getCssClassName(crName, false)}__keyframes`);
+        const keyframes: any = getKeyframesRule(`${this.getCssClassName(crName, false)}__keyframes`);
         for (let i = 0, l = keyframes.cssRules.length; i < l; i += 1) {
           if (keyframes[i].keyText === oldValue) {
             keyframes[i].keyText = `${value}%`;
@@ -569,7 +570,7 @@ const CssMaker = {
         if (valType === 'grtbackgroundColor' || valType === 'grtbackgroundColorOpacity') {
           const elt = document.getElementById(`stop_color_bg_id_${crName}`);
           if (elt) {
-            Model.ob().styleSheetMdl.addCSSRule(`.${elt.getAttribute('data-stp-clrbg-slctr')}`, 'backgroundColor', this.getPropColorCSSVal(crName, 'backgroundColor', (valType === 'grtbackgroundColor' ? 'backgroundColor' : 'backgroundColorOpacity'), value));
+            addCSSRule(`.${elt.getAttribute('data-stp-clrbg-slctr')}`, 'backgroundColor', this.getPropColorCSSVal(crName, 'backgroundColor', (valType === 'grtbackgroundColor' ? 'backgroundColor' : 'backgroundColorOpacity'), value));
           }
         }
         return;

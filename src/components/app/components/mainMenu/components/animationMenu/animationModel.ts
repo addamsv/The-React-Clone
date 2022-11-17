@@ -1,6 +1,6 @@
 import { changeCSSClasses } from '../../../../../../utils/css';
-import Model from '../../../../../../models/model';
 import Data from '../../../../../../models/dataPackage/dataModel';
+import { getClassRule, getCustomClassRule } from '../../../../../../models/styleSheetPackage/styleSheetModel';
 
 const Animation = {
   intervalMSec: 0,
@@ -67,21 +67,21 @@ const Animation = {
   startAnimation: () => {
     clearInterval(Animation.getTimerID());
     Animation.startSecTimer();
-    let cssObj;
+    let cssObj: any;
     let cssClassName;
     const ob = document.getElementsByClassName('change-point');
 
     for (let i = 0, l = ob.length; i < l; i += 1) {
       cssClassName = ob[i].id;
-      cssObj = Model.ob().styleSheetMdl.getClassRule(`.${cssClassName}.animated`);
+      cssObj = getClassRule(`.${cssClassName}.animated`);
       if (cssObj) {
         cssObj.style.animationPlayState = 'running';
       }
     }
 
-    cssObj = Model.ob().styleSheetMdl.getCustomClassRule('.time-line-cursor');
+    cssObj = getCustomClassRule('.time-line-cursor');
     cssObj.style.left = '100%';
-    cssObj = Model.ob().styleSheetMdl.getCustomClassRule('.time-line-cursor.animated');
+    cssObj = getCustomClassRule('.time-line-cursor.animated');
     cssObj.style.animationPlayState = 'running';
     Animation.running();
   },
@@ -122,23 +122,23 @@ const Animation = {
 
   appointOriginalAnimationPlayState: (spot = 'change-point'): void => {
     const ob = document.getElementsByClassName(spot);
-    let cssObj;
+    let cssObj: any;
     let cssClassName;
 
     for (let i = 0, l = ob.length; i < l; i += 1) {
       cssClassName = ob[i].id;
-      cssObj = Model.ob().styleSheetMdl.getClassRule(`.${cssClassName}.animated`);
+      cssObj = getClassRule(`.${cssClassName}.animated`);
       if (cssObj) {
         cssObj.style.animationPlayState = 'running';
         cssObj.style.animationDelay = '0s';
       }
     }
-    cssObj = Model.ob().styleSheetMdl.getCustomClassRule('.time-line-cursor.animated');
+    cssObj = getCustomClassRule('.time-line-cursor.animated');
     cssObj.style.animationPlayState = 'running';
     cssObj.style.animationDelay = '0s';
 
     if (Animation.getAnimationPlayState() !== 'paused') {
-      cssObj = Model.ob().styleSheetMdl.getCustomClassRule('.time-line-cursor');
+      cssObj = getCustomClassRule('.time-line-cursor');
       cssObj.style.left = '100%';
     }
   },
@@ -161,21 +161,21 @@ const Animation = {
 
 const pauseAnimation = () => {
   const ob = document.getElementsByClassName('change-point');
-  let cssObj;
+  let cssObj: any;
 
   clearInterval(Animation.getTimerID());
   const time = document.getElementById('time') as HTMLInputElement;
   Animation.setTimerResult(Number(time.value) * 1000);
 
   for (let i = 0, l = ob.length; i < l; i += 1) {
-    cssObj = Model.ob().styleSheetMdl.getClassRule(`.${ob[i].id}.animated`);
+    cssObj = getClassRule(`.${ob[i].id}.animated`);
 
     if (cssObj) {
       cssObj.style.animationPlayState = 'paused';
     }
   }
 
-  cssObj = Model.ob().styleSheetMdl.getCustomClassRule('.time-line-cursor.animated');
+  cssObj = getCustomClassRule('.time-line-cursor.animated');
   cssObj.style.animationPlayState = 'paused';
 
   Animation.pause();

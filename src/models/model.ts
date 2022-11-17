@@ -46,7 +46,7 @@
 // import custom from '../app-sets/custom.json';
 import Data from './dataPackage/dataModel';
 import { setUrl } from './dbModel';
-import StyleSheetModel from './styleSheetPackage/styleSheetModel';
+import { getCustomStyleSheet, getStyleSheet } from './styleSheetPackage/styleSheetModel';
 
 import CssFile from './styleSheetPackage/cssFile/CssFile';
 import getJData, { getSets, getCustom } from '../iChunk';
@@ -54,7 +54,6 @@ import getWpMedia from '../components/appFabrica/comps/menuImage/wpMedia';
 import setWPStyle from '../components/appFabrica/comps/menuImage/wordPress';
 
 class Model {
-  styleSheetMdl: any = new StyleSheetModel();
   set: any = null;
   jData: any = null;
   pID = '';
@@ -80,8 +79,8 @@ class Model {
     this.setModel();
     this.rwdDflt = this.set.rwdDflt;
     setUrl(this.set.ajaxURL);
-    this.styleSheetMdl.getStyleSheet();
-    this.styleSheetMdl.getCustomStyleSheet();
+    getStyleSheet();
+    getCustomStyleSheet();
 
     console.log(`${this.set.ATHM_VER} status: ok`);
     console.log(`Word Press Media ${this.isWordPressEnable ? 'Enable' : 'Disable'}`);

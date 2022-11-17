@@ -9,6 +9,7 @@ import DataManager from '../../../../core/dataManager';
 import CssMaker from '../../../../models/styleSheetPackage/cssMakerModel';
 import Model from '../../../../models/model';
 import Container from '../../../../models/dataPackage/containerModel';
+import { getClassRule } from '../../../../models/styleSheetPackage/styleSheetModel';
 
 const Shadow = ({ crName, subCr, data }: {crName: string, subCr: string, data: any}) => {
   /**
@@ -43,7 +44,7 @@ const Shadow = ({ crName, subCr, data }: {crName: string, subCr: string, data: a
     } else {
       /* Style of Shadow None */
       const cssClassName = `.h${Model.ob().getHID()}-${crName.replace(/_/g, '-')}-${Container.getCrType(crName)}`;
-      const cssObj = Model.ob().styleSheetMdl.getClassRule(cssClassName);
+      const cssObj: any = getClassRule(cssClassName);
       if (data.subType === 'bsc') {
         cssObj.style.boxShadow = 'none';
       } else {

@@ -7,10 +7,10 @@ import State from "../../../../../utils/state";
 import JFab from "../../../../appFabrica/JFab";
 import Draggable from "../../draggable/Draggable";
 import Animation from "./animationMenu/animationModel";
-import Model from "../../../../../models/model";
 import CssMaker from "../../../../../models/styleSheetPackage/cssMakerModel";
 import Data from "../../../../../models/dataPackage/dataModel";
 import Container from "../../../../../models/dataPackage/containerModel";
+import { addCSSRule, addKeyframe, getClassRule, getCustomClassRule, remKeyframeRule } from "../../../../../models/styleSheetPackage/styleSheetModel";
 
 const AnimationMenu = ({crName} : { crName: string }) => {
   const onClose = () => {
@@ -60,14 +60,14 @@ const TimeLineBrush = () => {
   // const obResult = parseFloat(timeVal) * 1000;
   // const percent = (100 * obResult) / intervalMSec;
 
-  // let cssObj = Model.ob().styleSheetMdl.getCustomClassRule('.time-line-cursor.animated');
+  // let cssObj = getCustomClassRule('.time-line-cursor.animated');
 
   // if (parseFloat(timeVal) >= (intervalMSec / 1000)) {
   //   cssObj.style.animationDelay = '0s';
   // } else {
   //   cssObj.style.animationDelay = `-${timeVal}s`;
   // }
-  // cssObj = Model.ob().styleSheetMdl.getCustomClassRule('.time-line-cursor');
+  // cssObj = getCustomClassRule('.time-line-cursor');
 
   // if (Animation.getAnimationPlayState() === 'running') {
   //   cssObj.style.animationPlayState = 'running';
@@ -76,7 +76,7 @@ const TimeLineBrush = () => {
   //   cssObj.style.left = `${percent}%`;
   // }
 
-  // cssObj = Model.ob().styleSheetMdl.getCustomClassRule('.next-slide-trigger');
+  // cssObj = getCustomClassRule('.next-slide-trigger');
   // const rootCrName = CssMaker.getRootCrName(crName);
   // /*
   // *  100 - 100% - full anim time (%)
@@ -98,7 +98,7 @@ const TimeLineBrush = () => {
   let cssClassName;
   let computed;
   let duration;
-  let cssObjB;
+  let cssObjB: any;
 
   const cursorOn = (event: MouseEvent) => {
     // calculate a new cursor position:
@@ -127,7 +127,7 @@ const TimeLineBrush = () => {
 
     for (let i = 0, l = ob.length; i < l; i += 1) {
       cssClassName = ob[i].id;
-      cssObjB = Model.ob().styleSheetMdl.getClassRule(`.${cssClassName}.animated`);
+      cssObjB = getClassRule(`.${cssClassName}.animated`);
       if (cssObjB) {
         cssObjB.style.animationPlayState = 'paused';
         duration = cssObjB.style.animationDuration;
@@ -163,7 +163,7 @@ const TimeLineBrush = () => {
     el = event.target;
     pEl = el ? el.parentElement : null;
     ob = document.getElementsByClassName('change-point');
-    cssObjA = Model.ob().styleSheetMdl.getCustomClassRule('.time-line-cursor.animated');
+    cssObjA = getCustomClassRule('.time-line-cursor.animated');
 
     pos3 = event.clientX;
     if (cssObjA.style.left !== '100%') {
@@ -267,7 +267,7 @@ const TimelineContainers = ({crName, subCrName}: { crName: string, subCrName?: s
 }
 
 const setAkfRowRule = (crName: string, position: string, elPercentWidth: string): void => {
-  Model.ob().styleSheetMdl.addCSSRule(`.${crName}-time-line__keyframe__${position}`, 'elWidth', elPercentWidth);
+  addCSSRule(`.${crName}-time-line__keyframe__${position}`, 'elWidth', elPercentWidth);
 }
 
 const getAkfRowArray = (crName: string, updateRows: () => void): Array<any> => {
@@ -409,8 +409,8 @@ const AkfRow = ({crName, updateRows, position = 0, keyframesAmount = 0,
       if (!newCrName) {
         throw new Error('newCrName: undefined');
       }
-      const newPosition = Model.ob().styleSheetMdl.addKeyframe(crName, newCrName);
-      Container.mkCrAkf(crName, newCrName, newPosition);
+      const newPosition = addKeyframe(crName); // newCrName
+      Container.mkCrAkf(crName, newCrName, String(newPosition));
       updateRows();
     }
 
@@ -418,7 +418,7 @@ const AkfRow = ({crName, updateRows, position = 0, keyframesAmount = 0,
       DataManager.ob().contextMenu.onCloseFn();
 
       const remKeyFrame = (cName: string, akfCrName: string): string => {
-        Model.ob().styleSheetMdl.remKeyframeRule(`${cName}_${tLinePosA[position]}`);
+        remKeyframeRule(`${cName}_${tLinePosA[position]}`);
         let animationDurationNew = 0;
 
         if (akfCrName.substring(0, 3) === 'akf') {

@@ -3,6 +3,7 @@ import DataManager from '../../core/dataManager';
 import Container from '../../models/dataPackage/containerModel';
 import Model from '../../models/model';
 import CssMaker from '../../models/styleSheetPackage/cssMakerModel';
+import { remAllRulesInCr } from '../../models/styleSheetPackage/styleSheetModel';
 import Strings from '../../sets/lang/strings';
 import DialogBox from '../dialogBoxCollection/DialogBox';
 
@@ -90,7 +91,7 @@ const ContextLayerMenu = ({crName, updateMenu}: {crName: string, updateMenu: (cr
       const updateScene = DataManager.getOnSectionChangeFn();
       updateScene();
 
-      Model.ob().styleSheetMdl.remAllRulesInCr(crName);
+      remAllRulesInCr(crName);
       Container.remCr(crName);
       updateMenu();
     }

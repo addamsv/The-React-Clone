@@ -1,4 +1,4 @@
-import Model from '../models/model';
+import { getClassRule, getStyleSheet } from '../models/styleSheetPackage/styleSheetModel';
 import DOM from './dom';
 
 const changeCSSClasses = (className: string, classNameOn: string = ''): void => {
@@ -52,24 +52,26 @@ const remAllCSSClass = (className: string) => {
 
 const CSS = {
   get: (cssClassName: string) => {
-    let cssObj = Model.ob().styleSheetMdl.getClassRule(cssClassName);
+    let cssObj = getClassRule(cssClassName);
 
     if (!cssObj) {
-      const ss = Model.ob().styleSheetMdl.getStyleSheet();
-      ss.addRule(cssClassName, '', ss.cssRules.length);
-      cssObj = Model.ob().styleSheetMdl.getClassRule(cssClassName);
+      const ss = getStyleSheet();
+      ss?.addRule(cssClassName, '', ss.cssRules.length);
+      cssObj = getClassRule(cssClassName);
     }
     return cssObj;
   },
   make: (cssClassName: string, props: any) => {
-    let cssObj = Model.ob().styleSheetMdl.getClassRule(cssClassName);
+    let cssObj = getClassRule(cssClassName);
 
     if (!cssObj) {
-      const ss = Model.ob().styleSheetMdl.getStyleSheet();
-      ss.addRule(cssClassName, '', ss.cssRules.length);
-      cssObj = Model.ob().styleSheetMdl.getClassRule(cssClassName);
+      const ss = getStyleSheet();
+      ss?.addRule(cssClassName, '', ss.cssRules.length);
+      cssObj = getClassRule(cssClassName);
     }
-    Object.assign(cssObj.style, props);
+    if (cssObj) {
+      Object.assign((<any>cssObj).style, props);
+    }
   }
 }
 

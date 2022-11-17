@@ -9,6 +9,7 @@ import ContextLayerMenu from './ContextLayerMenu';
 import State from '../../utils/state';
 import onSortStart from '../appFabrica/comps/collectionShadow/box/components/sortModel';
 import Container from '../../models/dataPackage/containerModel';
+import { remAllRulesInCr } from '../../models/styleSheetPackage/styleSheetModel';
 
 type priorityT = {cs: {priority: string}};
 
@@ -136,7 +137,7 @@ const onRemLayer = (crName: string, updateMenu: () => void) => {
   const updateScene = DataManager.getOnSectionChangeFn();
   updateScene();
   
-  Model.ob().styleSheetMdl.remAllRulesInCr(crName);
+  remAllRulesInCr(crName);
   Container.remCr(crName);
   updateMenu();
 }

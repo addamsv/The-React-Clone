@@ -2,6 +2,7 @@ import { hexToRgb } from '../../../components/appFabrica/comps/colorPickerPackag
 import Container from '../../dataPackage/containerModel';
 import Data from '../../dataPackage/dataModel';
 import Model from '../../model';
+import { setClassRule } from '../styleSheetModel';
 
 class CssFile {
   private IS_FILE_BUILDING_MODE = false;
@@ -87,7 +88,7 @@ class CssFile {
     /* Navigation (pager) */
     // get_slider_navigation_css_part(jsn, hid);
     /** Defaults */
-    Model.ob().styleSheetMdl.setClassRule(
+    setClassRule(
       `.cntrh${hid}`,
       `
           margin: 0 auto;
@@ -100,7 +101,7 @@ class CssFile {
           border: none;
       `,
     );
-    Model.ob().styleSheetMdl.setClassRule(
+    setClassRule(
       `.cntrh${hid} .slide_imgh${hid}`,
       `   position: absolute;
           width: 100%;
@@ -108,7 +109,7 @@ class CssFile {
       `,
     );
 
-    Model.ob().styleSheetMdl.setClassRule(
+    setClassRule(
       '.animated',
       `
         animation-iteration-count: 1;
@@ -117,7 +118,7 @@ class CssFile {
       `,
     );
 
-    Model.ob().styleSheetMdl.setClassRule(
+    setClassRule(
       `.cntnrh${hid}, .videoh${hid}, .subSlugh${hid}, .mainSlugh${hid}, .btnDatah${hid}`,
       `
         display: block;
@@ -141,7 +142,7 @@ class CssFile {
     if (this.IS_CSS_LOG_MODE) {
       console.log(prop, `{${br}${value}${br}}`);
     }
-    Model.ob().styleSheetMdl.setClassRule(prop, value);
+    setClassRule(prop, value);
   }
 
   private getDefCssStyle(crDefType: string): string {
@@ -362,7 +363,7 @@ class CssFile {
   }
 
   private hdrRwdCssStyles(crJsn: any, hid: string): void {
-    Model.ob().styleSheetMdl.setClassRule(`.cntrh${hid}`, 'height: 70vh;');
+    setClassRule(`.cntrh${hid}`, 'height: 70vh;');
 
     if (this.IS_CSS_LOG_MODE) {
       console.log(`.cntrh${hid} {
@@ -382,7 +383,7 @@ class CssFile {
     let animated = this.animationStyles(crName, keyframesName);
 
     if (animated) {
-      Model.ob().styleSheetMdl.setClassRule(`.${cssName}.animated`, animated);
+      setClassRule(`.${cssName}.animated`, animated);
       animated = `.${cssName}.animated{${br}${animated}}${br}`;
     }
 
@@ -394,7 +395,7 @@ class CssFile {
             : this.fontCssStyle(crName);
 
           if (maxWidth === DEFAULT_SETS.rwdDflt) {
-            Model.ob().styleSheetMdl.setClassRule(`.${cssName}`, styles);
+            setClassRule(`.${cssName}`, styles);
             out += `.${cssName} {${br}${styles}}${br}`;
             return false;
           }
@@ -410,11 +411,11 @@ class CssFile {
       styles = crType === 'cntnr'
         ? this.crCssStyle(crName)
         : this.fontCssStyle(crName);
-      Model.ob().styleSheetMdl.setClassRule(`.${cssName}`, styles);
+      setClassRule(`.${cssName}`, styles);
       out += `.${cssName} {${br}${styles}}${br}`;
     }
 
-    Model.ob().styleSheetMdl.setClassRule(cssName, '/* position: absolute; */');
+    setClassRule(cssName, '/* position: absolute; */');
     if (this.IS_CSS_LOG_MODE) {
       console.log(keyframes + animated + out);
     }
@@ -544,7 +545,7 @@ class CssFile {
     }
 
     if (data) {
-      Model.ob().styleSheetMdl.setClassRule(`@keyframes ${animationName}`, data);
+      setClassRule(`@keyframes ${animationName}`, data);
       out += `@keyframes ${animationName} {${data}${br}}${br}`;
     }
 
