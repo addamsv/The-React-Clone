@@ -8,6 +8,7 @@ import DataManager from '../../core/dataManager';
 import ContextLayerMenu from './ContextLayerMenu';
 import State from '../../utils/state';
 import onSortStart from '../appFabrica/comps/collectionShadow/box/components/sortModel';
+import Container from '../../models/dataPackage/containerModel';
 
 type priorityT = {cs: {priority: string}};
 
@@ -22,7 +23,7 @@ const Layers = ({crName, elementIndex}: {crName: string, elementIndex: string}) 
   }
 
   const layers = Object
-    .entries(Model.ob().container.getCrsJSN(crName))
+    .entries(Container.getCrsJSN(crName))
     .filter(([subCrName]) => (subCrName !== 'cs' && subCrName.substring(0, 1) === 'c') || subCrName.substring(0, 1) === 'i')
     .sort(([, val1], [,val2]) => {
       const {cs: {priority: a}} = val1 as priorityT;
@@ -34,7 +35,7 @@ const Layers = ({crName, elementIndex}: {crName: string, elementIndex: string}) 
         return <CrNicInputField key={`key_container_${crName}_${subCrName}`} crName={`${crName}_${subCrName}`} updateMenu={updateMenu} />
       }
       return (subCrName.substring(0, 1) === 'c')
-       ? <Container key={`key_container_${crName}_${subCrName}`} crName={`${crName}_${subCrName}`} elementIndex={elementIndex} updateMenu={updateMenu} />
+       ? <ContainerLi key={`key_container_${crName}_${subCrName}`} crName={`${crName}_${subCrName}`} elementIndex={elementIndex} updateMenu={updateMenu} />
        : <Item key={`key_item_${crName}_${subCrName}`} crName={`${crName}_${subCrName}`} updateMenu={updateMenu} />;
     });
 
@@ -48,7 +49,7 @@ const Layers = ({crName, elementIndex}: {crName: string, elementIndex: string}) 
   );
 }
 
-const Container = ({crName, elementIndex, updateMenu}: {crName: string, elementIndex: string,  updateMenu: () => void}) => {
+const ContainerLi = ({crName, elementIndex, updateMenu}: {crName: string, elementIndex: string,  updateMenu: () => void}) => {
   const [jFabMenu, setJFabMenu] = useState(false);
 
   const layers = jFabMenu
@@ -62,7 +63,7 @@ const Container = ({crName, elementIndex, updateMenu}: {crName: string, elementI
   const onToggle = () => setJFabMenu(jFabMenu ? false : true);
 
   const onCrClick = () => {
-    const crType = Model.ob().container.getCrType(crName);
+    const crType = Container.getCrType(crName);
     DataManager.ob().commonMenu.content = (
       <Draggable title='Scale' onOuterCloseFn={DataManager.ob().commonMenu.onCloseFn}>
         <JFab {...{route: `${crType}_${crType}Menu_content`, crName}} />
@@ -87,7 +88,7 @@ const Container = ({crName, elementIndex, updateMenu}: {crName: string, elementI
 
   const crNic = State.get(crName, 'crNic') || crName.split('_').slice(-1);
 
-  // const j = Model.ob().container.getCrsJSN(crName);
+  // const j = Container.getCrsJSN(crName);
   // const {cs: {priority}} = j;
   const priority = State.get(crName, 'priority');
 
@@ -126,7 +127,7 @@ const onPriorityChange = (сrNameArr: Array<string>) => {
 }
 
 const onRemLayer = (crName: string, updateMenu: () => void) => {
-  // const selector = Model.ob().cssMaker.getCssClassName(crName);
+  // const selector = CssMaker.getCssClassName(crName);
   // document.querySelectorAll(selector)
   // .forEach(element => element.remove());
 
@@ -136,13 +137,13 @@ const onRemLayer = (crName: string, updateMenu: () => void) => {
   updateScene();
   
   Model.ob().styleSheetMdl.remAllRulesInCr(crName);
-  Model.ob().container.remCr(crName);
+  Container.remCr(crName);
   updateMenu();
 }
 
 const Item = ({crName, updateMenu}: {crName: string, updateMenu: () => void}) => {
   const onItemClick = () => {
-    const crType = Model.ob().container.getCrType(crName);
+    const crType = Container.getCrType(crName);
     DataManager.ob().commonMenu.content = (
       <Draggable title='Scale' onOuterCloseFn={DataManager.ob().commonMenu.onCloseFn}>
          <JFab {...{route: `${crType}_${crType}Menu_content`, crName}} />
@@ -165,7 +166,7 @@ const Item = ({crName, updateMenu}: {crName: string, updateMenu: () => void}) =>
 
   const crNic = State.get(crName, 'crNic') || crName.split('_').slice(-1);
 
-  // const j = Model.ob().container.getCrsJSN(crName);
+  // const j = Container.getCrsJSN(crName);
   // const {cs: {priority}} = j;
 
   const priority = State.get(crName, 'priority');

@@ -2,6 +2,8 @@ import React from "react";
 // import ReactDOM from 'react-dom/client';
 import DataManager from "../../../../core/dataManager";
 import ID from "../../../../core/id";
+import Container from "../../../../models/dataPackage/containerModel";
+import Data from "../../../../models/dataPackage/dataModel";
 import Model from "../../../../models/model";
 import Strings from '../../../../sets/lang/strings';
 import CollectionLayers from "../../../collectionLayers/collectionLayers";
@@ -11,7 +13,7 @@ import AnimationMenu from "./components/AnimationMenu";
 import SlidesMenu from "./components/SlidesMenu";
 
 const MainMenu = () => {
-  const crName =  Model.ob().container.getFirstCrName();
+  const crName =  Container.getFirstCrName();
   return (
     <div className='cstmzblocks-upper-menu'>
       <DraggableHeader style={{ position: 'absolute' }} closeBtn={false} />
@@ -61,7 +63,7 @@ const MenuRWDBtn = () => {
   const onRwdMenu = () => {
     const hash = Model.ob().set.rwd;
 
-    const altRWDArray =  Model.ob().data.getJsn().hdr.altRWD;
+    const altRWDArray =  Data.getJsn().hdr.altRWD;
 
     if (altRWDArray) {
       altRWDArray.some((propss: { resolution: string, description: string }, indx: number) => {
@@ -72,7 +74,8 @@ const MenuRWDBtn = () => {
         return false;
       });
     }
-    const menuMode = Model.ob().data.getSortedDefaultRwdModeArrayByWidth(hash);
+
+    const menuMode = Data.getSortedDefaultRwdModeArrayByWidth(hash);
 
     DataManager.ob().commonMenu.content = (
       <Draggable title='Scale' onOuterCloseFn={DataManager.ob().commonMenu.onCloseFn}>
@@ -189,7 +192,7 @@ const MenuFileBtn = () => {
 
 const SaveBtn = () => {
   const onSave = () => {
-    Model.ob().db.saveAllHeaderObj(Model.ob().data.getJsn(), 'save');
+    Model.ob().db.saveAllHeaderObj(Data.getJsn(), 'save');
   }
 
   return (

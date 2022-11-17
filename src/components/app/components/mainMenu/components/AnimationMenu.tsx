@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import DataManager from "../../../../../core/dataManager";
 import RootContainerSortModel from "./animationMenu/rootContainerSortModel";
-import Model from "../../../../../models/model";
 import Strings from "../../../../../sets/lang/strings";
 import { changeCSSClasses } from "../../../../../utils/css";
 import State from "../../../../../utils/state";
 import JFab from "../../../../appFabrica/JFab";
 import Draggable from "../../draggable/Draggable";
+import Animation from "./animationMenu/animationModel";
+import Model from "../../../../../models/model";
+import CssMaker from "../../../../../models/styleSheetPackage/cssMakerModel";
+import Data from "../../../../../models/dataPackage/dataModel";
+import Container from "../../../../../models/dataPackage/containerModel";
 
 const AnimationMenu = ({crName} : { crName: string }) => {
   const onClose = () => {
@@ -16,13 +20,14 @@ const AnimationMenu = ({crName} : { crName: string }) => {
   const onStart = () => {
     /* data-play='play_slide_btn' */
     changeCSSClasses('animate', 'animated');
-    Model.ob().animation.startAnimation();
+    // Animation.startAnimation();
+    Animation.startAnimation();
     changeCSSClasses('play-slide', 'stop-slide');
   }
 
   const onStop = () => {
     // changeCSSClasses('animate', 'animated');
-    // Model.ob().animation.startAnimation();
+    // Animation.startAnimation();
     // changeCSSClasses('stop-slide', 'play-slide');
   }
 
@@ -40,7 +45,7 @@ const AnimationMenu = ({crName} : { crName: string }) => {
         {playStopSlideBtn}
         <div id='toEndBtn' className='toEndBtn' title='to the End'></div>
         <input id='time' className='time' type='number' step='0.001' min='0'
-          value={Model.ob().animation.getInterval('sec')} readOnly />
+          value={Animation.getInterval('sec')} readOnly />
         <div className='time-sec'>{Strings.id('sec')}</div>
       </div>
       <TimeLineBrush />
@@ -51,7 +56,7 @@ const AnimationMenu = ({crName} : { crName: string }) => {
 
 const TimeLineBrush = () => {
   // const timeVal = '10'; //(document.getElementById('time') as HTMLInputElement).value;
-  // const intervalMSec = Model.ob().animation.getInterval();
+  // const intervalMSec = Animation.getInterval();
   // const obResult = parseFloat(timeVal) * 1000;
   // const percent = (100 * obResult) / intervalMSec;
 
@@ -64,7 +69,7 @@ const TimeLineBrush = () => {
   // }
   // cssObj = Model.ob().styleSheetMdl.getCustomClassRule('.time-line-cursor');
 
-  // if (Model.ob().animation.getAnimationPlayState() === 'running') {
+  // if (Animation.getAnimationPlayState() === 'running') {
   //   cssObj.style.animationPlayState = 'running';
   //   changeCSSClass('time-line-cursor', 'animate', 'animated');
   // } else {
@@ -72,17 +77,17 @@ const TimeLineBrush = () => {
   // }
 
   // cssObj = Model.ob().styleSheetMdl.getCustomClassRule('.next-slide-trigger');
-  // const rootCrName = Model.ob().cssMaker.getRootCrName(crName);
+  // const rootCrName = CssMaker.getRootCrName(crName);
   // /*
   // *  100 - 100% - full anim time (%)
   // * 10 - 10s  - full anim time (sec)
   // */
-  // const nextSlideTriggerTime = (Number(Model.ob().data.getDataShort(rootCrName, 'animationDuration')) * 100) / 10;
+  // const nextSlideTriggerTime = (Number(Data.getDataShort(rootCrName, 'animationDuration')) * 100) / 10;
   // cssObj.style.left = `${nextSlideTriggerTime}%`;
 
-  // // Model.ob().animation.dragAnimationCursor.init(intervalMSec);
+  // // Animation.dragAnimationCursor.init(intervalMSec);
 
-  Model.ob().animation.intervalMSec = Model.ob().animation.getInterval(); // intervalMSec; // 1000
+  Animation.intervalMSec = Animation.getInterval(); // intervalMSec; // 1000
 
   let el: any, pEl: any, cssObjA: any, ob: any;
   let pos1 = 0;
@@ -97,7 +102,7 @@ const TimeLineBrush = () => {
 
   const cursorOn = (event: MouseEvent) => {
     // calculate a new cursor position:
-    if (pEl && Model.ob().animation.getAnimationPlayState() === 'paused') {
+    if (pEl && Animation.getAnimationPlayState() === 'paused') {
       computed = pEl.getBoundingClientRect();
       cPos = event.clientX - computed.left;
     } else {
@@ -114,8 +119,8 @@ const TimeLineBrush = () => {
       tPos = 100;
     }
 
-    obResult = (tPos * Model.ob().animation.intervalMSec) / 100;
-    Model.ob().animation.setTimerResult(obResult);
+    obResult = (tPos * Animation.intervalMSec) / 100;
+    Animation.setTimerResult(obResult);
     obResult /= 1000;
 
     (document.getElementById('time') as HTMLInputElement).value = obResult.toString();
@@ -143,7 +148,7 @@ const TimeLineBrush = () => {
   const elementDrag = (event: MouseEvent) => {
     event.preventDefault();
     cursorOn(event);
-    Model.ob().animation.stop();
+    Animation.stop();
   }
 
   const closeDragElement = () => {
@@ -164,7 +169,7 @@ const TimeLineBrush = () => {
     if (cssObjA.style.left !== '100%') {
       cssObjA.style.left = '100%';
     }
-    if (Model.ob().animation.getAnimationPlayState() === 'paused') {
+    if (Animation.getAnimationPlayState() === 'paused') {
       changeCSSClasses('animated', 'animate');
       cursorOn(event);
     }
@@ -208,7 +213,7 @@ const TimeLineBrush = () => {
 
 const TimeLines = ({crName} : { crName: string }) => {
   const jsnASC = RootContainerSortModel.getRootJsnAscByPriority(
-    Model.ob().container.getCrsJSN(crName),
+    Container.getCrsJSN(crName),
   );
 
   const validCrN = { cs: false, rwd: true, akf: true, grt: true, grd: true, };
@@ -216,8 +221,8 @@ const TimeLines = ({crName} : { crName: string }) => {
   const crsArr = Object
     .keys(jsnASC)
     .map((entity, indx) => {
-      if (!(Model.ob().container.getCrNameWithoutNum(entity) in validCrN)) {
-        const crType = Model.ob().container.getCrType(`${crName}_${entity}`); // the slide here is like an oldPriorityPrf and sent like a subCr
+      if (!(Container.getCrNameWithoutNum(entity) in validCrN)) {
+        const crType = Container.getCrType(`${crName}_${entity}`); // the slide here is like an oldPriorityPrf and sent like a subCr
         if (crType === 'cntnr') {
           return <TimelineContainers key={`${indx}`} crName={`${crName}_${entity}`} />
         }
@@ -241,7 +246,7 @@ const TimelineContainers = ({crName, subCrName}: { crName: string, subCrName?: s
 
   const Thumbnail = subCrName
     ? null
-    : <img className="thumbnail" src={Model.ob().data.getData(Model.ob().data.getJsn(), crName, 'backgroundImage', 'getIMG')} />
+    : <img className="thumbnail" src={Data.getData(Data.getJsn(), crName, 'backgroundImage', 'getIMG')} />
 
   const descriptionContent = subCrName ? 'Item' : Strings.id('Layer');
   const itemClass = subCrName ? ' description-item' : '';
@@ -266,10 +271,10 @@ const setAkfRowRule = (crName: string, position: string, elPercentWidth: string)
 }
 
 const getAkfRowArray = (crName: string, updateRows: () => void): Array<any> => {
-  const jsn = Model.ob().data.getJsn();
-  const timeout = Model.ob().animation.getInterval('sec');
-  const crJSN = Model.ob().container.getCrsJSN(crName, jsn);
-  const animationDuration = Model.ob().data.getDataShort(crName, 'animationDuration');
+  const jsn = Data.getJsn();
+  const timeout = Animation.getInterval('sec');
+  const crJSN = Container.getCrsJSN(crName, jsn);
+  const animationDuration = Data.getDataShort(crName, 'animationDuration');
   const keyframeRowArray: Array<any> = [];
   let tLinePosA: any = [];
   let position: number;
@@ -400,12 +405,12 @@ const AkfRow = ({crName, updateRows, position = 0, keyframesAmount = 0,
     /* -----Add------ */
     const onAdd = () => {
       DataManager.ob().contextMenu.onCloseFn();
-      const newCrName = Model.ob().container.getNewCrNameS(crName, 'akf');
+      const newCrName = Container.getNewCrNameS(crName, 'akf');
       if (!newCrName) {
         throw new Error('newCrName: undefined');
       }
       const newPosition = Model.ob().styleSheetMdl.addKeyframe(crName, newCrName);
-      Model.ob().container.mkCrAkf(crName, newCrName, newPosition);
+      Container.mkCrAkf(crName, newCrName, newPosition);
       updateRows();
     }
 
@@ -417,7 +422,7 @@ const AkfRow = ({crName, updateRows, position = 0, keyframesAmount = 0,
         let animationDurationNew = 0;
 
         if (akfCrName.substring(0, 3) === 'akf') {
-          const crJSN = Model.ob().container.getCrsJSN(cName);
+          const crJSN = Container.getCrsJSN(cName);
           const percent = parseFloat(crJSN[akfCrName].cs.akfTimelinePos);
 
           /* get the closest val to the shift */
@@ -434,7 +439,7 @@ const AkfRow = ({crName, updateRows, position = 0, keyframesAmount = 0,
             }, 100);
           /** shift the animation duration val */
           const percentShift = prevPercent - percent;
-          const animationDuration = parseFloat(Model.ob().data.getDataShort(cName, 'animationDuration'));
+          const animationDuration = parseFloat(Data.getDataShort(cName, 'animationDuration'));
           animationDurationNew = animationDuration - ((percentShift * animationDuration) / 100);
           animationDurationNew = Math.round(animationDurationNew * 1000) / 1000;
 
@@ -458,11 +463,11 @@ const AkfRow = ({crName, updateRows, position = 0, keyframesAmount = 0,
             }
           });
         }
-        Model.ob().container.remCr(`${cName}_${akfCrName}`);
+        Container.remCr(`${cName}_${akfCrName}`);
         return animationDurationNew.toString();
       }
       const value = remKeyFrame(crName, tLinePosA[position]);
-      Model.ob().cssMaker.makeCSSRules(`${crName}_${tLinePosA[position]}`, 'remKeyframe', value);
+      CssMaker.makeCSSRules(`${crName}_${tLinePosA[position]}`, 'remKeyframe', value);
       updateRows();
     }
 

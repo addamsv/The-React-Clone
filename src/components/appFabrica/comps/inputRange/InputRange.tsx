@@ -2,6 +2,8 @@ import './index.scss';
 import React, { useState } from 'react';
 import State from '../../../../utils/state';
 import Model from '../../../../models/model';
+import CssMaker from '../../../../models/styleSheetPackage/cssMakerModel';
+import Container from '../../../../models/dataPackage/containerModel';
 
 const getDefaultMinMaxStepArr = (subCr: string) => {
   const defaultValue = Model.ob().set.dflt[subCr];
@@ -20,10 +22,10 @@ const InputRange = ({ crName, subCr, title = '', data = {} }: InputRangeInterfac
   const { m: unitOfMeasure } = data;
   
   const onInputRangeChange = (value: string) => {
-    const oldVal = subCr === 'akfTimelinePos' ? Model.ob().container.getCrVal('', crName, subCr) : '';
+    const oldVal = subCr === 'akfTimelinePos' ? Container.getCrVal('', crName, subCr) : '';
 
     if (subCr === 'fontSize') {
-      const pickerEl = document.getElementById(`h${Model.ob().getHID()}-${crName.replace(/_/g, '-')}-${Model.ob().container.getCrType(crName)}-input-text-edit`);
+      const pickerEl = document.getElementById(`h${Model.ob().getHID()}-${crName.replace(/_/g, '-')}-${Container.getCrType(crName)}-input-text-edit`);
 
       pickerEl?.setAttribute('style', `font-size: ${value}px; box-shadow: 'none';`);
       State.set({ crName, valType: subCr, value: value });
@@ -32,16 +34,16 @@ const InputRange = ({ crName, subCr, title = '', data = {} }: InputRangeInterfac
     /**
      * should be like: State.cssSet(crName, prop, val, oldVal);
      */
-    Model.ob().cssMaker.makeCSSRules(crName, subCr, value, oldVal);
+    CssMaker.makeCSSRules(crName, subCr, value, oldVal);
 
     setValue(value);
   }
 
   const onInputRangeSetState = (value: string) => {
-    const oldVal = subCr === 'akfTimelinePos' ? Model.ob().container.getCrVal('', crName, subCr) : '';
+    const oldVal = subCr === 'akfTimelinePos' ? Container.getCrVal('', crName, subCr) : '';
 
     State.set({ crName, valType: subCr, value: value });
-    Model.ob().cssMaker.makeCSSRules(crName, subCr, value, oldVal);
+    CssMaker.makeCSSRules(crName, subCr, value, oldVal);
 
     setValue(value);
   }

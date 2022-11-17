@@ -7,6 +7,8 @@ import Strings from '../../../../sets/lang/strings';
 import DataManager from '../../../../core/dataManager';
 import DialogBox from '../../../dialogBoxCollection/DialogBox';
 import State from '../../../../utils/state';
+import CssMaker from '../../../../models/styleSheetPackage/cssMakerModel';
+import Data from '../../../../models/dataPackage/dataModel';
 
 const MenuImage = ({crName, subCr, type}: {crName: string, subCr: string, type: string, title: string}) => {
   const [component, setUpdateComponent] = useState(1);
@@ -44,7 +46,7 @@ const MenuImage = ({crName, subCr, type}: {crName: string, subCr: string, type: 
 
   const update = (value: string) => {
     State.set({crName, valType: `${subCr}Image`, value});
-    Model.ob().cssMaker.makeCSSRules(crName, `${subCr}Image`, value);
+    CssMaker.makeCSSRules(crName, `${subCr}Image`, value);
     updatecomponent();
   }
 
@@ -60,7 +62,7 @@ const MenuImage = ({crName, subCr, type}: {crName: string, subCr: string, type: 
     DataManager.ob().contextMenu.onShowFn();
   }, []);
 
-  const src = Model.ob().data.getData(Model.ob().data.getJsn(), crName, `${subCr}Image`, 'getIMG');
+  const src = Data.getData(Data.getJsn(), crName, `${subCr}Image`, 'getIMG');
 
   // const remBtn = src === Model.ob().set.dfltImg ? null : <a className='rem-picture-style-btn' onClick={onImageRemove}>x</a>;
   const imageSets = src === Model.ob().set.dfltImg ? null : <JFab {...{route: 'collectionImgSETS', crName, type}} />;

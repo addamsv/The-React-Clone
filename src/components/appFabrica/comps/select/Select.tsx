@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import State from '../../../../utils/state';
 import Model from '../../../../models/model';
 import ID from '../../../../core/id';
+import CssMaker from '../../../../models/styleSheetPackage/cssMakerModel';
 
 const Select = ({ crName, subCr, type, title }: { crName: string, subCr: string, type: string, title: string }) => {
   const options = optionsArr({ subCr, type });
@@ -19,7 +20,7 @@ const Select = ({ crName, subCr, type, title }: { crName: string, subCr: string,
     /**
      *    CSS.make(crName, subCr, ev.target.value);
      */
-    Model.ob().cssMaker.makeCSSRules(crName, subCr, value);
+    CssMaker.makeCSSRules(crName, subCr, value);
     setCurrValue(value);
   }
 

@@ -1,4 +1,6 @@
 import { hexToRgb } from '../../../components/appFabrica/comps/colorPickerPackage/colorUtils';
+import Container from '../../dataPackage/containerModel';
+import Data from '../../dataPackage/dataModel';
 import Model from '../../model';
 
 class CssFile {
@@ -27,7 +29,7 @@ class CssFile {
     this.hid = hid;
 
     this.getDefCss();
-    this.getCss(Model.ob().data.getJsn(), hid);
+    this.getCss(Data.getJsn(), hid);
   }
 
   private getHid(): string | undefined {
@@ -35,7 +37,7 @@ class CssFile {
   }
 
   private getJustVal(crName: string, prop: string): string {
-    return Model.ob().data.getDataShort(crName.split('-').join('_'), prop);
+    return Data.getDataShort(crName.split('-').join('_'), prop);
   }
 
   /**
@@ -47,9 +49,9 @@ class CssFile {
    */
   private getValue(crNameCssStyle: string, prop: string, isConvertToEm = false, extension = ''): string {
     const crName = crNameCssStyle.split('-').join('_');
-    const crType = Model.ob().container.getCrType(crName);
-    let value = Model.ob().data.getDataShort(crName, prop);
-    if (value === Model.ob().data.getDefaultData(crType, prop)) {
+    const crType = Container.getCrType(crName);
+    let value = Data.getDataShort(crName, prop);
+    if (value === Data.getDefaultData(crType, prop)) {
       return '';
     }
     if (value && isConvertToEm) {
@@ -62,7 +64,7 @@ class CssFile {
   }
 
   private getDefaultValue(crType: string, prop: string, isConvertToEm = false, isEmAtTheEnd = false): string {
-    let value = Model.ob().data.getDefaultData(crType, prop);
+    let value = Data.getDefaultData(crType, prop);
     if (value && isConvertToEm) {
       value = this.pxToEm(Number(value), crType, prop).toString();
     }
@@ -181,9 +183,9 @@ class CssFile {
     out += tab;
     out += 'text-shadow: ';
     // out += `${this.getDefaultValue(crDefType, 'textShadowLR', false, true)} `;
-    out += `${this.pxToEm(Number(Model.ob().data.getDefaultData(crDefType, 'textShadowLR')))}em `;
-    out += `${this.pxToEm(Number(Model.ob().data.getDefaultData(crDefType, 'textShadowTB')))}em `;
-    out += `${this.pxToEm(Number(Model.ob().data.getDefaultData(crDefType, 'textShadowBlur')))}em `;
+    out += `${this.pxToEm(Number(Data.getDefaultData(crDefType, 'textShadowLR')))}em `;
+    out += `${this.pxToEm(Number(Data.getDefaultData(crDefType, 'textShadowTB')))}em `;
+    out += `${this.pxToEm(Number(Data.getDefaultData(crDefType, 'textShadowBlur')))}em `;
     out += this.getDefaultCssRgbaColorStyle('text-shadow');
     out += ';';
     out += br;
@@ -212,44 +214,44 @@ class CssFile {
     /* Gradient */
 
     /* Image Prop */
-    out += `${tab}background-repeat:${Model.ob().data.getDefaultData(crDefType, 'backgroundRepeat')};${br}`;
-    out += `${tab}background-attachment:${Model.ob().data.getDefaultData(crDefType, 'backgroundAttachment')};${br}`;
-    out += `${tab}background-position:${Model.ob().data.getDefaultData(crDefType, 'backgroundPosition')};${br}`;
-    out += `${tab}background-size: ${Model.ob().data.getDefaultData(crDefType, 'backgroundSize')};${br}`;
+    out += `${tab}background-repeat:${Data.getDefaultData(crDefType, 'backgroundRepeat')};${br}`;
+    out += `${tab}background-attachment:${Data.getDefaultData(crDefType, 'backgroundAttachment')};${br}`;
+    out += `${tab}background-position:${Data.getDefaultData(crDefType, 'backgroundPosition')};${br}`;
+    out += `${tab}background-size: ${Data.getDefaultData(crDefType, 'backgroundSize')};${br}`;
 
     /* Filters */
     out += `${tab}filter: none;${br}`;
 
-    out += `${tab}overflow: ${Model.ob().data.getDefaultData(crDefType, 'overflow')};${br}`;
+    out += `${tab}overflow: ${Data.getDefaultData(crDefType, 'overflow')};${br}`;
 
     /* Paddings */
-    let top = `${this.pxToEm(Number(Model.ob().data.getDefaultData(crDefType, 'paddingTop')))}em`;
-    let right = `${this.pxToEm(Number(Model.ob().data.getDefaultData(crDefType, 'paddingRight')))}em`;
-    let bottom = `${this.pxToEm(Number(Model.ob().data.getDefaultData(crDefType, 'paddingBottom')))}em`;
-    let left = `${this.pxToEm(Number(Model.ob().data.getDefaultData(crDefType, 'paddingLeft')))}em`;
+    let top = `${this.pxToEm(Number(Data.getDefaultData(crDefType, 'paddingTop')))}em`;
+    let right = `${this.pxToEm(Number(Data.getDefaultData(crDefType, 'paddingRight')))}em`;
+    let bottom = `${this.pxToEm(Number(Data.getDefaultData(crDefType, 'paddingBottom')))}em`;
+    let left = `${this.pxToEm(Number(Data.getDefaultData(crDefType, 'paddingLeft')))}em`;
 
     out += `${tab}padding: ${(top === right && right === bottom && bottom === left) ? `${top};${br}` : `${top} ${right} ${bottom} ${left};${br}`}`;
 
     // /* Margins */
-    top = `${this.pxToEm(Number(Model.ob().data.getDefaultData(crDefType, 'marginTop')))}em`;
-    right = `${this.pxToEm(Number(Model.ob().data.getDefaultData(crDefType, 'marginRight')))}em`;
-    bottom = `${this.pxToEm(Number(Model.ob().data.getDefaultData(crDefType, 'marginBottom')))}em`;
-    left = `${this.pxToEm(Number(Model.ob().data.getDefaultData(crDefType, 'marginLeft')))}em`;
+    top = `${this.pxToEm(Number(Data.getDefaultData(crDefType, 'marginTop')))}em`;
+    right = `${this.pxToEm(Number(Data.getDefaultData(crDefType, 'marginRight')))}em`;
+    bottom = `${this.pxToEm(Number(Data.getDefaultData(crDefType, 'marginBottom')))}em`;
+    left = `${this.pxToEm(Number(Data.getDefaultData(crDefType, 'marginLeft')))}em`;
 
     out += `${tab}margin: ${(top === right && right === bottom && bottom === left) ? `${top};${br}` : `${top} ${right} ${bottom} ${left};${br}`}`;
 
     out += `${tab}transform: none;${br}`;
 
     /* Border */
-    const borderType = Model.ob().data.getDefaultData(crDefType, 'borderType');
+    const borderType = Data.getDefaultData(crDefType, 'borderType');
 
     if (!borderType) {
       out += `${tab}border: none;${br}`;
     } else {
-      const borderTopWeight = `${this.pxToEm(Number(Model.ob().data.getDefaultData(crDefType, 'borderTopWeight'))).toString()}em`;
-      const borderRightWeight = `${this.pxToEm(Number(Model.ob().data.getDefaultData(crDefType, 'borderRightWeight'))).toString()}em`;
-      const borderBottomWeight = `${this.pxToEm(Number(Model.ob().data.getDefaultData(crDefType, 'borderBottomWeight'))).toString()}em`;
-      const borderLeftWeight = `${this.pxToEm(Number(Model.ob().data.getDefaultData(crDefType, 'borderLeftWeight'))).toString()}em`;
+      const borderTopWeight = `${this.pxToEm(Number(Data.getDefaultData(crDefType, 'borderTopWeight'))).toString()}em`;
+      const borderRightWeight = `${this.pxToEm(Number(Data.getDefaultData(crDefType, 'borderRightWeight'))).toString()}em`;
+      const borderBottomWeight = `${this.pxToEm(Number(Data.getDefaultData(crDefType, 'borderBottomWeight'))).toString()}em`;
+      const borderLeftWeight = `${this.pxToEm(Number(Data.getDefaultData(crDefType, 'borderLeftWeight'))).toString()}em`;
 
       const clr = this.hexToRgbaCSSDefault(crDefType, 'borderColor');
 
@@ -270,18 +272,18 @@ class CssFile {
 
     /* Border Radius */
     out += `${tab}border-radius: `;
-    out += `${this.pxToEm(Number(Model.ob().data.getDefaultData(crDefType, 'borderTopLeftRadius'))).toString()}em `;
-    out += `${this.pxToEm(Number(Model.ob().data.getDefaultData(crDefType, 'borderTopRightRadius'))).toString()}em `;
-    out += `${this.pxToEm(Number(Model.ob().data.getDefaultData(crDefType, 'borderBottomRightRadius'))).toString()}em `;
-    out += `${this.pxToEm(Number(Model.ob().data.getDefaultData(crDefType, 'borderBottomLeftRadius'))).toString()}em;${br}`;
+    out += `${this.pxToEm(Number(Data.getDefaultData(crDefType, 'borderTopLeftRadius'))).toString()}em `;
+    out += `${this.pxToEm(Number(Data.getDefaultData(crDefType, 'borderTopRightRadius'))).toString()}em `;
+    out += `${this.pxToEm(Number(Data.getDefaultData(crDefType, 'borderBottomRightRadius'))).toString()}em `;
+    out += `${this.pxToEm(Number(Data.getDefaultData(crDefType, 'borderBottomLeftRadius'))).toString()}em;${br}`;
 
     /* Box Shadow */
     out += `${tab}box-shadow: `;
-    out += `${Model.ob().data.getDefaultData(crDefType, 'boxShadowPosition')} `;
-    out += `${this.pxToEm(Number(Model.ob().data.getDefaultData(crDefType, 'boxShadowLR'))).toString()}em `;
-    out += `${this.pxToEm(Number(Model.ob().data.getDefaultData(crDefType, 'boxShadowTB'))).toString()}em `;
-    out += `${this.pxToEm(Number(Model.ob().data.getDefaultData(crDefType, 'boxShadowBlur'))).toString()}em `;
-    out += `${this.pxToEm(Number(Model.ob().data.getDefaultData(crDefType, 'boxShadowSpread'))).toString()}em `;
+    out += `${Data.getDefaultData(crDefType, 'boxShadowPosition')} `;
+    out += `${this.pxToEm(Number(Data.getDefaultData(crDefType, 'boxShadowLR'))).toString()}em `;
+    out += `${this.pxToEm(Number(Data.getDefaultData(crDefType, 'boxShadowTB'))).toString()}em `;
+    out += `${this.pxToEm(Number(Data.getDefaultData(crDefType, 'boxShadowBlur'))).toString()}em `;
+    out += `${this.pxToEm(Number(Data.getDefaultData(crDefType, 'boxShadowSpread'))).toString()}em `;
     out += `${this.getDefaultCssRgbaColorStyle('textShadowColor')};${br}`;
 
     return out;
@@ -297,8 +299,8 @@ class CssFile {
    */
 
   private hexToRgbaCSSDefault(crName: string, prop: string): string {
-    const hexVal = Model.ob().data.getDefaultData(crName, prop);
-    const opacity = Model.ob().data.getDefaultData(crName, `${prop}Opacity`);
+    const hexVal = Data.getDefaultData(crName, prop);
+    const opacity = Data.getDefaultData(crName, `${prop}Opacity`);
     const red = hexToRgb(hexVal.slice(1, 3));
     const green = hexToRgb(hexVal.slice(3, 5));
     const blue = hexToRgb(hexVal.slice(5, 7));
@@ -317,12 +319,12 @@ class CssFile {
   private hexToRgbaCSS(cr: string, prop: string): string {
     const crName = cr.split('-').join('_');
 
-    const hexVal = Model.ob().data.getDataShort(crName, prop);
-    const opacity = Model.ob().data.getDataShort(crName, `${prop}Opacity`);
+    const hexVal = Data.getDataShort(crName, prop);
+    const opacity = Data.getDataShort(crName, `${prop}Opacity`);
     /* isBorder */
     // if (prop !== 'borderColor' && prop.indexOf('border') === 0 && prop.lastIndexOf('Color') !== -1) {
-    // hexVal = (hexVal === Model.ob().data.getDefaultData(Model.ob().container.getCrType(crName), prop)) ? Model.ob().data.getDataShort(crName, 'borderColor') : hexVal;
-    // opacity = (opacity === Model.ob().data.getDefaultData(Model.ob().container.getCrType(crName), `${prop}Opacity`)) ? Model.ob().data.getDataShort(crName, 'borderColorOpacity') : opacity;
+    // hexVal = (hexVal === Data.getDefaultData(Container.getCrType(crName), prop)) ? Data.getDataShort(crName, 'borderColor') : hexVal;
+    // opacity = (opacity === Data.getDefaultData(Container.getCrType(crName), `${prop}Opacity`)) ? Data.getDataShort(crName, 'borderColorOpacity') : opacity;
     // }
     // const red = hexToRgb(hexVal.slice(1, 3));
     // const green = hexToRgb(hexVal.slice(3, 5));
@@ -434,7 +436,7 @@ class CssFile {
 
     /* color */
     const clr = this.hexToRgbaCSS(crName, 'color');
-    const clrDefault = this.hexToRgbaCSSDefault(Model.ob().container.getCrType(crName.split('-').join('_')), 'color');
+    const clrDefault = this.hexToRgbaCSSDefault(Container.getCrType(crName.split('-').join('_')), 'color');
     out += clr !== clrDefault ? `${tab}color: ${clr};${br}` : '';
 
     /* Font Family */
@@ -461,7 +463,7 @@ class CssFile {
 
     /* Text Shadow */
     let div = '';
-    const crJsn = Model.ob().container.getCrsJSN(crName.split('-').join('_'));
+    const crJsn = Container.getCrsJSN(crName.split('-').join('_'));
     let tscOut = '';
     div = '';
     Object.entries(crJsn)
@@ -472,7 +474,7 @@ class CssFile {
         }
         return false;
       });
-    const tscDefaultOut = this.getDefaultShadow(Model.ob().container.getCrType(crName.split('-').join('_')), 'textShadow');
+    const tscDefaultOut = this.getDefaultShadow(Container.getCrType(crName.split('-').join('_')), 'textShadow');
     out += this.getCssEl('text-shadow', tscOut !== tscDefaultOut ? tscOut : '');
 
     /* Cr Styles */
@@ -734,7 +736,7 @@ class CssFile {
     /* Box Shadow */
     let bscOut = '';
     let div = '';
-    const crJsn = Model.ob().container.getCrsJSN(crName.split('-').join('_'));
+    const crJsn = Container.getCrsJSN(crName.split('-').join('_'));
     Object.entries(crJsn)
       .some(([bsc, bscJsn]) => {
         if (bsc.substring(0, 3) === 'bsc') {
@@ -743,7 +745,7 @@ class CssFile {
         }
         return false;
       });
-    const bscDefaultOut = this.getDefaultShadow(Model.ob().container.getCrType(crName.split('-').join('_')), 'boxShadow');
+    const bscDefaultOut = this.getDefaultShadow(Container.getCrType(crName.split('-').join('_')), 'boxShadow');
     out += this.getCssEl('box-shadow', bscOut !== bscDefaultOut ? bscOut : '');
 
     return out;
@@ -780,7 +782,7 @@ class CssFile {
   }
 
   private getShadow(crName: string, prop: string, bscJsn: any) {
-    const crType = Model.ob().container.getCrType(crName.split('-').join('_'));
+    const crType = Container.getCrType(crName.split('-').join('_'));
     const propPostfixArr = this.getShadowPropsArr(prop); // ['Position', 'LR', 'TB', 'Blur', 'Spread', 'Color'];
 
     return propPostfixArr.map((postfix) => this.getShadowValue(crType, `${prop}${postfix}`, bscJsn)).join(' ');
@@ -894,7 +896,7 @@ class CssFile {
 
     /* Background Color */
     const clr = this.hexToRgbaCSS(crName, 'backgroundColor');
-    const clrDefault = this.hexToRgbaCSSDefault(Model.ob().container.getCrType(crName.split('-').join('_')), 'backgroundColor');
+    const clrDefault = this.hexToRgbaCSSDefault(Container.getCrType(crName.split('-').join('_')), 'backgroundColor');
     out += clr !== clrDefault ? `${tab}background-color: ${clr};${br}` : '';
 
     /* Image */
@@ -931,7 +933,7 @@ class CssFile {
     let value = '';
     let defaultValue = '';
     const crName = crNameCSS.split('-').join('_');
-    const crType = Model.ob().container.getCrType(crName);
+    const crType = Container.getCrType(crName);
     bounds.some((bound) => {
       value = this.getValue(crName, bound.prop);
       defaultValue = this.getDefaultValue(crType, bound.prop);
@@ -1000,8 +1002,8 @@ class CssFile {
     const br = '\n\r';
 
     const crName = cr.split('-').join('_');
-    const crType = Model.ob().container.getCrType(crName);
-    const crJsn = Model.ob().container.getCrsJSN(crName);
+    const crType = Container.getCrType(crName);
+    const crJsn = Container.getCrsJSN(crName);
     const data: any = [];
 
     let grtData;

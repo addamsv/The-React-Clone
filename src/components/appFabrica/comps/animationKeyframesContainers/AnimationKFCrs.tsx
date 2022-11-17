@@ -1,9 +1,10 @@
 import './index.scss';
 
 import React from 'react';
-import Model from '../../../../models/model';
+
 import ID from '../../../../core/id';
 import JFab from '../../JFab';
+import Container from '../../../../models/dataPackage/containerModel';
 
 /** !!!!SUPER SUSPITIOUSE!!!! */
 const getSortedCrByTimelinePos = (jsnCr: any, crNamePrefix = 'akf', sortBy = 'akfTimelinePos') => {
@@ -15,9 +16,9 @@ const getSortedCrByTimelinePos = (jsnCr: any, crNamePrefix = 'akf', sortBy = 'ak
   /* sort by grd-priority and add crName */
 
   Object.keys(jsnCr).some((c) => {
-    lastCrNameInDest = Model.ob().container.getLastCrNameInDest(c);
+    lastCrNameInDest = Container.getLastCrNameInDest(c);
 
-    if (Model.ob().container.getCrNameWithoutNum(lastCrNameInDest) === crNamePrefix) {
+    if (Container.getCrNameWithoutNum(lastCrNameInDest) === crNamePrefix) {
       a[ai] = jsnCr[c];
       a[ai].crName = c;
       ai += 1;
@@ -38,7 +39,7 @@ const getSortedCrByTimelinePos = (jsnCr: any, crNamePrefix = 'akf', sortBy = 'ak
 }
 
 const AnimationKeyframesContainers = ({ crName }: { crName: string, type: string }) => {
-  let jsnCr = Model.ob().container.getCrsJSN(crName);
+  let jsnCr = Container.getCrsJSN(crName);
   jsnCr = getSortedCrByTimelinePos(jsnCr, 'akf', 'akfTimelinePos');
 
   const onAddBtn = () => {

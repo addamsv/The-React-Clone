@@ -1,30 +1,17 @@
 import Model from "../model";
+import Container from "./containerModel";
 
-interface IDataModel {
-  getJsn(): any | undefined;
-  getDataShort(crName: string, crProp: string): string;
-  getDefaultData(crType: string, prop: string): string;
-  setJsnDirectly(json: JSON): void;
-  getData(json: any, crName: string, crProp: string, containerType: string): string
-  custom: (Array<ISection> | undefined);
-  jsn: ISection | undefined;
-  getSortedDefaultRwdModeArrayByWidth(setRvd: any): any;
-}
+let jsn = undefined as any;
 
-class DataModel implements IDataModel {
-  public jsn: any = undefined;
+const Data = {
 
-  public custom: (Array<ISection> | undefined) = undefined;
+  custom: undefined as Array<ISection> | undefined,
 
-  public getJsn(): any | undefined {
-    return this.jsn;
-  }
+  getJsn: (): any | undefined => jsn,
 
-  public getDataShort(crName = '', crProp = ''): string {
-    return this.getData(null, crName, crProp);
-  }
+  getDataShort: (crName = '', crProp = ''): string => Data.getData(null, crName, crProp),
 
-  public getDefaultData(crType: string, prop: string): string {
+  getDefaultData: (crType: string, prop: string): string => {
     if (Model.ob().set && Model.ob().set[crType] && Model.ob().set[crType][prop]) {
       const defVal = Model.ob().set[crType][prop];
 
@@ -36,103 +23,16 @@ class DataModel implements IDataModel {
     const defaultValue = Model.ob().set[defaultType][prop];
 
     return Array.isArray(defaultValue) ? defaultValue[0] : defaultValue;
-  }
+  },
 
-  public setJsn(json: JSON): void {
-    this.jsn = json;
-  }
+  setJsn: (json: any): void => { jsn = json },
 
-  setJsnDirectly(json: JSON): void {
-    this.jsn = json;
-  }
+  setJsnDirectly: (json: any): void => {
+    jsn = json;
+    Model.ob().setJsnByHidToCustomData();
+  },
 
-  // setJsnFromInputField() {
-  //   this.jsn = this.getJsnFromInputField();
-  // }
-
-  // private getJsnFromInputField(): JSON {
-  //   const { value } = document.getElementById(this.destID) as HTMLInputElement;
-  //   if (value) {
-  //     return JSON.parse(value);
-  //   }
-  //   return this.jsonDefault;
-  // }
-
-  /** @example: getData(json, crName, 'backgroundImage', 'getIMG') */
-  public getData(json: any = null, crName = '', crProp = '', containerType = ''): string {
-    const jsn = json || this.getJsn();
-    const crType = containerType || Model.ob().container.getCrType(crName);
-
-    const validType = ['description', 'ptID', 'timeout', 'name', 'postType', 'type', 'priority', 'heightPercent',
-      'speed', 'pause', 'autostop', 'fastOnEvent', 'mainPage', 'pauseOnPagerHover'];
-
-    if (crName === 'hdr' && validType.includes(crProp)) {
-      const val = Model.ob().container.getCrVal(jsn, crName, crProp);
-      if (val) {
-        return val;
-      }
-      return crType === 'getIMG' ? Model.ob().set.dfltImg : this.getDefaultData(crType, crProp);
-    }
-
-    const val = this.getCascadeVal(jsn, crName, crProp, Model.ob().getRWDMode());
-
-    if (val) {
-      return val;
-    }
-
-    return crType === 'getIMG' ? Model.ob().set.dfltImg : this.getDefaultData(crType, crProp);
-  }
-
-  /** Cascading RWD Cr Vals */
-  getCascadeVal(jsn: any, crName: string, crProp: string, mode: string): string {
-    if (mode === Model.ob().set.rwdDflt) {
-      return Model.ob().container.getCrVal(jsn, crName, crProp, mode);
-    }
-
-    let inheritRWDMode = '';
-
-    let retVal = Model.ob().container.getCrVal(jsn, crName, crProp, mode);
-
-    if (retVal === '') {
-      inheritRWDMode = this.getInheritRWDMode(mode);
-      retVal = Model.ob().container.getCrVal(jsn, crName, crProp, inheritRWDMode);
-    }
-
-    return retVal || this.getCascadeVal(jsn, crName, crProp, inheritRWDMode);
-  }
-
-  /**
-  * !!!Important is that Model.ob().set.rwd must to be
-  * arranged ascending by with up to Model.ob().set.rwdDflt mode!!!
-  */
-  getInheritRWDMode(mode: string): string {
-    let nextModeFlag = false;
-    let retVal = '';
-
-    const a = this.getSortedDefaultRwdModeArrayByWidth();
-
-    Object
-      .keys(a)
-      .some((rwdMode) => {
-        if (mode === Model.ob().set.rwdDflt) {
-          retVal = mode;
-        }
-        if (retVal === '' && a[rwdMode].width === Model.ob().set.rwdDflt) {
-          retVal = a[rwdMode].width;
-        }
-        if (retVal === '' && nextModeFlag) {
-          retVal = a[rwdMode].width;
-        }
-        if (a[rwdMode].width === mode) {
-          nextModeFlag = true;
-        }
-        return false;
-      });
-
-    return retVal;
-  }
-
-  getSortedDefaultRwdModeArrayByWidth(setRvd = Model.ob().set.rwd): any {
+  getSortedDefaultRwdModeArrayByWidth: (setRvd = Model.ob().set.rwd): any => {
     const a: any = [];
     let ai = 0;
     let hold = [];
@@ -155,15 +55,82 @@ class DataModel implements IDataModel {
       }
     }
     return a;
-  }
+  },
 
-  getDefaultJSNData(cr: string) {
-    if (Model.ob().set) {
-      return ((Model.ob().set[cr]) ? Model.ob().set[cr] : Model.ob().set[Model.ob().set[cr].dflt]);
+  /** @example: getData(json, crName, 'backgroundImage', 'getIMG') */
+  getData: (json: any = null, crName = '', crProp = '', containerType = ''): string => {
+    const jsn = json || Data.getJsn();
+    const crType = containerType || Container.getCrType(crName);
+
+    const validType = ['description', 'ptID', 'timeout', 'name', 'postType', 'type', 'priority', 'heightPercent',
+      'speed', 'pause', 'autostop', 'fastOnEvent', 'mainPage', 'pauseOnPagerHover'];
+
+    if (crName === 'hdr' && validType.includes(crProp)) {
+      const val = Container.getCrVal(jsn, crName, crProp);
+      if (val) {
+        return val;
+      }
+      return crType === 'getIMG' ? Model.ob().set.dfltImg : Data.getDefaultData(crType, crProp);
     }
-    return false;
-  }
+
+    const val = getCascadeVal(jsn, crName, crProp, Model.ob().getRWDMode());
+
+    if (val) {
+      return val;
+    }
+
+    return crType === 'getIMG' ? Model.ob().set.dfltImg : Data.getDefaultData(crType, crProp);
+  },
+
+
 }
 
-export default DataModel;
-export {IDataModel}
+/** Cascading RWD Cr Vals */
+const getCascadeVal = (jsn: any, crName: string, crProp: string, mode: string): string => {
+  if (mode === Model.ob().set.rwdDflt) {
+    return Container.getCrVal(jsn, crName, crProp, mode);
+  }
+
+  let inheritRWDMode = '';
+
+  let retVal = Container.getCrVal(jsn, crName, crProp, mode);
+
+  if (retVal === '') {
+    inheritRWDMode = getInheritRWDMode(mode);
+    retVal = Container.getCrVal(jsn, crName, crProp, inheritRWDMode);
+  }
+
+  return retVal || getCascadeVal(jsn, crName, crProp, inheritRWDMode);
+}
+
+/**
+* !!!Important is that Model.ob().set.rwd must to be
+* arranged ascending by with up to Model.ob().set.rwdDflt mode!!!
+*/
+const getInheritRWDMode = (mode: string): string => {
+  let nextModeFlag = false;
+  let retVal = '';
+
+  const a = Data.getSortedDefaultRwdModeArrayByWidth();
+
+  Object
+    .keys(a)
+    .some((rwdMode) => {
+      if (mode === Model.ob().set.rwdDflt) {
+        retVal = mode;
+      }
+      if (retVal === '' && a[rwdMode].width === Model.ob().set.rwdDflt) {
+        retVal = a[rwdMode].width;
+      }
+      if (retVal === '' && nextModeFlag) {
+        retVal = a[rwdMode].width;
+      }
+      if (a[rwdMode].width === mode) {
+        nextModeFlag = true;
+      }
+      return false;
+    });
+
+  return retVal;
+}
+export default Data;

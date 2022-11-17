@@ -44,24 +44,18 @@
 // import jData from '../app-sets/jData.json';
 // import sets from '../app-sets/sets.json';
 // import custom from '../app-sets/custom.json';
-import DataModel, { IDataModel } from './dataPackage/dataModel';
+import Data from './dataPackage/dataModel';
 import DbModel, { IDbModel } from './dbModel';
-import Animation from '../components/app/components/mainMenu/components/animationMenu/animationModel';
 import StyleSheetModel from './styleSheetPackage/styleSheetModel';
-import CssMaker from './styleSheetPackage/cssMakerModel';
-import Container from './dataPackage/containerModel';
+
 import CssFile from './styleSheetPackage/cssFile/CssFile';
 import getJData, { getSets, getCustom } from '../iChunk';
 import getWpMedia from '../components/appFabrica/comps/menuImage/wpMedia';
 import setWPStyle from '../components/appFabrica/comps/menuImage/wordPress';
 
 class Model {
-  data: IDataModel = new DataModel();
   db: IDbModel = new DbModel();
-  animation = Animation;
   styleSheetMdl: any = new StyleSheetModel();
-  cssMaker = CssMaker;
-  container = Container;
   set: any = null;
   jData: any = null;
   pID = '';
@@ -98,9 +92,10 @@ class Model {
   public setJsnByHid(hid: string): void {
     this.setHID(hid);
 
-    this.data.custom?.some((jsn: any) => {
+    Data.custom?.some((jsn: any) => {
       if (jsn.hdr.cs.ptID === hid) {
-        this.data.jsn = jsn;
+        Data.setJsn(jsn);
+        // Data.jsn = jsn;
         return true;
       }
       return false;
@@ -109,9 +104,9 @@ class Model {
 
   public setJsnByHidToCustomData(_hid?: string): void {
     const hid = _hid || this.getHID() || '';
-    this.data.custom?.some((jsn: any, index: number) => {
-      if (jsn.hdr.cs.ptID === hid && this.data.custom) {
-        this.data.custom[index] = this.data.getJsn();
+    Data.custom?.some((jsn: any, index: number) => {
+      if (jsn.hdr.cs.ptID === hid && Data.custom) {
+        Data.custom[index] = Data.getJsn();
         return true;
       }
       return false;
@@ -122,11 +117,11 @@ class Model {
 
   public setDestID = (id: string): void => { this.destID = id }
 
-  public setHID = (hid = ''): void => { this.pID = hid || this.data.jsn?.hdr.cs.ptID || '' }
+  public setHID = (hid = ''): void => { this.pID = hid ||  Data.getJsn()?.hdr.cs.ptID || '' }
 
-  public getHID = (sectionJsn?: boolean): string => sectionJsn ? this.data.getJsn().hdr.cs.ptID : this.pID;
+  public getHID = (sectionJsn?: boolean): string => sectionJsn ? Data.getJsn().hdr.cs.ptID : this.pID;
 
-  public getSectionsHidArr = (): Array<string> | undefined => this.data.custom?.map((el: any) => el.hdr.cs.ptID);
+  public getSectionsHidArr = (): Array<string> | undefined => Data.custom?.map((el: any) => el.hdr.cs.ptID);
 
   public setRWDMode = (modeName: string, destID: string): void => { this.rwdArray[destID] = modeName }
 
@@ -156,24 +151,24 @@ class Model {
       destEl.value = '';
       this.set = getProp(destEl, 'data-sets'); // sets;
       this.jData = getProp(destEl, 'data-jdata'); // jData;
-      this.data.custom = getProp(destEl, 'data-presets'); // custom;
+      Data.custom = getProp(destEl, 'data-presets'); // custom;
     } else {
       this.set = getSets(); // sets;
       this.jData = getJData(); // jData;
-      this.data.custom = getCustom(); // custom;
+      Data.custom = getCustom(); // custom;
     }
 
-    this.data.custom?.some((jsn: any) => {
+    Data.custom?.some((jsn: any) => {
       if (jsn.hdr) {
-        this.data.jsn = jsn;
+        Data.setJsn(jsn);
         this.setHID(jsn.hdr.cs.ptID);
         CssFile.buildByHid(this.getHID());
       }
 
       return false;
     });
-
-    [this.data.jsn] = <ISection[]>getCustom(); // custom;
+    const [cust] = <ISection[]>getCustom();
+    Data.setJsn(cust); // custom;
     this.setHID();
   }
 }

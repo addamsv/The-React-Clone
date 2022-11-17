@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Model from '../../models/model';
 import Slides from './Slides';
 import ID from '../../core/id';
+import Data from '../../models/dataPackage/dataModel';
 // import DataManager from '../../core/dataManager';
 // import ContextLayerMenu from './ContextLayerMenu';
 
@@ -19,7 +20,7 @@ const Sections = ({elementIndex}: {elementIndex: string}) => {
 
   const slidesArray = Object
     .entries((() => {
-      const current = (Model.ob().data.custom || [])
+      const current = (Data.custom || [])
       .filter(({hdr: {cs: {ptID}}}: {hdr: {cs: {ptID: string}}}) => ptID === elementIndex);
       if (current.length > 1) {
         // console.warn('Identical ptID of Sections');

@@ -1,3 +1,5 @@
+import Container from "../dataPackage/containerModel";
+import Data from "../dataPackage/dataModel";
 import Model from "../model";
 
 class StyleSheetModel {
@@ -7,12 +9,12 @@ class StyleSheetModel {
 
   public remAllRulesInCr(crName: string) {
     /* hasElItems */
-    const crJsn = Model.ob().container.getCrsJSN(crName);
+    const crJsn = Container.getCrsJSN(crName);
     let elName;
     Object
     .keys(crJsn)
     .some((el) => {
-      elName = Model.ob().container.getCrNameWithoutNum(el);
+      elName = Container.getCrNameWithoutNum(el);
       if (elName === 'c') {
         this.remRule(`${crName}_${el}`);
         this.remAllRulesInCr(`${crName}_${el}`);
@@ -30,7 +32,7 @@ class StyleSheetModel {
   }
 
   public remKeyframeRule(crName: string): void {
-    const prc = Number(Model.ob().data.getDataShort(crName, 'akfTimelinePos'));
+    const prc = Number(Data.getDataShort(crName, 'akfTimelinePos'));
     const prcPrv = this.getTheClosestKeyframePos(crName, prc);
     const shiftPrc = prcPrv - prc;
     const els = crName.split('_');
@@ -39,7 +41,7 @@ class StyleSheetModel {
     let animationDurationNew;
 
     /* shift the animation duration val */
-    const animationDuration = parseFloat(Model.ob().data.getDataShort(parentCrName, 'animationDuration'));
+    const animationDuration = parseFloat(Data.getDataShort(parentCrName, 'animationDuration'));
     animationDurationNew = animationDuration - ((shiftPrc * animationDuration) / 100);
     animationDurationNew = Math.round(animationDurationNew * 1000) / 1000;
     this.shiftAllKeyframeRulesOn(crName, prcPrv, prc, animationDuration, animationDurationNew);
@@ -133,7 +135,7 @@ class StyleSheetModel {
     const keyframeCss = `${pos}% {}`;
     ss.addRule(`@keyframes ${this.getCssClassName(crName, false)}__keyframes`, keyframeCss, ss.cssRules.length);
 
-    const css = `animation-name: ${this.getCssClassName(crName, false)}__keyframes; animation-duration: ${Model.ob().data.getDataShort(crName, 'animationDuration')}s;`;
+    const css = `animation-name: ${this.getCssClassName(crName, false)}__keyframes; animation-duration: ${Data.getDataShort(crName, 'animationDuration')}s;`;
     ss.addRule(`.${this.getCssClassName(crName, false)}.animated`, css, ss.cssRules.length);
 
     // console.log(this.getClassRule(`.${this.getCssClassName(crName, false)}.animated`));
@@ -185,7 +187,7 @@ class StyleSheetModel {
   }
 
   public getCssClassName(crName: string, isSelector = true): string {
-    const cmnPropArr = Model.ob().container.getCrDestArrWithoutLastEl(`${crName}_cs`);
+    const cmnPropArr = Container.getCrDestArrWithoutLastEl(`${crName}_cs`);
     const pre = (cmnPropArr[cmnPropArr.length - 1]).substring(0, 3);
     let depth = (pre === 'akf' || pre === 'grt' || pre === 'grd' || pre === 'tsc' || pre === 'bsc' || pre === 'hvr') ? cmnPropArr.length - 2 : cmnPropArr.length - 1;
     // console.log(crName);
@@ -201,7 +203,7 @@ class StyleSheetModel {
       strCr += `-${crAr[i]}`;
     }
 
-    strCr = `h${Model.ob().getHID()}${strCr}-${Model.ob().container.getCrType(crName)}`;// Model.ob().data.getJsn()
+    strCr = `h${Model.ob().getHID()}${strCr}-${Container.getCrType(crName)}`;// Data.getJsn()
 
     return ((isSelector ? '.' : '') + strCr);
   }

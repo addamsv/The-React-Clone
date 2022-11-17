@@ -4,6 +4,7 @@ import ID from "../../../../../core/id";
 import Model from "../../../../../models/model";
 import getArrSortedByPriority from "../../../../../utils/getArrSortedByPriority";
 import DataManager from '../../../../../core/dataManager';
+import Data from '../../../../../models/dataPackage/dataModel';
 
 const SlidesMenu = () => {
   const onAddSlideBtnClick = () => {
@@ -41,7 +42,7 @@ const ListItemsOfSlides = () => {
 
   return (
     <>
-      {getArrSortedByPriority(Model.ob().data.getJsn())
+      {getArrSortedByPriority(Data.getJsn())
       .map(([crName]) => {
         const activeClass = isCrActive(crName) ? ' active' : '';
 

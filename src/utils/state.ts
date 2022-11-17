@@ -1,3 +1,5 @@
+import Container from "../models/dataPackage/containerModel";
+import Data from "../models/dataPackage/dataModel";
 import Model from "../models/model";
 
 interface StateInterface {
@@ -9,11 +11,11 @@ interface StateInterface {
 
 const State = {
   get: (crName: string, valType: string): string => {
-    return Model.ob().data.getDataShort(crName, valType);
+    return Data.getDataShort(crName, valType);
   },
 
   getDefault: (type: string, valType: string): any => {
-    return Model.ob().data.getDefaultData(type, valType);
+    return Data.getDefaultData(type, valType);
   },
 
   set: (state: StateInterface | Array<StateInterface>) => {
@@ -36,11 +38,11 @@ const State = {
     const { crName, valType = '', value = '' } = state;
 
     const isValueDefault = (crName: string, valType: string, value: string ) => {
-      const crType = Model.ob().container.getCrType(crName);
-      if (value === Model.ob().data.getDefaultData(crType, valType) || value === '') {
+      const crType = Container.getCrType(crName);
+      if (value === Data.getDefaultData(crType, valType) || value === '') {
         const rwdMode = Model.ob().getRWDMode();
-        const jsn = Model.ob().container.remDefItemAndItsVal(Model.ob().data.getJsn(), crName, valType, rwdMode);
-        Model.ob().data.setJsnDirectly(jsn);
+        const jsn = Container.remDefItemAndItsVal(Data.getJsn(), crName, valType, rwdMode);
+        Data.setJsnDirectly(jsn);
         return true;
       }
       return false;
@@ -48,7 +50,7 @@ const State = {
 
     const isSameValue = (crName: string, valType: string, value: string) => {
       const rwdMode = Model.ob().getRWDMode();
-      return value === Model.ob().container.getCrVal(Model.ob().data.getJsn(), crName, valType, rwdMode)
+      return value === Container.getCrVal(Data.getJsn(), crName, valType, rwdMode)
     }
 
     if (isValueDefault(crName, valType, value)) {
@@ -62,11 +64,11 @@ const State = {
     }
 
     const rwdMode = Model.ob().getRWDMode();
-    Model.ob().data.setJsnDirectly(Model.ob().container.setCrVal(undefined, crName, valType, value, rwdMode));
+    Data.setJsnDirectly(Container.setCrVal(undefined, crName, valType, value, rwdMode));
   },
 
   getCr: (crName: string): any => {
-    return Model.ob().container.getCrsJSN(crName).cs;
+    return Container.getCrsJSN(crName).cs;
   }
 }
 

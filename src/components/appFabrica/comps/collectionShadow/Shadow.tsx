@@ -1,5 +1,4 @@
 import React from 'react';
-import Model from '../../../../models/model';
 import getArrSortedByPriority from '../../../../utils/getArrSortedByPriority';
 import State from '../../../../utils/state';
 import JFab from '../../JFab';
@@ -7,6 +6,9 @@ import CollectionShadow from './box/CollectionShadow';
 import Strings from '../../../../sets/lang/strings';
 import DialogBox from '../../../dialogBoxCollection/DialogBox';
 import DataManager from '../../../../core/dataManager';
+import CssMaker from '../../../../models/styleSheetPackage/cssMakerModel';
+import Model from '../../../../models/model';
+import Container from '../../../../models/dataPackage/containerModel';
 
 const Shadow = ({ crName, subCr, data }: {crName: string, subCr: string, data: any}) => {
   /**
@@ -22,11 +24,11 @@ const Shadow = ({ crName, subCr, data }: {crName: string, subCr: string, data: a
 
   const callback = () => {
     /* Update State */
-    Model.ob().container.remCr(`${crName}_${shadowCrName}`);
+    Container.remCr(`${crName}_${shadowCrName}`);
     /* Update Component */
     // DOM.remEl(`id_${shadowCrName}`);
     /* View UpdateProcess */
-    const jsnCr = Model.ob().container.getCrsJSN(crName);
+    const jsnCr = Container.getCrsJSN(crName);
     const shadCrNameArr = Object
       .keys(jsnCr)
       .filter((shadCrName: string) => {
@@ -37,10 +39,10 @@ const Shadow = ({ crName, subCr, data }: {crName: string, subCr: string, data: a
 
     if (shadCrNameArr.length) {
       /* Set Shadows in Order */
-      Model.ob().cssMaker.makeCSSRules(`${crName}_${shadCrNameArr[0]}`, 'priority');
+      CssMaker.makeCSSRules(`${crName}_${shadCrNameArr[0]}`, 'priority');
     } else {
       /* Style of Shadow None */
-      const cssClassName = `.h${Model.ob().getHID()}-${crName.replace(/_/g, '-')}-${Model.ob().container.getCrType(crName)}`;
+      const cssClassName = `.h${Model.ob().getHID()}-${crName.replace(/_/g, '-')}-${Container.getCrType(crName)}`;
       const cssObj = Model.ob().styleSheetMdl.getClassRule(cssClassName);
       if (data.subType === 'bsc') {
         cssObj.style.boxShadow = 'none';
@@ -63,14 +65,14 @@ const Shadow = ({ crName, subCr, data }: {crName: string, subCr: string, data: a
     /* Update State */
     State.set(state);
     /* View UpdateProcess */
-    Model.ob().cssMaker.makeCSSRules(`${crName}_${shadowCrNameArr[0]}`, 'priority');
+    CssMaker.makeCSSRules(`${crName}_${shadowCrNameArr[0]}`, 'priority');
   }
 
   const getNewShadCrName = () => {
     /* Make New Container and Get Its Name */
-    const newCrName = Model.ob().container.makeBsTsCr(crName, shadowCrType);
+    const newCrName = Container.makeBsTsCr(crName, shadowCrType);
     /* View UpdateProcess */
-    Model.ob().cssMaker.makeCSSRules(`${crName}_${newCrName}`, 'priority');
+    CssMaker.makeCSSRules(`${crName}_${newCrName}`, 'priority');
     // return newCrName;
   }
 
@@ -90,7 +92,7 @@ const Shadow = ({ crName, subCr, data }: {crName: string, subCr: string, data: a
   }
 
   const getSortedListItems = () => {
-    const jsnCr = Model.ob().container.getCrsJSN(crName);
+    const jsnCr = Container.getCrsJSN(crName);
     return getArrSortedByPriority(jsnCr, shadowCrType);
   }
 

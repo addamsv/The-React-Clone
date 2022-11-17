@@ -2,11 +2,12 @@ import './index.scss';
 import React, { useState } from "react";
 
 import getArrSortedByPriority from '../../../../utils/getArrSortedByPriority';
-import Model from '../../../../models/model';
+
 import JFab from '../../../appFabrica/JFab';
 import Draggable from '../draggable/Draggable';
 import { addCssClass, changeCSSClasses } from '../../../../utils/css';
 import DataManager from '../../../../core/dataManager';
+import Container from '../../../../models/dataPackage/containerModel';
 
 const Picker = ({hid, incomeCrJsn, crName} : {hid: string, incomeCrJsn: any, crName: string}) => {
   const ins = getArrSortedByPriority(incomeCrJsn)
@@ -29,7 +30,7 @@ const Item = ({hid, cr, crName, crJsn}: {hid: string, cr: string, crName: string
     e.preventDefault();
     e.stopPropagation();
 
-    const crType = Model.ob().container.getCrType(`${crName}_${cr}`);
+    const crType = Container.getCrType(`${crName}_${cr}`);
 
     DataManager.ob().commonMenu.content = (
       <Draggable title='Prop' onOuterCloseFn={DataManager.ob().commonMenu.onCloseFn}>

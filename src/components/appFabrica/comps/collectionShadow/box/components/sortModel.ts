@@ -175,7 +175,7 @@ const onSortStart = (event: any, pid: string, ulID: string, onRemoveShadow: (sha
     // State.set(state);
 
     /* View UpdateProcess */
-    // Model.ob().cssMaker.makeCSSRules(listItems[0].dataset.cr, 'priority');
+    // CssMaker.makeCSSRules(listItems[0].dataset.cr, 'priority');
     
     onPriorityChange(shadowCrNamec);
   }

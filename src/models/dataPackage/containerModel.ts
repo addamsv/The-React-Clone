@@ -1,6 +1,7 @@
 import getArrSortedByPriority from '../../utils/getArrSortedByPriority';
 import Model from '../model';
 import jsnMrg, { getCrLnkJsn, getCrValProc, getJsnWithMadeCr, getJsonWithRemovedCr, getNewCrNameProc, getValidJsn, isCrTypeHasValidName, isJsnObj, validateCrName } from './containerPckg/containerPckg';
+import Data from './dataModel';
 
 const validCrNameStart = { akf: true, grt: true, grd: true, tsc: true, bsc: true, hvr: true };
 
@@ -20,7 +21,7 @@ const Container = {
   * @return {JSON} jsn - with the required prop and the value.
   */
   setCrVal(json: any = null, crName = 'c0', valType = 'type', val: any = null, rwdMode = '') {
-    const jsn = json || Model.ob().data.getJsn();
+    const jsn = json || Data.getJsn();
     const pre = this.getLastCrNameInDest(crName).substring(0, 3);
     let mode = rwdMode !== '' ? `_rwd${rwdMode}` : rwdMode;
     mode = ((pre in validCrNameStart)) ? '' : mode; // pre == 'akf'  ||  pre == 'grt'  ||  pre == 'grd'  ||  pre == 'bsc'   ||  pre == 'tsc'
@@ -36,7 +37,7 @@ const Container = {
 
   mkCrAkf(crName = 'c0', mode = 'akf5000k0', akfTimelinePos = '0') { // valType='type', val='Containers', _akf5000k0
     const val = { cs: { akfTimelinePos } };
-    Model.ob().data.setJsnDirectly(jsnMrg(getCrLnkJsn(`${crName}_${mode}`, val), Model.ob().data.getJsn()));
+    Data.setJsnDirectly(jsnMrg(getCrLnkJsn(`${crName}_${mode}`, val), Data.getJsn()));
   },
 
   /* get Max Priority Container || Text Shadow Containers || Gradient Containers || '1' */
@@ -76,7 +77,7 @@ const Container = {
     const newName: string = <string>this.getNewCrNameS(crName, type);
     const priority = this.getAltCrMaxPriority(crName, type);
     const cr = { [newName]: { cs: { priority } } };
-    Model.ob().data.setJsnDirectly(jsnMrg(getCrLnkJsn(`${crName}`, cr), Model.ob().data.getJsn()));
+    Data.setJsnDirectly(jsnMrg(getCrLnkJsn(`${crName}`, cr), Data.getJsn()));
     return newName;
   },
 
@@ -88,7 +89,7 @@ const Container = {
     }
     const priority = this.getAltCrMaxPriority(crName, 'grd');
     const val = { cs: { priority } };
-    Model.ob().data.setJsnDirectly(jsnMrg(getCrLnkJsn(`${crName}_${newCrName}`, val), Model.ob().data.getJsn()));
+    Data.setJsnDirectly(jsnMrg(getCrLnkJsn(`${crName}_${newCrName}`, val), Data.getJsn()));
     return newCrName;
   },
 
@@ -122,7 +123,7 @@ const Container = {
     const crName = `${incomeArgCrName}_cs`;
     const cmnPropArr = this.getCrDestArrWithoutLastEl(crName);
     const depth = cmnPropArr.length - 1;
-    Model.ob().data.setJsnDirectly(getJsonWithRemovedCr(Model.ob().data.getJsn(), crName, cmnPropArr, depth));
+    Data.setJsnDirectly(getJsonWithRemovedCr(Data.getJsn(), crName, cmnPropArr, depth));
   },
 
   /**  Make Container as JSON construction: {cN:{cs:{priority}}} N - num of the container
@@ -133,12 +134,12 @@ const Container = {
     const crName = `${containerName}_cs`;
     const cmnPropArr = this.getCrDestArrWithoutLastEl(crName);
     const depth = cmnPropArr.length - 1;
-    const jsn = getJsnWithMadeCr(Model.ob().data.getJsn(), crName, newCrName, crType, cmnPropArr, depth, crOrItemMaxPriority);
-    Model.ob().data.setJsnDirectly(jsn);
+    const jsn = getJsnWithMadeCr(Data.getJsn(), crName, newCrName, crType, cmnPropArr, depth, crOrItemMaxPriority);
+    Data.setJsnDirectly(jsn);
   },
 
   getFirstCrName() {
-    const arr = getArrSortedByPriority(Model.ob().data.getJsn());
+    const arr = getArrSortedByPriority(Data.getJsn());
     return arr.length ? arr[0][0] : '';
   },
 
@@ -148,7 +149,7 @@ const Container = {
       const cmnPropArr = this.getCrDestArrWithoutLastEl(crName);
       const depth = cmnPropArr.length - 1;
 
-      return getNewCrNameProc(Model.ob().data.getJsn(), crName, crType, cmnPropArr, depth);
+      return getNewCrNameProc(Data.getJsn(), crName, crType, cmnPropArr, depth);
     }
     return '';
   },
@@ -172,7 +173,7 @@ const Container = {
 
   /** Retrieve Container's JSON Obj */
   getCrsJSN(crName = 'hdr', json = '') {
-    const jsn = json || Model.ob().data.getJsn();
+    const jsn = json || Data.getJsn();
     const cmnPropArr = this.getCrDestArrWithoutLastEl(`${crName}_cs`);
     return this.getCrJSN(jsn, cmnPropArr, cmnPropArr.length - 1);
   },
@@ -193,7 +194,7 @@ const Container = {
     // console.time('getCrType');
     // const ccName = crName.replace(/-/g, '_');
     // console.timeEnd('getCrType');
-    const jsn = json || Model.ob().data.getJsn(); // : json;
+    const jsn = json || Data.getJsn(); // : json;
     const cmnPropArr = this.getCrDestArrWithoutLastEl(`${crName.replace(/-/g, '_')}_cs`); // pre=='akf'  ||  pre=='grt' || pre=='grd'  || pre=='tsc' ||  pre == 'bsc'
     const pre = (cmnPropArr[cmnPropArr.length - 1]).substring(0, 3);
     let depth = ((pre in validCrNameStart) ? cmnPropArr.length - 2 : cmnPropArr.length - 1);

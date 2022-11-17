@@ -1,11 +1,13 @@
 import React from 'react';
+import Data from '../../../../models/dataPackage/dataModel';
 import Model from '../../../../models/model';
+import CssMaker from '../../../../models/styleSheetPackage/cssMakerModel';
 import State from '../../../../utils/state';
 import Thumb from './components/thumb/Thumb';
 
 const CollectionColor = ({crName, subCr}: {crName: string, subCr: string}) => {
-  const hex = Model.ob().data.getDataShort(crName, subCr);
-  const opacity = Model.ob().data.getDataShort(crName, `${subCr}Opacity`);
+  const hex = Data.getDataShort(crName, subCr);
+  const opacity = Data.getDataShort(crName, `${subCr}Opacity`);
   const palette = Model.ob().set.palettes || [];
   const stateCallback = (hex: string, opacity?: string) => {
     /**
@@ -19,7 +21,7 @@ const CollectionColor = ({crName, subCr}: {crName: string, subCr: string}) => {
     State.set(state);
 
     /* View UpdateProcess */
-    Model.ob().cssMaker.makeCSSRules(crName, subCr, hex);
+    CssMaker.makeCSSRules(crName, subCr, hex);
   }
   /* Color Component */
   return (

@@ -3,7 +3,8 @@ import './index.scss';
 import React, { useState } from 'react';
 import GradientComponent from './comps/gradientComponent';
 import ID from '../../../../core/id';
-import Model from '../../../../models/model';
+import Data from '../../../../models/dataPackage/dataModel';
+import Container from '../../../../models/dataPackage/containerModel';
 
 type priorityT = {cs: {priority: string}};
 
@@ -16,12 +17,12 @@ const GradientContainers = ({ crName, type }: { crName: string, type: string }) 
   const getPriority = ({cs: {priority}}: priorityT) => Number(priority);
 
   const onAdd = () => {
-    Model.ob().container.mkCrGrt(crName);
+    Container.mkCrGrt(crName);
     updateGradientContainer();
   }
 
   const liArray = Object
-    .entries(Model.ob().container.getCrsJSN(crName, Model.ob().data.getJsn()))
+    .entries(Container.getCrsJSN(crName, Data.getJsn()))
     .filter(([curCrName]) => curCrName.substring(0, 3) === 'grd')
     .sort(([, el1], [, el2]) => getPriority(el1 as priorityT) - getPriority(el2 as priorityT))
     .map(([grdCrName]) => <GradientComponent key={`key_${ID.new()}`} onAdd={onAdd} updateGradientContainer={updateGradientContainer} crName={crName} grdCrName={grdCrName} type={type} />);

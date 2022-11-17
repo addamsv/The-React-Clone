@@ -1,5 +1,4 @@
 import React from 'react';
-import Model from '../../models/model';
 import JFab from './JFab';
 import Select from './comps/select/Select';
 import Textarea from './comps/textarea/Textarea';
@@ -15,6 +14,7 @@ import CollectionColor from './comps/colorPickerPackage/CollectionColor';
 import GradientContainers from './comps/gradient/gradientContainers';
 import CollectionHover from './comps/collectionHover/CollectionHover';
 import AnimationKeyframesContainers from './comps/animationKeyframesContainers/AnimationKFCrs';
+import Container from '../../models/dataPackage/containerModel';
 
 type IJComponent = {
   container: string;
@@ -33,7 +33,7 @@ const JComponent = ({ container, crName = '', subCr = '', title = '', data }: IJ
     return null;
   }
 
-  const type =  data?.type || Model.ob().container.getCrType(crName);
+  const type =  data?.type || Container.getCrType(crName);
 
   const props = { route: container, container, crName, subCr, type, title, data };
 

@@ -1,3 +1,4 @@
+import Container from "../../../../../../models/dataPackage/containerModel";
 import Model from "../../../../../../models/model";
 
 const RootContainerSortModel = {
@@ -100,7 +101,7 @@ const isJsnObj = (obj: any): boolean => {
 const getOrderedJsn = (json: any, rootOnlyFlag = true): any => {
   const jsn = json;
   Object.keys(jsn).some((prop) => {
-    if (Model.ob().container.getCrNameWithoutNum(prop) === 'c') {
+    if (Container.getCrNameWithoutNum(prop) === 'c') {
       jsn[prop] = getOrderedArr(jsn[prop], getCrLength(jsn[prop]));
       if (isJsnObj(jsn[prop]) && !rootOnlyFlag) {
         jsn[prop] = getOrderedJsn(jsn[prop]);

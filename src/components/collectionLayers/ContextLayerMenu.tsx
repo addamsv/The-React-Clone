@@ -1,6 +1,8 @@
 import React from 'react';
 import DataManager from '../../core/dataManager';
+import Container from '../../models/dataPackage/containerModel';
 import Model from '../../models/model';
+import CssMaker from '../../models/styleSheetPackage/cssMakerModel';
 import Strings from '../../sets/lang/strings';
 import DialogBox from '../dialogBoxCollection/DialogBox';
 
@@ -17,7 +19,7 @@ const ContextLayerMenu = ({crName, updateMenu}: {crName: string, updateMenu: (cr
   }
 
   const getRequiredCrName = (crName: string): string => {
-    if ((Model.ob().container.getCrType(crName) === 'cntnr')) {
+    if ((Container.getCrType(crName) === 'cntnr')) {
       return crName;
     }
 
@@ -45,13 +47,13 @@ const ContextLayerMenu = ({crName, updateMenu}: {crName: string, updateMenu: (cr
             /* if item ? -> parentCrName */
             const requaredCrName = getRequiredCrName(crName);
 
-            const newCrName = Model.ob().container.getNewCrName(requaredCrName, type);
-            Model.ob().container.mkCr(requaredCrName, newCrName, cType);
+            const newCrName = Container.getNewCrName(requaredCrName, type);
+            Container.mkCr(requaredCrName, newCrName, cType);
 
             updateMenu();
 
             /* Upd CSS */
-            Model.ob().cssMaker.makeCSSRules(`${requaredCrName}_${newCrName}`);
+            CssMaker.makeCSSRules(`${requaredCrName}_${newCrName}`);
             const updateSceneAndFramePicker = DataManager.getOnSectionChangeFn();
             updateSceneAndFramePicker();
           }
@@ -79,7 +81,7 @@ const ContextLayerMenu = ({crName, updateMenu}: {crName: string, updateMenu: (cr
         return;
       }
 
-      // const selector = Model.ob().cssMaker.getCssClassName(crName);
+      // const selector = CssMaker.getCssClassName(crName);
       // document.querySelectorAll(selector)
       // .forEach(element => element.remove());
 
@@ -89,7 +91,7 @@ const ContextLayerMenu = ({crName, updateMenu}: {crName: string, updateMenu: (cr
       updateScene();
 
       Model.ob().styleSheetMdl.remAllRulesInCr(crName);
-      Model.ob().container.remCr(crName);
+      Container.remCr(crName);
       updateMenu();
     }
 

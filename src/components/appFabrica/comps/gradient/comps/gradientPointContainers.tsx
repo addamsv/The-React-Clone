@@ -3,6 +3,9 @@ import { hexToRgbJSN } from '../../colorPickerPackage/colorUtils'; // colorPicke
 import Model from '../../../../../models/model';
 import State from '../../../../../utils/state';
 import JFab from '../../../JFab';
+import CssMaker from '../../../../../models/styleSheetPackage/cssMakerModel';
+import Data from '../../../../../models/dataPackage/dataModel';
+import Container from '../../../../../models/dataPackage/containerModel';
 
 const GradientPointContainers = ({ crName, type, isOpen }: { isOpen: boolean, crName: string, type: string }) => {
   // const idToInsertColorMenu = `tglID_${ID.new()}`;
@@ -15,7 +18,7 @@ const GradientPointContainers = ({ crName, type, isOpen }: { isOpen: boolean, cr
   let opacity;
 
   let pos;
-  const jsnCr = Model.ob().container.getCrsJSN(crName);
+  const jsnCr = Container.getCrsJSN(crName);
   const grdArr: any = [];
   let ai = 0;
   let hold = [];
@@ -48,8 +51,8 @@ const GradientPointContainers = ({ crName, type, isOpen }: { isOpen: boolean, cr
   .some((grdLineC) => {
     if (grdArr[grdLineC].cs.grdLinePos) {
       pos = grdArr[grdLineC].cs.grdLinePos;
-      color = (grdArr[grdLineC].cs.backgroundColor) ? grdArr[grdLineC].cs.backgroundColor : Model.ob().data.getDefaultData(type, 'backgroundColor');
-      opacity = (grdArr[grdLineC].cs.backgroundColorOpacity) ? grdArr[grdLineC].cs.backgroundColorOpacity : Model.ob().data.getDefaultData(type, 'backgroundColorOpacity');
+      color = (grdArr[grdLineC].cs.backgroundColor) ? grdArr[grdLineC].cs.backgroundColor : Data.getDefaultData(type, 'backgroundColor');
+      opacity = (grdArr[grdLineC].cs.backgroundColorOpacity) ? grdArr[grdLineC].cs.backgroundColorOpacity : Data.getDefaultData(type, 'backgroundColorOpacity');
       const { red, grn, blu } = hexToRgbJSN(color);
       outDataGrd += `${grtDivider}rgba(${red}, ${grn}, ${blu}, ${opacity}) ${pos}%`;
     }
@@ -75,9 +78,9 @@ const GradientPointContainers = ({ crName, type, isOpen }: { isOpen: boolean, cr
     .keys(jsnCr)
     .map((c) => {
       if (c.substring(0, 3) === 'grt') {
-        pos = (jsnCr[c].cs.grdLinePos) ? jsnCr[c].cs.grdLinePos : Model.ob().data.getDefaultData(type, 'grdLinePos');
-        color = (jsnCr[c].cs.backgroundColor) ? jsnCr[c].cs.backgroundColor : Model.ob().data.getDefaultData(type, 'backgroundColor');
-        opacity = (jsnCr[c].cs.backgroundColorOpacity) ? jsnCr[c].cs.backgroundColorOpacity : Model.ob().data.getDefaultData(type, 'backgroundColorOpacity');
+        pos = (jsnCr[c].cs.grdLinePos) ? jsnCr[c].cs.grdLinePos : Data.getDefaultData(type, 'grdLinePos');
+        color = (jsnCr[c].cs.backgroundColor) ? jsnCr[c].cs.backgroundColor : Data.getDefaultData(type, 'backgroundColor');
+        opacity = (jsnCr[c].cs.backgroundColorOpacity) ? jsnCr[c].cs.backgroundColorOpacity : Data.getDefaultData(type, 'backgroundColorOpacity');
         const { red, grn, blu } = hexToRgbJSN(color);
 
         Model.ob().styleSheetMdl.addCSSRule(`.stop_color_bg_id_${crName}_${c}`, 'backgroundColor', `rgba(${red}, ${grn}, ${blu}, ${opacity})`);
@@ -107,7 +110,7 @@ const GradientPointContainers = ({ crName, type, isOpen }: { isOpen: boolean, cr
           /* View & State Update Process */
           const state = { crName: `${crName}_${c}`, props: {grdLinePos: position.toString()} };
           State.set(state);
-          Model.ob().cssMaker.makeCSSRules(`${crName}_${c}`, "grdLinePos", position.toString());
+          CssMaker.makeCSSRules(`${crName}_${c}`, "grdLinePos", position.toString());
         }
     
         const closeDragElement = () => {

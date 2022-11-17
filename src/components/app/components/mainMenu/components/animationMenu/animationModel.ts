@@ -1,5 +1,6 @@
 import { changeCSSClasses } from '../../../../../../utils/css';
 import Model from '../../../../../../models/model';
+import Data from '../../../../../../models/dataPackage/dataModel';
 
 const Animation = {
   intervalMSec: 0,
@@ -53,8 +54,8 @@ const Animation = {
   },
 
   getInterval: (ret = 'mSec'): number => {
-    const jsn = Model.ob().data.getJsn();
-    const intervalSec = Model.ob().data.getData(jsn, 'hdr', 'timeout', 'hdr');
+    const jsn = Data.getJsn();
+    const intervalSec = Data.getData(jsn, 'hdr', 'timeout', 'hdr');
     switch (ret) {
       case 'mSec':
         return (Number(intervalSec) * 1000);

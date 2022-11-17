@@ -3,6 +3,8 @@ import React from 'react';
 import Model from '../../../models/model';
 import Strings from '../../../sets/lang/strings';
 import DataManager from '../../../core/dataManager';
+import CssMaker from '../../../models/styleSheetPackage/cssMakerModel';
+import Container from '../../../models/dataPackage/containerModel';
 
 type menuValueT = {
   triggerID: string,
@@ -24,13 +26,13 @@ const AddLayerMenuButton = ({crName, updateMenu}: {crName: string, updateMenu: (
 
             const type = triggerID === 'add_cntnr_btn' ? 'c' : 'i';
 
-            const newCrName = Model.ob().container.getNewCrName(crName, type);
-            Model.ob().container.mkCr(crName, newCrName, cType);
+            const newCrName = Container.getNewCrName(crName, type);
+            Container.mkCr(crName, newCrName, cType);
 
             updateMenu();
 
             /* Upd CSS */
-            Model.ob().cssMaker.makeCSSRules(`${crName}_${newCrName}`);
+            CssMaker.makeCSSRules(`${crName}_${newCrName}`);
             const updateSceneAndFramePicker = DataManager.getOnSectionChangeFn();
             updateSceneAndFramePicker();
           }

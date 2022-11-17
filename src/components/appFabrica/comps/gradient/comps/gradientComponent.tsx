@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import DataManager from '../../../../../core/dataManager';
-import Model from '../../../../../models/model';
+import Container from '../../../../../models/dataPackage/containerModel';
+import CssMaker from '../../../../../models/styleSheetPackage/cssMakerModel';
 import Strings from '../../../../../sets/lang/strings';
 import DialogBox from '../../../../dialogBoxCollection/DialogBox';
 import JFab from '../../../JFab';
@@ -17,8 +18,8 @@ const GradientComponent = ({updateGradientContainer, crName, type, grdCrName, on
     const message = `${Strings.id('areYouSureYouWantToRemove')}the Color Point`;
 
     const callback = () => {
-      Model.ob().container.remCr(`${crName}_${grdCrName}`);
-      Model.ob().cssMaker.makeCSSRules(`${crName}_${grdCrName}`, 'priority');
+      Container.remCr(`${crName}_${grdCrName}`);
+      CssMaker.makeCSSRules(`${crName}_${grdCrName}`, 'priority');
       updateGradientContainer();
     }
 

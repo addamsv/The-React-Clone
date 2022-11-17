@@ -1,8 +1,8 @@
 import './index.scss';
 import React from 'react';
 import ID from '../../../../core/id';
-import Model from '../../../../models/model';
 import JFab from '../../JFab';
+import Container from '../../../../models/dataPackage/containerModel';
 
 const CollectionHover = ({ crName }: { crName: string, type: string }) => {
   const onAddBtn = () => {
@@ -10,7 +10,7 @@ const CollectionHover = ({ crName }: { crName: string, type: string }) => {
   }
 
   const hoverEventsListArr = Object
-  .keys(Model.ob().container.getCrsJSN(crName))
+  .keys(Container.getCrsJSN(crName))
   .filter((c) => c.substring(0, 3) === 'hvr')
   .map((c) => {
     const onRemEvent = () => {

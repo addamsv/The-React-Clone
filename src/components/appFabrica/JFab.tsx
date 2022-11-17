@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ID from '../../core/id';
+import Container from '../../models/dataPackage/containerModel';
 import Model from '../../models/model';
 import JComponent from './JComponent';
 
@@ -10,7 +11,7 @@ type IJFab = {
 }
 
 const JFab = ({ crName, route, type: JFabType }: IJFab) => {
-  const j = Model.ob().container.getCrsJSN(route, Model.ob().jData);
+  const j = Container.getCrsJSN(route, Model.ob().jData);
 
   const ins = Object
     .keys(j)
