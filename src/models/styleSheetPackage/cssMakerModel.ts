@@ -31,46 +31,236 @@ const hexToRgbJSN = (hex: string): { red: string, grn: string, blu: string } => 
   throw new Error('Incorrect RGB format');
 }
 
+const convertCrNameToCssCrName = (crName: string, divTypeToSplit = '_', divTypeToConvert = '-') => {
+  return divTypeToSplit === '_' ? crName.replace(/_/g, divTypeToConvert) : crName.replace(/-/g, divTypeToConvert);
+}
+
+const pxToEm = (pixel: number | string, crName = '', valType = ''): number => {
+  const px = Number(pixel);
+  if (! px) {
+    return 0;
+  }
+
+  if (valType === 'fontSize' || !crName) {
+    return px / 16;
+  }
+
+  const crFontSize = Number(Data.getDataShort(crName, 'fontSize'));
+  const occ = crFontSize / 16 || 1;
+  return px / (16 * occ);
+}
+
+const getCrDeepLvl = (crName: string) => {
+  const crSpl = crName.split('_');
+  return crSpl.length;
+}
+
+const getRemakeSceneFrameEv = (crName: string): CustomEvent => {
+  return new CustomEvent('remakeSceneFrameEv', { detail: { crName } });
+}
+
+const isCrRoot = (crName: string) => {
+  return crName.split('_').length <= 1;
+}
+
+const isCrScene = (crName: string) => {
+  return isCrRoot(crName);
+}
+
+const getRootCrName = (crName: string) => {
+  return (crName.split('_'))[0];
+}
+
+
+
+
+
+
+
+
+
+
+
+const getHoverCssAkfObj = () => true;
+
+const isCrHoverType = (crName: string) => {
+  const crNameSplitArr = crName.split('_');
+  const actualGrdInd = crNameSplitArr.length - 1;
+  return crNameSplitArr[actualGrdInd].substring(0, 3) === 'hvr';
+}
+
+const isCrHdrType = (crName: string) => {
+  const crNameSplitArr = crName.split('_');
+  const actualGrdInd = crNameSplitArr.length - 1;
+  return crNameSplitArr[actualGrdInd].substring(0, 3) === 'hdr';
+}
+
+const isCrAkfType = (crName: string) => {
+  const crNameSplitArr = crName.split('_');
+  const actualGrdInd = crNameSplitArr.length - 1;
+  return crNameSplitArr[actualGrdInd].substring(0, 3) === 'akf';
+}
+
+const getCertainPosCssAkfObj = (crName: string) => {
+  let keyframes: any = getKeyframesRule(`${getCssClassName(crName, false)}__keyframes`);
+  let l;
+  let pos;
+  if (keyframes) {
+    pos = `${Data.getDataShort(crName, 'akfTimelinePos')}%`;
+    l = keyframes.cssRules.length;
+    for (let i = 0; i < l; i += 1) {
+      if (keyframes[i].keyText === pos) {
+        keyframes = keyframes[i];
+        break;
+      }
+    }
+    return keyframes;
+  }
+  return false;
+}
+
+const rewriteAkfObj = (crName: string) => {
+  const cssClassName = getCssClassName(crName, false);
+  let duration;
+  let obItself;
+  let obResult;
+
+  const cssObj: any = getClassRule(`.${cssClassName}.animated`);
+  if (cssObj) {
+    obItself = document.getElementById(cssClassName);
+    changeCSSClass(obItself, 'animated', 'animate');
+    changeCSSClass(obItself, 'animate', 'animated');
+    obResult = parseFloat((<HTMLInputElement>document.getElementById('time')).value);
+
+    duration = cssObj.style.animationDuration;
+    duration = parseFloat(duration.replace('s', ''));
+    if (duration > obResult) {
+      cssObj.style.animationDelay = `-${obResult}s`;
+    } else {
+      cssObj.style.animationDelay = `-${duration}s`;
+    }
+
+    Animation.pause();
+  }
+}
+
+
+
+
+const getTransformCss = (crName: string, valType: string, value = '') => {
+  return TransformCss.component(Model.ob()).get({ crName, valType, value });
+}
+
+const getSortedCrByPriority = (jsnCr: any, crNamePrefix = 'grd') => {
+  const a: any = [];
+  let ai = 0;
+  let hold = [];
+  let lastCrName;
+
+  /* sort by grd-priority and add crName */
+
+  Object.keys(jsnCr).some((c) => {
+    lastCrName = Container.getLastCrNameInDest(c);
+    if (Container.getCrNameWithoutNum(lastCrName) === crNamePrefix) {
+      a[ai] = jsnCr[c];
+      a[ai].crName = c;
+      ai += 1;
+    }
+    return false;
+  });
+
+  for (let pass = 1; pass < ai; pass += 1) {
+    for (let i = 0; i < ai - 1; i += 1) {
+      if (Number(a[i].cs.priority) > Number(a[i + 1].cs.priority)) {
+        hold = a[i];
+        a[i] = a[i + 1];
+        a[i + 1] = hold;
+      }
+    }
+  }
+  return a;
+}
+
+const getSortedCrByGrdLinePos = (jsnCr: any) => {
+  const a: any = [];
+  let ai = 0;
+  let hold = [];
+
+  Object.keys(jsnCr).some((c) => {
+    if (c.substring(0, 3) === 'grt') {
+      a[ai] = jsnCr[c];
+      ai += 1;
+    }
+    return false;
+  });
+
+  for (let pass = 1; pass < ai; pass += 1) {
+    for (let i = 0; i < ai - 1; i += 1) {
+      if (Number(a[i].cs.grdLinePos) > Number(a[i + 1].cs.grdLinePos)) {
+        hold = a[i];
+        a[i] = a[i + 1];
+        a[i + 1] = hold;
+      }
+    }
+  }
+  return a;
+}
+
+const getCssClassName = (crName: string, isSelector = true) => {
+  const cmnPropArr = Container.getCrDestArrWithoutLastEl(`${crName}_cs`);
+  const pre = (cmnPropArr[cmnPropArr.length - 1]).substring(0, 3);
+  let depth = (pre === 'akf' || pre === 'grt' || pre === 'grd' || pre === 'tsc' || pre === 'bsc' || pre === 'hvr') ? cmnPropArr.length - 2 : cmnPropArr.length - 1;
+  const crAr = crName.split('_');
+  let strCr = '';
+
+  if ((cmnPropArr[cmnPropArr.length - 1]).substring(0, 3) === 'grt' && (cmnPropArr[cmnPropArr.length - 2]).substring(0, 3) === 'grd') {
+    depth = cmnPropArr.length - 3;
+  }
+
+  for (let i = 0; i <= depth; i += 1) {
+    strCr += `-${crAr[i]}`;
+  }
+
+  strCr = `h${Model.ob().getHID()}${strCr}-${Container.getCrType(crName)}`;
+
+  return ((isSelector ? '.' : '') + strCr);
+}
+
+
+
+const getPropCSSVal = (val: string, attr: string, crName = '', valType = '') => {
+  let out = val + attr;
+
+  switch (attr) {
+    case 'px':
+      out = `${pxToEm(Number(val), crName, valType)}em`;
+      break;
+    case 'em':
+      out = `${val}em`;
+      break;
+    case '':
+      out = val;
+      break;
+    default: break;
+  }
+  return out;
+}
+
+const getPropColorCSSVal = (crName: string, valType: string, actualValType = '', value = '') => {
+  const hexColor = (valType === actualValType && value !== 'none' ? value : Data.getDataShort(crName, valType));
+  const opacity = (`${valType}Opacity` === actualValType && value !== 'none' ? value : Data.getDataShort(crName, `${valType}Opacity`));
+
+  if (opacity === '1') {
+    return hexColor;
+  }
+
+  const { red, grn, blu } = hexToRgbJSN(hexColor);
+
+  return `rgba( ${red}, ${grn}, ${blu}, ${opacity} )`;
+}
+
+
 const CssMaker = {
-  getRootCrName(crName: string) {
-    return (crName.split('_'))[0];
-  },
-
-  convertCrNameToCssCrName(crName: string, divTypeToSplit = '_', divTypeToConvert = '-') {
-    return divTypeToSplit === '_' ? crName.replace(/_/g, divTypeToConvert) : crName.replace(/-/g, divTypeToConvert);
-  },
-
-  pxToEm(pixel: number | string, crName = '', valType = ''): number {
-    const px = Number(pixel);
-    if (! px) {
-      return 0;
-    }
-
-    if (valType === 'fontSize' || !crName) {
-      return px / 16;
-    }
-
-    const crFontSize = Number(Data.getDataShort(crName, 'fontSize'));
-    const occ = crFontSize / 16 || 1;
-    return px / (16 * occ);
-  },
-
-  getCrDeepLvl(crName: string) {
-    const crSpl = crName.split('_');
-    return crSpl.length;
-  },
-
-  getRemakeSceneFrameEv(crName: string): CustomEvent {
-    return new CustomEvent('remakeSceneFrameEv', { detail: { crName } });
-  },
-
-  isCrRoot(crName: string) {
-    return crName.split('_').length <= 1;
-  },
-
-  isCrScene(crName: string) {
-    return this.isCrRoot(crName);
-  },
 
   /**
   *
@@ -91,18 +281,18 @@ const CssMaker = {
   getDefaultBoxCSS(crName: string) {
     const out = `${''
     + ' '}${this.widthLeftCssProp(crName)} ${this.heightTopCssProp(crName)
-    } background-color: ${this.getPropColorCSSVal(crName, 'backgroundColor')};`
-    + ` padding-top: ${this.pxToEm(Data.getDataShort(crName, 'paddingTop'), crName)}em;`
+    } background-color: ${getPropColorCSSVal(crName, 'backgroundColor')};`
+    + ` padding-top: ${pxToEm(Data.getDataShort(crName, 'paddingTop'), crName)}em;`
     + ` padding-bottom: ${Data.getDataShort(crName, 'paddingBottom')}em;`
     + ` border: ${this.getBorder(crName, 'border')};`
     + ` border-radius: ${Data.getDataShort(crName, 'borderRadius')};`
     + ` box-shadow: ${this.getPropLRTBBlCSSVal(crName, 'boxShadow')};`;
     // " box-shadow: "+Data.getDataShort(crName, 'boxShadowPosition')+" "+
-    // this.pxToEm(Data.getDataShort(crName, 'boxShadowLR'),crName)+"em "+
-    // this.pxToEm(Data.getDataShort(crName, 'boxShadowTB'),crName)+"em "+
-    // this.pxToEm(Data.getDataShort(crName, 'boxShadowBlur'),crName)+"em "+
-    // this.pxToEm(Data.getDataShort(crName, 'boxShadowSpread'),crName)+"em "+
-    // this.getPropColorCSSVal(crName,'boxShadowColor')+";"+
+    // pxToEm(Data.getDataShort(crName, 'boxShadowLR'),crName)+"em "+
+    // pxToEm(Data.getDataShort(crName, 'boxShadowTB'),crName)+"em "+
+    // pxToEm(Data.getDataShort(crName, 'boxShadowBlur'),crName)+"em "+
+    // pxToEm(Data.getDataShort(crName, 'boxShadowSpread'),crName)+"em "+
+    // getPropColorCSSVal(crName,'boxShadowColor')+";"+
     // Data.getDataShort(crName, 'boxShadowColor')textShadowPosition
     // '';
     return out;
@@ -116,7 +306,7 @@ const CssMaker = {
         // var
         //   crSpl = crName.split("_"),
         //   this.isCrScene = ( crSpl.length > 1 ? false : true );
-        if (this.isCrRoot(crName)) { // this.isCrScene==true
+        if (isCrRoot(crName)) { // this.isCrScene==true
           /* Cr is a Scene */
           return ' width: 100%;'
               + ' height: 100%;'
@@ -129,12 +319,12 @@ const CssMaker = {
         }
         return this.getDefaultBoxCSS(crName);
         // "left: calc( 50%"+left+" );
-        // width:"+this.pxToEm(width,crName)+"em;
-        // height: "+this.pxToEm(height,crName)+"em;
+        // width:"+pxToEm(width,crName)+"em;
+        // height: "+pxToEm(height,crName)+"em;
         // top: calc( 50%"+top+");";
       case ('stdWrp'):
         return `${''
-          + ' background-color: '}${this.getPropColorCSSVal(crName, 'backgroundColor')};`;
+          + ' background-color: '}${getPropColorCSSVal(crName, 'backgroundColor')};`;
         // " height: "+Data.getDataShort( crName, 'elHeight')+"em;";
 
         // .std-section{
@@ -164,112 +354,42 @@ const CssMaker = {
       case ('form'):
 
         return `${''
-          + ' background-color: '}${this.getPropColorCSSVal(crName, 'backgroundColor')};`;
+          + ' background-color: '}${getPropColorCSSVal(crName, 'backgroundColor')};`;
       case ('video'):
         return `${''
-          + ' background-color: '}${this.getPropColorCSSVal(crName, 'backgroundColor')};`
-          + ` height: ${this.pxToEm(Data.getDataShort(crName, 'elHeight'))}em;`
-          + ` width: ${this.pxToEm(Data.getDataShort(crName, 'elWidth'))}em;${
+          + ' background-color: '}${getPropColorCSSVal(crName, 'backgroundColor')};`
+          + ` height: ${pxToEm(Data.getDataShort(crName, 'elHeight'))}em;`
+          + ` width: ${pxToEm(Data.getDataShort(crName, 'elWidth'))}em;${
             this.getDefaultBoxCSS(crName)}`;
       case ('mainSlug'):
       case ('subSlug'):
       case ('btnData'):
         return `${''
           + ' font-family: '}${Data.getDataShort(crName, 'fontFamily')};`
-          + ` font-size: ${this.pxToEm(Data.getDataShort(crName, 'fontSize'))}em;`
+          + ` font-size: ${pxToEm(Data.getDataShort(crName, 'fontSize'))}em;`
           + ` text-shadow: ${this.getPropLRTBBlCSSVal(crName, 'textShadow')};`
           + ` text-transform: ${Data.getDataShort(crName, 'textTransform')};`
           + ` line-height: ${Data.getDataShort(crName, 'lineHeight')}em;`
           + ` word-spacing: ${Data.getDataShort(crName, 'wordSpacing')}em;`
           + ` letter-spacing: ${Data.getDataShort(crName, 'letterSpacing')}em;`
           + ` text-align: ${Data.getDataShort(crName, 'textAlign')};`
-          + ` color: ${this.getPropColorCSSVal(crName, 'color')};${
+          + ` color: ${getPropColorCSSVal(crName, 'color')};${
             this.getDefaultBoxCSS(crName)}`;
       default:
         return this.getDefaultBoxCSS(crName);
     }
   },
 
-  getHoverCssAkfObj() {
-    return true
-  },
-
-  isCrHoverType(crName: string) {
-    const crNameSplitArr = crName.split('_');
-    const actualGrdInd = crNameSplitArr.length - 1;
-    return crNameSplitArr[actualGrdInd].substring(0, 3) === 'hvr';
-  },
-
-  isCrHdrType(crName: string) {
-    const crNameSplitArr = crName.split('_');
-    const actualGrdInd = crNameSplitArr.length - 1;
-    return crNameSplitArr[actualGrdInd].substring(0, 3) === 'hdr';
-  },
-
-  isCrAkfType(crName: string) {
-    const crNameSplitArr = crName.split('_');
-    const actualGrdInd = crNameSplitArr.length - 1;
-    return crNameSplitArr[actualGrdInd].substring(0, 3) === 'akf';
-  },
-
-  getCertainPosCssAkfObj(crName: string) {
-    let keyframes: any = getKeyframesRule(`${this.getCssClassName(crName, false)}__keyframes`);
-    let l;
-    let pos;
-    if (keyframes) {
-      pos = `${Data.getDataShort(crName, 'akfTimelinePos')}%`;
-      l = keyframes.cssRules.length;
-      for (let i = 0; i < l; i += 1) {
-        if (keyframes[i].keyText === pos) {
-          keyframes = keyframes[i];
-          break;
-        }
-      }
-      return keyframes;
-    }
-    return false;
-  },
-
-  rewriteAkfObj(crName: string) {
-    const cssClassName = this.getCssClassName(crName, false);
-    let duration;
-    let obItself;
-    let obResult;
-
-    const cssObj: any = getClassRule(`.${cssClassName}.animated`);
-    if (cssObj) {
-      obItself = document.getElementById(cssClassName);
-      changeCSSClass(obItself, 'animated', 'animate');
-      changeCSSClass(obItself, 'animate', 'animated');
-      obResult = parseFloat((<HTMLInputElement>document.getElementById('time')).value);
-
-      duration = cssObj.style.animationDuration;
-      duration = parseFloat(duration.replace('s', ''));
-      if (duration > obResult) {
-        cssObj.style.animationDelay = `-${obResult}s`;
-      } else {
-        cssObj.style.animationDelay = `-${duration}s`;
-      }
-
-      Animation.pause();
-    }
-  },
-
   makeCSSRules(crName: string, originalArgValType = '', value = '', oldVal = '') {
     if (originalArgValType === 'fontSize') {
-      this.makeCSSRules(crName, 'elToFSize');
-      this.makeCSSRules(crName, 'elPosXFSize');
-      this.makeCSSRules(crName, 'elPosYFSize');
-      this.makeCSSRules(crName, 'borderWeightFSize');
-      this.makeCSSRules(crName, 'borderTopWeightFSize');
-      this.makeCSSRules(crName, 'borderRightWeightFSize');
-      this.makeCSSRules(crName, 'borderBottomWeightFSize');
-      this.makeCSSRules(crName, 'borderLeftWeightFSize');
-      this.makeCSSRules(crName, 'textShadowPositionFSize');
-      this.makeCSSRules(crName, 'boxShadowPositionFSize');
+      const toChangeArr = ['elToFSize', 'elPosXFSize', 'elPosYFSize', 'borderWeightFSize',
+        'borderTopWeightFSize', 'borderRightWeightFSize', 'borderBottomWeightFSize', 'borderLeftWeightFSize',
+        'textShadowPositionFSize', 'boxShadowPositionFSize']; // 'borderTopRightRadius'
+
+      toChangeArr.forEach((el) => this.makeCSSRules(crName, el));
     }
 
-    if (this.isCrHdrType(crName)) {
+    if (isCrHdrType(crName)) {
       if (originalArgValType === 'heightPercent') {
         const cssObj: any = getClassRule('.scale-100-percent');
         if (!cssObj) {
@@ -287,7 +407,7 @@ const CssMaker = {
     }
 
     let valType = originalArgValType;
-    const cssClassName = this.getCssClassName(crName);
+    const cssClassName = getCssClassName(crName);
     let cssObj: any = getClassRule(cssClassName);
     // const cssVal = '';
     // const cssPairs = '';
@@ -295,14 +415,14 @@ const CssMaker = {
     // let hoverFlag = false;
     let akFlag = false;
 
-    if (this.isCrHoverType(crName)) {
+    if (isCrHoverType(crName)) {
       // cssObj = this.getHoverCssAkfObj(crName);
       // hoverFlag = true;
       return;
     }
 
-    if (this.isCrAkfType(crName)) {
-      cssObj = this.getCertainPosCssAkfObj(crName);
+    if (isCrAkfType(crName)) {
+      cssObj = getCertainPosCssAkfObj(crName);
       akFlag = true;
     }
 
@@ -340,7 +460,7 @@ const CssMaker = {
 
     switch (valType) {
       case ('content'): {
-        const elID = this.getCssClassName(crName, false);
+        const elID = getCssClassName(crName, false);
         DOM.eraseEl(elID);
         const elIn = DOM.element(elID);
         if (elIn) {
@@ -367,7 +487,7 @@ const CssMaker = {
       case 'animationDuration':
         cssObj = getClassRule(`${cssClassName}.animated`);
         cssObj.style.animationDuration = `${value}s`;
-        this.rewriteAkfObj(crName);
+        rewriteAkfObj(crName);
         return;
 
       case 'iterationCount':
@@ -382,7 +502,7 @@ const CssMaker = {
 
       case 'akfTimelinePos': {
         const oldValue = `${oldVal}%`;
-        const keyframes: any = getKeyframesRule(`${this.getCssClassName(crName, false)}__keyframes`);
+        const keyframes: any = getKeyframesRule(`${getCssClassName(crName, false)}__keyframes`);
         for (let i = 0, l = keyframes.cssRules.length; i < l; i += 1) {
           if (keyframes[i].keyText === oldValue) {
             keyframes[i].keyText = `${value}%`;
@@ -394,7 +514,7 @@ const CssMaker = {
 
       case 'priority':
         /* priority for blocks */
-        document.dispatchEvent(this.getRemakeSceneFrameEv(this.getRootCrName(crName)));
+        document.dispatchEvent(getRemakeSceneFrameEv(getRootCrName(crName)));
         // this.remakeSceneFrame(this.getRootCrName(crName));
         return;
 
@@ -434,9 +554,9 @@ const CssMaker = {
         cssObj.style.perspectiveOrigin = `${(valType === 'perspectiveOriginX' ? value : Data.getDataShort(crName, 'perspectiveOriginX')) + Model.ob().set.cssNames.perspectiveOriginAttr} ${valType === 'perspectiveOriginY' ? value : Data.getDataShort(crName, 'perspectiveOriginY')}${Model.ob().set.cssNames.perspectiveOriginAttr}`;
         // console.log('perspectiveOrigin: ' + cssObj.style.perspectiveOrigin);
 
-        cssObj.style.transform = this.getTransformCss(crName, valType, value);
+        cssObj.style.transform = getTransformCss(crName, valType, value);
         if (akFlag) {
-          this.rewriteAkfObj(crName);
+          rewriteAkfObj(crName);
         }
         return;
 
@@ -452,16 +572,16 @@ const CssMaker = {
       case 'translateZ':
       case 'translateX':
       case 'translateY':
-        cssObj.style.transform = this.getTransformCss(crName, valType, value);
+        cssObj.style.transform = getTransformCss(crName, valType, value);
         // console.log(cssObj.style.transform);
         if (akFlag) {
           // const keyframes = this
           //   .mdl
           //   .styleSheetMdl
-          //   .getKeyframesRule(`${this.getCssClassName(crName, false)}__keyframes`) as any;
+          //   .getKeyframesRule(`${getCssClassName(crName, false)}__keyframes`) as any;
           // console.log(keyframes);
-          // console.log('transform...'+this.getTransformCss(crName,valType,value));
-          this.rewriteAkfObj(crName);
+          // console.log('transform...'+getTransformCss(crName,valType,value));
+          rewriteAkfObj(crName);
         }
         return;
 
@@ -487,7 +607,7 @@ const CssMaker = {
       case 'borderType':
       case 'borderColor':
       case 'borderColorOpacity':
-        this.getBorder(crName, 'border', valType, '', value, cssObj);// +' '+this.getPropColorCSSVal(crName,'borderColor',valType,value);
+        this.getBorder(crName, 'border', valType, '', value, cssObj);// +' '+getPropColorCSSVal(crName,'borderColor',valType,value);
         // console.log(cssObj.style);
         return;
 
@@ -496,7 +616,7 @@ const CssMaker = {
       case 'borderTopType':
       case 'borderTopColor':
       case 'borderTopColorOpacity':
-        this.getBorder(crName, 'border', valType, 'Top', value, cssObj);// +' '+this.getPropColorCSSVal(crName,'borderColor',valType,value);
+        this.getBorder(crName, 'border', valType, 'Top', value, cssObj);// +' '+getPropColorCSSVal(crName,'borderColor',valType,value);
         return;// cssObj.style.borderTop =
 
       case 'borderRightWeightFSize':
@@ -504,7 +624,7 @@ const CssMaker = {
       case 'borderRightType':
       case 'borderRightColor':
       case 'borderRightColorOpacity':
-        this.getBorder(crName, 'border', valType, 'Right', value, cssObj);// +' '+this.getPropColorCSSVal(crName,'borderColor',valType,value);
+        this.getBorder(crName, 'border', valType, 'Right', value, cssObj);// +' '+getPropColorCSSVal(crName,'borderColor',valType,value);
         return;// cssObj.style.borderRight =
 
       case 'borderBottomWeightFSize':
@@ -512,7 +632,7 @@ const CssMaker = {
       case 'borderBottomType':
       case 'borderBottomColor':
       case 'borderBottomColorOpacity':
-        this.getBorder(crName, 'border', valType, 'Bottom', value, cssObj);// +' '+this.getPropColorCSSVal(crName,'borderColor',valType,value);
+        this.getBorder(crName, 'border', valType, 'Bottom', value, cssObj);// +' '+getPropColorCSSVal(crName,'borderColor',valType,value);
         return;// cssObj.style.borderBottom =
 
       case 'borderLeftWeightFSize':
@@ -520,12 +640,12 @@ const CssMaker = {
       case 'borderLeftType':
       case 'borderLeftColor':
       case 'borderLeftColorOpacity':
-        cssObj.style.borderLeft = this.getBorder(crName, 'border', valType, 'Left', value, cssObj);// +' '+this.getPropColorCSSVal(crName,'borderColor',valType,value);
-        return;
+        this.getBorder(crName, 'border', valType, 'Left', value, cssObj);// +' '+getPropColorCSSVal(crName,'borderColor',valType,value);
+        return; // cssObj.style.borderLeft = 
 
       case 'color':
       case 'colorOpacity':
-        cssObj.style.color = this.getPropColorCSSVal(crName, 'color', valType, value);
+        cssObj.style.color = getPropColorCSSVal(crName, 'color', valType, value);
         return;
 
       case 'textShadowPositionFSize':
@@ -537,7 +657,7 @@ const CssMaker = {
       case 'textShadowSpread':
       case 'textShadowColor':
       case 'textShadowColorOpacity':
-        cssObj.style.textShadow = this.getPropLRTBBlCSSVal(crName, 'textShadow', valType, value);// +" "+this.getPropColorCSSVal(crName,'textShadowColor',valType,value);
+        cssObj.style.textShadow = this.getPropLRTBBlCSSVal(crName, 'textShadow', valType, value);// +" "+getPropColorCSSVal(crName,'textShadowColor',valType,value);
         return;
 
       case 'boxShadowPositionFSize':
@@ -549,12 +669,12 @@ const CssMaker = {
       case 'boxShadowSpread':
       case 'boxShadowColor':
       case 'boxShadowColorOpacity':
-        cssObj.style.boxShadow = this.getPropLRTBBlCSSVal(crName, 'boxShadow', valType, value);// +" "+this.getPropColorCSSVal(crName,'boxShadowColor',valType,value);
+        cssObj.style.boxShadow = this.getPropLRTBBlCSSVal(crName, 'boxShadow', valType, value);// +" "+getPropColorCSSVal(crName,'boxShadowColor',valType,value);
         return;
 
       case 'backgroundColor':
       case 'backgroundColorOpacity':
-        cssObj.style.backgroundColor = this.getPropColorCSSVal(crName, 'backgroundColor', valType, value);
+        cssObj.style.backgroundColor = getPropColorCSSVal(crName, 'backgroundColor', valType, value);
         return;
 
       case 'backgroundImage':
@@ -570,15 +690,16 @@ const CssMaker = {
         if (valType === 'grtbackgroundColor' || valType === 'grtbackgroundColorOpacity') {
           const elt = document.getElementById(`stop_color_bg_id_${crName}`);
           if (elt) {
-            addCSSRule(`.${elt.getAttribute('data-stp-clrbg-slctr')}`, 'backgroundColor', this.getPropColorCSSVal(crName, 'backgroundColor', (valType === 'grtbackgroundColor' ? 'backgroundColor' : 'backgroundColorOpacity'), value));
+            addCSSRule(`.${elt.getAttribute('data-stp-clrbg-slctr')}`, 'backgroundColor', getPropColorCSSVal(crName, 'backgroundColor', (valType === 'grtbackgroundColor' ? 'backgroundColor' : 'backgroundColorOpacity'), value));
           }
         }
         return;
 
       default:
-        cssObj.style[valType] = this.getPropCSSVal(value, Model.ob().set.cssNames[`${valType}Attr`], crName, valType);
+        // console.log(originalArgValType);
+        cssObj.style[valType] = getPropCSSVal(value, Model.ob().set.cssNames[`${valType}Attr`], crName, valType);
         if (akFlag) {
-          this.rewriteAkfObj(crName);
+          rewriteAkfObj(crName);
         }
     }
 
@@ -596,13 +717,13 @@ const CssMaker = {
     const jsnCr = Container.getCrsJSN(mainCrName);
     let isValue;
     let tempOut = '';
-    const a = this.getSortedCrByPriority(jsnCr, lastCrNamePrefix);
+    const a = getSortedCrByPriority(jsnCr, lastCrNamePrefix);
 
     Object
       .keys(a)
       .some((c) => {
         isValue = (crNameSplitArr[actualGrdInd] === a[c].crName ? value : 'none');
-        tempOut += `${div + this.getCertainShadow(`${mainCrName}_${a[c].crName}`, valType, actualValType, isValue)} ${this.getPropColorCSSVal(`${mainCrName}_${a[c].crName}`, `${valType}Color`, valType, isValue)}`;
+        tempOut += `${div + this.getCertainShadow(`${mainCrName}_${a[c].crName}`, valType, actualValType, isValue)} ${getPropColorCSSVal(`${mainCrName}_${a[c].crName}`, `${valType}Color`, valType, isValue)}`;
         div = ', ';
         return false;
       });
@@ -649,29 +770,29 @@ const CssMaker = {
           case 'left':
             to = '0';
             xShift = parseInt((valType === 'elPosX' ? value : Data.getDataShort(crName, 'elPosX')), 10); // xShift = elPosX;
-            left = (xShift > 0 ? ` + ${this.pxToEm(xShift, crName)}em` : ` - ${this.pxToEm(xShift / (-1), crName)}em`);
+            left = (xShift > 0 ? ` + ${pxToEm(xShift, crName)}em` : ` - ${pxToEm(xShift / (-1), crName)}em`);
             break;
           case 'right':
             to = '100';
             elPosX = parseInt((valType === 'elPosX' ? value : Data.getDataShort(crName, 'elPosX')), 10);
             xShift = elPosX - (width + borderWeight);// +padding_x+margin_x
-            left = (xShift > 0 ? ` + ${this.pxToEm(xShift, crName)}em` : ` - ${this.pxToEm(xShift / (-1), crName)}em`);
+            left = (xShift > 0 ? ` + ${pxToEm(xShift, crName)}em` : ` - ${pxToEm(xShift / (-1), crName)}em`);
             break;
           default:
             to = '50';
             elPosX = parseInt(valType === 'elPosX' ? value : Data.getDataShort(crName, 'elPosX'), 10);
             xShift = elPosX - (width) / 2;
-            left = (xShift > 0 ? ` + ${this.pxToEm(xShift, crName)}em` : ` - ${this.pxToEm(xShift / (-1), crName)}em`);
+            left = (xShift > 0 ? ` + ${pxToEm(xShift, crName)}em` : ` - ${pxToEm(xShift / (-1), crName)}em`);
             break;
         }
 
-        // cssObj = getClassRule(this.getCssClassName(crName));
+        // cssObj = getClassRule(getCssClassName(crName));
         if (cssObj) {
-          cssObj.style.width = `${this.pxToEm(width, crName)}em`;
+          cssObj.style.width = `${pxToEm(width, crName)}em`;
           cssObj.style.left = `calc( ${to}%${left} )`;
         }
 
-        out += `width: ${this.pxToEm(width, crName)}em; left: calc( ${to}%${left} );`;
+        out += `width: ${pxToEm(width, crName)}em; left: calc( ${to}%${left} );`;
         break;
       }
     }
@@ -706,26 +827,26 @@ const CssMaker = {
           case 'top':
             to = '0';
             yShift = (parseInt((valType === 'elPosY' ? value : Data.getDataShort(crName, 'elPosY')), 10) / (-1));// Data.getDataShort(crName, 'elPosY')
-            top = (yShift > 0 ? ` + ${this.pxToEm(yShift, crName)}em` : ` - ${this.pxToEm(yShift / (-1), crName)}em`);
+            top = (yShift > 0 ? ` + ${pxToEm(yShift, crName)}em` : ` - ${pxToEm(yShift / (-1), crName)}em`);
             break;
           case 'bottom':
             to = '100';
             yShift = (parseInt((valType === 'elPosY' ? value : Data.getDataShort(crName, 'elPosY')), 10) / (-1)) - height;// Data.getDataShort(crName, 'elPosY')
-            top = (yShift > 0 ? ` + ${this.pxToEm(yShift, crName)}em` : ` - ${this.pxToEm(yShift / (-1), crName)}em`);
+            top = (yShift > 0 ? ` + ${pxToEm(yShift, crName)}em` : ` - ${pxToEm(yShift / (-1), crName)}em`);
             break;
           default:
             to = '50';
             yShift = (parseInt((valType === 'elPosY' ? value : Data.getDataShort(crName, 'elPosY')), 10) / (-1)) - height / 2;// Data.getDataShort(crName, 'elPosY')
-            top = (yShift > 0 ? ` + ${this.pxToEm(yShift, crName)}em` : ` - ${this.pxToEm(yShift / (-1), crName)}em`);
+            top = (yShift > 0 ? ` + ${pxToEm(yShift, crName)}em` : ` - ${pxToEm(yShift / (-1), crName)}em`);
             break;
         }
 
         if (cssObj) {
-          cssObj.style.height = `${this.pxToEm(height, crName)}em`;
+          cssObj.style.height = `${pxToEm(height, crName)}em`;
           cssObj.style.top = `calc( ${to}%${top} )`;
         }
 
-        out += `height: ${this.pxToEm(height, crName)}em; top: calc( ${to}%${top} );`;
+        out += `height: ${pxToEm(height, crName)}em; top: calc( ${to}%${top} );`;
         break;
       }
     }
@@ -744,10 +865,10 @@ const CssMaker = {
       }
     }
     return `${bsp// (valType=='boxShadow'  ?   ( valType+'Position' == actualValType  && value!='none' ? value+' ' : Data.getDataShort( crName, valType+'Position' )+' ' )  :   '')+
-        + this.pxToEm((`${valType}LR` === actualValType && value !== 'none' ? value : Data.getDataShort(crName, `${valType}LR`)), crName)}em ${
-      this.pxToEm((`${valType}TB` === actualValType && value !== 'none' ? value : Data.getDataShort(crName, `${valType}TB`)), crName)}em ${
-      this.pxToEm((`${valType}Blur` === actualValType && value !== 'none' ? value : Data.getDataShort(crName, `${valType}Blur`)), crName)}em${
-      valType === 'boxShadow' ? ` ${this.pxToEm((`${valType}Spread` === actualValType && value !== 'none' ? value : Data.getDataShort(crName, `${valType}Spread`)), crName)}em` : ''}`;
+        + pxToEm((`${valType}LR` === actualValType && value !== 'none' ? value : Data.getDataShort(crName, `${valType}LR`)), crName)}em ${
+      pxToEm((`${valType}TB` === actualValType && value !== 'none' ? value : Data.getDataShort(crName, `${valType}TB`)), crName)}em ${
+      pxToEm((`${valType}Blur` === actualValType && value !== 'none' ? value : Data.getDataShort(crName, `${valType}Blur`)), crName)}em${
+      valType === 'boxShadow' ? ` ${pxToEm((`${valType}Spread` === actualValType && value !== 'none' ? value : Data.getDataShort(crName, `${valType}Spread`)), crName)}em` : ''}`;
   },
 
   // eslint-disable-next-line max-len
@@ -778,7 +899,7 @@ const CssMaker = {
     let div = '';
     const jsnCr = Container.getCrsJSN(mainCrName);
     let el;
-    const a = this.getSortedCrByPriority(jsnCr);
+    const a = getSortedCrByPriority(jsnCr);
 
     Object
     .keys(a)
@@ -836,7 +957,7 @@ const CssMaker = {
     let opacity;
     let pos;
     const jsnCr = Container.getCrsJSN(grdCrName);
-    const a = this.getSortedCrByGrdLinePos(jsnCr);
+    const a = getSortedCrByGrdLinePos(jsnCr);
     const gradientType = (valType === 'gradientType' && value !== 'none' ? value : Data.getDataShort(grdCrName, 'gradientType'));
     const gradientPosX = (valType === 'gradientPosX' && value !== 'none' ? value : Data.getDataShort(grdCrName, 'gradientPosX'));
     const gradientPosY = (valType === 'gradientPosY' && value !== 'none' ? value : Data.getDataShort(grdCrName, 'gradientPosY'));
@@ -882,8 +1003,8 @@ const CssMaker = {
     // this.getBorder(crName,'border',valType,'Left',value,cssObj);
     const cssObj = inArgCssObj as any;
     const borderType = (actualValType === `${valType}Type` ? value : Data.getDataShort(crName, `${valType}Type`));
-    const borderWeight = this.pxToEm((actualValType === `${valType + topRightBottomLeft}Weight` ? value : Data.getDataShort(crName, `${valType + topRightBottomLeft}Weight`)), crName) + Model.ob().set.cssNames[`${valType}WeightAttr`];
-    const borderColor = this.getPropColorCSSVal(crName, 'borderColor', actualValType, value);
+    const borderWeight = pxToEm((actualValType === `${valType + topRightBottomLeft}Weight` ? value : Data.getDataShort(crName, `${valType + topRightBottomLeft}Weight`)), crName) + Model.ob().set.cssNames[`${valType}WeightAttr`];
+    const borderColor = getPropColorCSSVal(crName, 'borderColor', actualValType, value);
     if (cssObj !== '') {
       cssObj.style[valType + topRightBottomLeft] = `${borderWeight} ${borderType} ${borderColor}`;
       return null;
@@ -906,88 +1027,10 @@ const CssMaker = {
     + `sepia(${valType === 'sepia' ? value : Data.getDataShort(crName, 'sepia')}${Model.ob().set.cssNames.sepiaAttr}) `;
   },
 
-  getTransformCss(crName: string, valType: string, value = '') {
-    return TransformCss.component(Model.ob()).get({ crName, valType, value });
-  },
-
-  getSortedCrByPriority(jsnCr: any, crNamePrefix = 'grd') {
-    const a: any = [];
-    let ai = 0;
-    let hold = [];
-    let lastCrName;
-
-    /* sort by grd-priority and add crName */
-
-    Object.keys(jsnCr).some((c) => {
-      lastCrName = Container.getLastCrNameInDest(c);
-      if (Container.getCrNameWithoutNum(lastCrName) === crNamePrefix) {
-        a[ai] = jsnCr[c];
-        a[ai].crName = c;
-        ai += 1;
-      }
-      return false;
-    });
-
-    for (let pass = 1; pass < ai; pass += 1) {
-      for (let i = 0; i < ai - 1; i += 1) {
-        if (Number(a[i].cs.priority) > Number(a[i + 1].cs.priority)) {
-          hold = a[i];
-          a[i] = a[i + 1];
-          a[i + 1] = hold;
-        }
-      }
-    }
-    return a;
-  },
-
-  getSortedCrByGrdLinePos(jsnCr: any) {
-    const a: any = [];
-    let ai = 0;
-    let hold = [];
-
-    Object.keys(jsnCr).some((c) => {
-      if (c.substring(0, 3) === 'grt') {
-        a[ai] = jsnCr[c];
-        ai += 1;
-      }
-      return false;
-    });
-
-    for (let pass = 1; pass < ai; pass += 1) {
-      for (let i = 0; i < ai - 1; i += 1) {
-        if (Number(a[i].cs.grdLinePos) > Number(a[i + 1].cs.grdLinePos)) {
-          hold = a[i];
-          a[i] = a[i + 1];
-          a[i + 1] = hold;
-        }
-      }
-    }
-    return a;
-  },
-
-  getCssClassName(crName: string, isSelector = true) {
-    const cmnPropArr = Container.getCrDestArrWithoutLastEl(`${crName}_cs`);
-    const pre = (cmnPropArr[cmnPropArr.length - 1]).substring(0, 3);
-    let depth = (pre === 'akf' || pre === 'grt' || pre === 'grd' || pre === 'tsc' || pre === 'bsc' || pre === 'hvr') ? cmnPropArr.length - 2 : cmnPropArr.length - 1;
-    const crAr = crName.split('_');
-    let strCr = '';
-
-    if ((cmnPropArr[cmnPropArr.length - 1]).substring(0, 3) === 'grt' && (cmnPropArr[cmnPropArr.length - 2]).substring(0, 3) === 'grd') {
-      depth = cmnPropArr.length - 3;
-    }
-
-    for (let i = 0; i <= depth; i += 1) {
-      strCr += `-${crAr[i]}`;
-    }
-
-    strCr = `h${Model.ob().getHID()}${strCr}-${Container.getCrType(crName)}`;
-
-    return ((isSelector ? '.' : '') + strCr);
-  },
 
   commitCSS(id = 'athm-ext-inline-css', css: string): boolean {
     const el = document.getElementById(id);
-    if (el && (typeof (el) === 'object')) {
+    if (el && typeof el === 'object') {
       const elIn = DOM.element(el);
       if (elIn) {
         elIn.innerHTML += css;
@@ -1002,37 +1045,6 @@ const CssMaker = {
     // DOM.renderA(React.createElement('style', { id, type: 'text/css' }, ...[css]), document.body);
     return true;
   },
-
-  getPropCSSVal(val: string, attr: string, crName = '', valType = '') {
-    let out = val + attr;
-
-    switch (attr) {
-      case 'px':
-        out = `${this.pxToEm(Number(val), crName, valType)}em`;
-        break;
-      case 'em':
-        out = `${val}em`;
-        break;
-      case '':
-        out = val;
-        break;
-      default: break;
-    }
-    return out;
-  },
-
-  getPropColorCSSVal(crName: string, valType: string, actualValType = '', value = '') {
-    const hexColor = (valType === actualValType && value !== 'none' ? value : Data.getDataShort(crName, valType));
-    const opacity = (`${valType}Opacity` === actualValType && value !== 'none' ? value : Data.getDataShort(crName, `${valType}Opacity`));
-
-    if (opacity === '1') {
-      return hexColor;
-    }
-
-    const { red, grn, blu } = hexToRgbJSN(hexColor);
-
-    return `rgba( ${red}, ${grn}, ${blu}, ${opacity} )`;
-  }
 }
 
 export default CssMaker;

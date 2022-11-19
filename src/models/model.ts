@@ -41,17 +41,13 @@
 // https://www.youtube.com/watch?v=xz5VXLlM9VY
 // https://www.youtube.com/watch?v=7kNLXE0hixM
 // https://www.youtube.com/watch?v=ddVm53j80vc
-// import jData from '../app-sets/jData.json';
-// import sets from '../app-sets/sets.json';
-// import custom from '../app-sets/custom.json';
 import Data from './dataPackage/dataModel';
 import { setUrl } from './dbModel';
 import { getCustomStyleSheet, getStyleSheet } from './styleSheetPackage/styleSheetModel';
-
-import CssFile from './styleSheetPackage/cssFile/CssFile';
 import getJData, { getSets, getCustom } from '../iChunk';
 import getWpMedia from '../components/appFabrica/comps/menuImage/wpMedia';
 import setWPStyle from '../components/appFabrica/comps/menuImage/wordPress';
+import buildByHid from './styleSheetPackage/cssFile/CssFile';
 
 class Model {
   set: any = null;
@@ -93,7 +89,6 @@ class Model {
     Data.custom?.some((jsn: any) => {
       if (jsn.hdr.cs.ptID === hid) {
         Data.setJsn(jsn);
-        // Data.jsn = jsn;
         return true;
       }
       return false;
@@ -160,7 +155,7 @@ class Model {
       if (jsn.hdr) {
         Data.setJsn(jsn);
         this.setHID(jsn.hdr.cs.ptID);
-        CssFile.buildByHid(this.getHID());
+        buildByHid(this.getHID());
       }
 
       return false;
