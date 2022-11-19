@@ -8,7 +8,7 @@ import Container from '../../../../../models/dataPackage/containerModel';
 import { addCSSRule } from '../../../../../models/styleSheetPackage/styleSheetModel';
 
 const GradientPointContainers = ({ crName, type, isOpen }: { isOpen: boolean, crName: string, type: string }) => {
-  // const idToInsertColorMenu = `tglID_${ID.new()}`;
+  // const idToInsertColorMenu = `tglID_${getNewUID()}`;
   // const headerType = type;
   const grtDivider = ', ';
 

@@ -2,7 +2,7 @@ import './index.scss';
 import React, { useState } from 'react';
 import Model from '../../models/model';
 import Slides from './Slides';
-import ID from '../../core/id';
+import getNewUID from '../../core/id';
 import Data from '../../models/dataPackage/dataModel';
 // import DataManager from '../../core/dataManager';
 // import ContextLayerMenu from './ContextLayerMenu';
@@ -33,7 +33,7 @@ const Sections = ({elementIndex}: {elementIndex: string}) => {
         [, {cs: {priority: a}}]: priorityT,
         [, {cs: {priority: b}}]: priorityT
       ) => Number(a) - Number(b))
-    .map(([crName]) => <Slides key={`key_${ID.new()}`} elementIndex={elementIndex} crName={crName}/>);
+    .map(([crName]) => <Slides key={`key_${getNewUID()}`} elementIndex={elementIndex} crName={crName}/>);
 
   const addBtn = slidesArray.length ? null : <a title="Add Slide" className="add-layer-button">+</a>;
 

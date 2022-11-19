@@ -1,13 +1,13 @@
 import './index.scss';
 import React from 'react';
 import { hexToRgbJSN, validateAndGetHexValue } from '../../colorUtils';
-import ID from '../../../../../../core/id';
+import getNewUID from '../../../../../../core/id';
 
 const CustomPalette = (props: { onCustomPaletteItemClick: (hex: string, opacity: string) => void, uID: string, palette: any }) => {
   const { onCustomPaletteItemClick, uID, palette = [] } = props;
   const itemPaletteList = palette.map((itemProps: any) => {
     return (
-      <CustomPaletteItem key={`key_${ID.new()}`} {...{onCustomPaletteItemClick, ...itemProps, ...{uID}}} />
+      <CustomPaletteItem key={`key_${getNewUID()}`} {...{onCustomPaletteItemClick, ...itemProps, ...{uID}}} />
     );
   });
 

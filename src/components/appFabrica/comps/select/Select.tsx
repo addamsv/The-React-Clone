@@ -2,7 +2,7 @@ import './index.scss';
 import React, { useState } from 'react';
 import State from '../../../../utils/state';
 import Model from '../../../../models/model';
-import ID from '../../../../core/id';
+import getNewUID from '../../../../core/id';
 import CssMaker from '../../../../models/styleSheetPackage/cssMakerModel';
 
 const Select = ({ crName, subCr, type, title }: { crName: string, subCr: string, type: string, title: string }) => {
@@ -39,7 +39,7 @@ const optionsArr = (props: { subCr: string, type: string }) => {
 
   return Object
     .entries(State.getDefault(type, `${subCr}Select`))
-    .map(([key, val]: [string, any]) => <option key={`key_${ID.new()}`} value={key}>{val}</option>);
+    .map(([key, val]: [string, any]) => <option key={`key_${getNewUID()}`} value={key}>{val}</option>);
 }
 
 export default Select;

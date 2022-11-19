@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 import BoxShadowCr from './components/BoxShadowCr';
 import AddBoxShadowBtn from './components/AddBoxShadowBtn';
-import ID from '../../../../../core/id';
+import getNewUID from '../../../../../core/id';
 // import State from '../../../../../utils/state';
 
 type ShadowT = {
@@ -28,7 +28,7 @@ const CollectionShadow = ({ uID, getSortedListItems, getNewShadCrName, ...nextPr
     }
     setUpdateMenu({...menu, ...{menuUpdateTimes: menu.menuUpdateTimes + 1}});
   }
-  const insertID = `id_${ID.new()}`;
+  const insertID = `id_${getNewUID()}`;
 
   const listOfComponents = getSortedListItems()
     .map(([c]) => {

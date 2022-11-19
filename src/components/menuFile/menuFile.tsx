@@ -1,5 +1,5 @@
 import React from 'react';
-import ID from '../../core/id';
+import getNewUID from '../../core/id';
 
 const MenuFile = ({ menu }: { menu: Array<[string, string]> }) => {
   return (
@@ -11,7 +11,7 @@ const MenuFile = ({ menu }: { menu: Array<[string, string]> }) => {
         }
 
         return (
-          <div key={`key_${ID.new()}`} className='dark-stl dstl-blck' onClick={onPropClick}>
+          <div key={`key_${getNewUID()}`} className='dark-stl dstl-blck' onClick={onPropClick}>
             {title}
           </div>
         );

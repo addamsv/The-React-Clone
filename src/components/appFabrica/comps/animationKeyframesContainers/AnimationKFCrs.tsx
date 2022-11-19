@@ -1,10 +1,9 @@
 import './index.scss';
 
 import React from 'react';
-
-import ID from '../../../../core/id';
 import JFab from '../../JFab';
 import Container from '../../../../models/dataPackage/containerModel';
+import getNewUID from '../../../../core/id';
 
 /** !!!!SUPER SUSPITIOUSE!!!! */
 const getSortedCrByTimelinePos = (jsnCr: any, crNamePrefix = 'akf', sortBy = 'akfTimelinePos') => {
@@ -56,7 +55,7 @@ const AnimationKeyframesContainers = ({ crName }: { crName: string, type: string
         }
 
         return (
-          <div key={`key_${ID.new()}`} className="menu-cr">
+          <div key={`key_${getNewUID()}`} className="menu-cr">
             <span className='rem-animation-kf' onClick={onRemEvent}>x</span>
             <JFab route='collectionAnimation' crName={`${crName}_${jsnCr[keyframesCntr].crName}`} />
           </div>

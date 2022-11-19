@@ -1,7 +1,11 @@
 let id = 0;
+const getNewUID = () => id += 1;
+const getUID = () => id;
 
-const add = () => id += 1;
+export default getNewUID;
+export { getUID };
 
-const ID = { new: add, get: () => id }
-
-export default ID;
+// const add = () => id += 1;
+// const ID = { new: add, get: () => id }
+// export default ID;
+// export default getNewUID;

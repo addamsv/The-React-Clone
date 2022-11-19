@@ -1,7 +1,7 @@
 import React from "react";
 // import ReactDOM from 'react-dom/client';
 import DataManager from "../../../../core/dataManager";
-import ID from "../../../../core/id";
+import getNewUID from "../../../../core/id";
 import Container from "../../../../models/dataPackage/containerModel";
 import Data from "../../../../models/dataPackage/dataModel";
 import { saveAllHeaderObj } from "../../../../models/dbModel";
@@ -46,9 +46,8 @@ const MenuMode = (props: {menuMode: any} ) => {
       {...Object.keys(menuMode)
        .map((keyA: any) => {
         const text = ((menuMode[keyA].width === Model.ob().set.rwdDflt) ? Strings.id('Common') : `>${menuMode[keyA].width}${Strings.id('px')}`);
-
         return (
-          <div key={`key_${ID.new()}`} title={menuMode[keyA].name} className='dark-stl'
+          <div key={`key_${getNewUID()}`} title={menuMode[keyA].name} className='dark-stl'
             onClick={() => dataInputEv('set_rwdMode_btn', menuMode[keyA].width)}
           >
             {text}
@@ -104,7 +103,7 @@ const MenuScale = () => {
         }
 
         return (
-          <div key={`key_${ID.new()}`} className='dark-stl' onClick={dataInputEv}>
+          <div key={`key_${getNewUID()}`} className='dark-stl' onClick={dataInputEv}>
             {`${scaleProp}%`}
           </div>
         )})

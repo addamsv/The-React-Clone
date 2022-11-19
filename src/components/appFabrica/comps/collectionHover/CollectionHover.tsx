@@ -1,6 +1,6 @@
 import './index.scss';
 import React from 'react';
-import ID from '../../../../core/id';
+import getNewUID from '../../../../core/id';
 import JFab from '../../JFab';
 import Container from '../../../../models/dataPackage/containerModel';
 
@@ -18,7 +18,7 @@ const CollectionHover = ({ crName }: { crName: string, type: string }) => {
     }
 
     return (
-      <li key={`key_event_${ID.new()}`} className="">
+      <li key={`key_event_${getNewUID()}`} className="">
         <div className="menu-cr">
           <span className='rem-layer' onClick={onRemEvent}>x</span>
           <JFab route='collectionHover' crName={`${crName}_${c}`} />

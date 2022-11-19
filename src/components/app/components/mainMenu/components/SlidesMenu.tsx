@@ -1,6 +1,6 @@
 import './index.scss';
 import React from "react";
-import ID from "../../../../../core/id";
+import getNewUID from "../../../../../core/id";
 import Model from "../../../../../models/model";
 import getArrSortedByPriority from "../../../../../utils/getArrSortedByPriority";
 import DataManager from '../../../../../core/dataManager';
@@ -47,7 +47,7 @@ const ListItemsOfSlides = () => {
         const activeClass = isCrActive(crName) ? ' active' : '';
 
         return (
-          <li key={`key_${ID.new()}`} className='menu-slides-li' onClick={() => onSlideClick(crName)}>
+          <li key={`key_${getNewUID()}`} className='menu-slides-li' onClick={() => onSlideClick(crName)}>
             <div className={`menu-slides-item-contetnt${activeClass}`}></div>
           </li>
         );

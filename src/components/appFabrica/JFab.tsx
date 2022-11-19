@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ID from '../../core/id';
+import getNewUID from '../../core/id';
 import Container from '../../models/dataPackage/containerModel';
 import Model from '../../models/model';
 import JComponent from './JComponent';
@@ -20,12 +20,12 @@ const JFab = ({ crName, route, type: JFabType }: IJFab) => {
 
       if (type === 'menu' && crName) {
         const attrs = { crName, route: `${route}_${c}_content` };
-        return <JFabMenu key={`key_${ID.new()}`} title={title} attrs={attrs} />;
+        return <JFabMenu key={`key_${getNewUID()}`} title={title} attrs={attrs} />;
       }
 
       /* Component | Collection see log(type, route) */
       if (type && crName) {
-        return <JComponent key={`key_${ID.new()}`} {...{ container: type, crName, subCr, title: hint,
+        return <JComponent key={`key_${getNewUID()}`} {...{ container: type, crName, subCr, title: hint,
                 data: { type: JFabType || cntnr, subType, m }}} />;
       }
       return null;

@@ -3,11 +3,11 @@ import React, { useState } from 'react';
 import { CSS } from '../../../../../../utils/css';
 import { hexToRgb, rgbToHex, validateAndGetHexValue } from '../../colorUtils';
 import Color from '../../Color';
-import ID from '../../../../../../core/id';
+import getNewUID from '../../../../../../core/id';
 
 
 const Thumb = (props: { uID?: string, hex: string, opacity: string, palette: Array<any>, stateCallback: (hex: string, opacity?: string) => void }) => {
-  const { stateCallback, palette, uID = `uID_${ID.new()}__`, hex, opacity } = props;
+  const { stateCallback, palette, uID = `uID_${getNewUID()}__`, hex, opacity } = props;
 
   const [colorState, setColorState] = useState({ isOpent: false, hex, opacity });
 
