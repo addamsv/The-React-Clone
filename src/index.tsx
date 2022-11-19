@@ -1,9 +1,9 @@
-// import React, { ReactDOM } from './core/rct/Rct';
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import React, { ReactDOM } from './core/rct/Rct';
+// import React from 'react';
+// import ReactDOM from 'react-dom/client';
 
 import './index.scss';
-import App from './components/app/App';
+import App from './App';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(<App />);
