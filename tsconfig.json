@@ -11,19 +11,26 @@
     "rootDir": ".",
     "removeComments": true,
     "strict": true,
-    "moduleResolution": "node",            
+    "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "resolveJsonModule": true,
+    "plugins": [
+      {
+        "name": "typescript-plugin-css-modules"
+      }
+    ]
   },
   "include": [
-    "./src"
+    "./src",
+    "test/colorPickerModel.test.spec.ts",
+    "test/model.test.spec.ts",
+    "test/unit/animationModel.test.spec.ts",
+    "test/cssMaker.test.spec.ts",
+    "declaration.d.ts",
+    "test/react/TextareaUI.test.tsx",
+    "e2e"
   ],
-  "exclude": [
-    "./node_modules",
-    "./build",
-    "./dist",
-    "./tests",
-  ]
+  "exclude": ["./node_modules", "./build", "./dist", "test"]
 }
