@@ -3,9 +3,27 @@ import React, { ReactDOM, useState } from "../rct/Rct";
 import ChildrenComp from "./ChildrenComp";
 import ChildrenClassComponent from "./ChildrenClassComponent";
 import ErrorBoundary from "./ErrorBoundary";
+import Preloader from "./Preloader";
+import { OldStyleMakingCode } from "./OldStyleMakingCode";
 
-const TestReact = () => {
-  const elementus = <div>Some DIV element</div>;
+const Test = () => {
+  const elementus = (
+    <div
+      style={{
+        background: "red",
+        padding: "10px",
+        borderRadius: "4px",
+      }}
+    >
+      <h1
+        style={{
+          color: "white",
+        }}
+      >
+        Simple React Element
+      </h1>
+    </div>
+  );
 
   const rerender = () => {
     ReactDOM.render(
@@ -20,67 +38,51 @@ const TestReact = () => {
 
   return (
     <div
-      id="preloader"
-      className="preloader"
       style={{
-        display: "block",
-        height: "300px",
         width: "400px",
-        borderRadius: "2.2px",
         margin: "auto",
+        color: "white",
       }}
     >
-      <br />
-      <br />
-      <br />
-      <br />
-      <h1 style={{ display: "block", textAlign: "center" }}>Testing...</h1>
-      <br />
-      <br />
+      <Preloader />
+
+      {elementus}
+
       <div
         style={{
-          margin: "auto",
-          display: "block",
-          height: "5px",
-          width: "110px",
-          border: "1px solid #aaa",
-          borderRadius: "2.2px",
+          background: "green",
+          padding: "10px",
+          marginTop: "10px",
+          borderRadius: "4px",
         }}
       >
-        <div
-          style={{
-            display: "block",
-            height: "5px",
-            width: "100px",
-            background: "#aaa",
-            borderRadius: "2.2px",
-          }}
-        ></div>
-      </div>
-      <br />
-      <br />
-      {elementus}
-      <br />
-      <div>
-        Included DIV
-        <br />
-        <br />
-        <ChildrenClassComponent text="ChildrenClassComponent" />
-        <br />
+        <h1 style={{ color: "white" }}>Inner DIV</h1>
+        <ChildrenClassComponent text="'text out of props test'" />
         <ChildrenComp />
         <ChildrenComp>children text</ChildrenComp>
         {/* {(item: string) => `${item}`} */}
       </div>
 
-      <h2>Error Boundry Test:</h2>
-      <ErrorBoundary>ErrorBoundary</ErrorBoundary>
-      <ErrorButton />
+      <div
+        style={{
+          background: "blue",
+          padding: "10px",
+          marginTop: "10px",
+          borderRadius: "4px",
+        }}
+      >
+        <h1 style={{ color: "white" }}>Error Boundry Test:</h1>
+        <ErrorBoundary>ErrorBoundary</ErrorBoundary>
+        <ErrorButton />
 
-      <br />
-      <div>Last DIV</div>
-      <button onClick={rerender} style={{ cursor: "pointer" }}>
-        rerender
-      </button>
+        <br />
+        <div>Last DIV</div>
+        <button onClick={rerender} style={{ cursor: "pointer" }}>
+          rerender
+        </button>
+      </div>
+
+      {OldStyleMakingCode}
     </div>
   );
 };
@@ -95,46 +97,10 @@ const ErrorButton = () => {
   }
 
   return (
-    <button onClick={makeErr} style={{ cursor: "pointer" }}>
+    <button onClick={makeErr} style={{ marginLeft: "5px", cursor: "pointer" }}>
       Make Error
     </button>
   );
 };
 
-export default TestReact;
-
-// const elementus = React.createElement('div', null, 'some div element'); // '<script>alert("alllllerrrt")</script>';
-
-// const el = React.createElement('div', { className: 'very first' },
-//   '<script>alert("alllllerrrt")</script>',
-//   elementus,
-//   1,
-//   0,
-//   undefined,
-//   // { undefined }, = нельзя
-//   React.createElement('div', { className: 'second' }, 'без тега',
-//     <ChildrenClassComponent />,
-//   // React.createElement(alert, 'alllllerrrt!!!'),
-//     // React.createElement('div', { className: 'third',  }),
-//     // 'fragment hi',
-//     <ChildrenComp />
-//   ),
-//   // React.createElement('div', { className: 'fourth', contentEditable: "true" }, 'editable'),
-//   null,
-//   'another one'
-// );
-
-// // el.props.children.push(React.createElement('div', { className: 'ok' }, 'push ChildrenComp'), <ChildrenComp />);
-
-// // React.put(
-// //   el,
-// //   React.createElement('div', { className: 'ok' }, 'put new el'),
-// //   React.createElement('div', { className: 'ok' }, 'put another new el')
-// // );
-
-// console.log(el);
-
-// ReactDOM.render(el, document.getElementById('root'));
-
-// // const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
-// // root.render(el);
+export default Test;

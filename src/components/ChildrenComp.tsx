@@ -18,23 +18,33 @@ const ChildrenComp = (props: ChildrenComps) => {
 
   const dislike = () => {
     const likesCount = likes - 1;
+
     setLikes(likesCount);
   };
 
-  const getStyle = () => {
-    return { cursor: "pointer" };
-  };
+  const btnStyle = { cursor: "pointer", marginLeft: "5px" };
 
-  const getIndex = () => {
-    return Math.ceil(Math.random() * cite.length) - 1;
-  };
+  const getIndex = () => Math.ceil(Math.random() * cite.length) - 1;
 
   const childsFunction = props.children ? (
-    <h1>{props.children}</h1> // props.children("Hello From Children Fn()")
+    <div>
+      <b>{props.children}</b>
+    </div> // props.children("Hello From Children Fn()")
   ) : null;
 
   return (
-    <div>
+    <div
+      style={{
+        background: "yellow",
+        padding: "10px",
+        marginTop: "10px",
+        color: "green",
+        borderRadius: "4px",
+      }}
+    >
+      <div>
+        <b>Function Component</b>
+      </div>
       {cite[getIndex()].cite}
       <br />
       <div>
@@ -43,7 +53,7 @@ const ChildrenComp = (props: ChildrenComps) => {
           onClick={like}
           data-ok={`width`}
           className={`children-comp mode-${likes}`}
-          style={getStyle()}
+          style={btnStyle}
         >
           {/* ❤️ */}
           like
@@ -52,15 +62,11 @@ const ChildrenComp = (props: ChildrenComps) => {
           onClick={dislike}
           data-ok={`width`}
           className={`children-comp mode-${likes}`}
-          style={getStyle()}
+          style={btnStyle}
         >
           dislike
         </button>
-        <br />
-        <br />
         <InnerChildrenComp text={likes.toString()} />
-        <br />
-        <br />
         <div>
           <div>after InnerChildrenComp: {likes}</div>
         </div>

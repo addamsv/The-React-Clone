@@ -1,5 +1,5 @@
 import React, { useState } from "./rct/Rct";
-import TestReact from "./components/Test";
+import Test from "./components/Test";
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(1);
@@ -17,14 +17,9 @@ const App = () => {
 
   // const preloader = isLoading ? <Preloader onLoad={onLoad} /> : null;
 
-  /* uncomment this line for test */
-  // const test = !isLoading ? <TestReact /> : null;
-  // const test = <TestReact />;
-
   return (
     <div>
-      {/* {preloader} */}
-      <TestReact />
+      <Test />
     </div>
   );
 };

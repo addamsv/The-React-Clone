@@ -71,7 +71,7 @@ const config = {
       {
         test: /\.(png|jpe?g|gif|svg)$/i,
         loader: "file-loader",
-        options: { name: "./assets/img/[name].[ext]" },
+        options: { name: "./src/assets/img/[name].[ext]" },
       },
     ],
   },

@@ -1,29 +1,12 @@
 import React from "../rct/Rct";
 
-const Preloader = ({
-  onLoad,
-}: {
-  onLoad: (isSetsDefault: boolean) => void;
-}) => {
+import img from "../assets/img/logo.svg";
+
+const Preloader = () => {
   return (
-    <div
-      id="preloader"
-      className="preloader"
-      style={{
-        display: "block",
-        height: "300px",
-        width: "400px",
-        borderRadius: "2.2px",
-        margin: "auto",
-      }}
-    >
-      <br />
-      <br />
-      <br />
-      <br />
+    <div className="preloader">
+      <img width={400} height={50} src={img} alt="logo" />
       <h1 style={{ display: "block", textAlign: "center" }}>Loading...</h1>
-      <br />
-      <br />
       <div
         style={{
           margin: "auto",
