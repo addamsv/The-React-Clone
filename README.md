@@ -1,7 +1,9 @@
 # **T H E - R E A C T - C L O N E**
-##### Copyright (c) 2023 S.Adamovich
-##### License URI: http://www.gnu.org/licenses/gpl-2.0.html
+##### Author 2023 S.Adamovich
 ##### Version: 0.0.0-Node-React-Clone
+
+## Documentation
+come soon
 
 </br>
 
