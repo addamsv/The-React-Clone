@@ -11,7 +11,7 @@ Necessary: Node ver: 16.14.0 && Yarn
 
 <br>
 
-[Application](https://addamsv.github.io/The-React-Clone/)
+[Demo of the Application](https://addamsv.github.io/The-React-Clone/)
 <br>
 <br>
 

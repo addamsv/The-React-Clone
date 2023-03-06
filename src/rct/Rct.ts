@@ -1,24 +1,22 @@
-/** ⬇️⬇️⬇️⬇️⬇️ 🌼 Real React Component 🌼 ⬇️⬇️⬇️⬇️⬇️ **/
-
-// https://itnext.io/creating-our-own-react-from-scratch-82dd6356676d
 /**
  *  ╭───────────────────────────────────────────────────────────────────────╮
  *  │       R E A C T  F O R   L A N I A K E A                              │
  *  │                                                                       │
- *  │  Examples and documentation at:                                       |
+ *  │  @link:                                                               |
  *  |   https://itnext.io/creating-our-own-react-from-scratch-82dd6356676d  │
  *  │                                                                       │
- *  │  Copyright (c) 2017-2022 S.Adamovich                                  │
+ *  │  Copyright (c) S.Adamovich 2017-2023                                  │
  *  │  License: GNU General Public License v2 or later                      │
  *  │  License URI: http://www.gnu.org/licenses/gpl-2.0.html                │
- *  │  Version: 0.1.0 (10-JUL-2022)                                         │
+ *  │  Version: 0.0.0 (10-JUL-2022 - 2023)                                  │
  *  ╰───────────────────────────────────────────────────────────────────────╯
  */
 
 const REACT_ELEMENT = Symbol("react.element");
+
 const REACT_FRAGMENT = Symbol("react.fragment");
 
-/** ⬇️⬇️⬇️⬇️⬇️ 🌼 Real React Component 🌼 ⬇️⬇️⬇️⬇️⬇️ **/
+/** ⬇️ 🌼 Real React Component 🌼 ⬇️ **/
 interface Element {
   $$typeof: symbol; // ('react.element')
   key: null;
@@ -240,13 +238,11 @@ const isPropNameValid = (propName: string): boolean => {
   ].some((el) => el === propName);
 };
 
-const isFunctionNative = (fn: string) => {
-  return /\{\s*\[native code\]\s*\}/.test("" + fn);
-};
+const isFunctionNative = (fn: string) =>
+  /\{\s*\[native code\]\s*\}/.test("" + fn);
 
-const isReactElementOutOfClass = (fn: any) => {
-  return fn.prototype && fn.prototype.render;
-};
+const isReactElementOutOfClass = (fn: any) =>
+  fn.prototype && fn.prototype.render;
 
 const isEntriesValid = (key: string, value: any) => {
   return (
