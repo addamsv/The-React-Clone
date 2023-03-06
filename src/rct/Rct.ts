@@ -12,6 +12,14 @@
  *  ╰───────────────────────────────────────────────────────────────────────╯
  */
 
+import {
+  isEntriesValid,
+  isEventListener,
+  isFunctionNative,
+  isPropNameValid,
+  isReactElementOutOfClass,
+} from "./validation/validation";
+
 const REACT_ELEMENT = Symbol("react.element");
 
 const REACT_FRAGMENT = Symbol("react.fragment");
@@ -216,40 +224,6 @@ const updateInstance = (element: any, elDom: any, cmpElement: any) => {
       /* if component based on func component.useEffect(()=>{},[x]); */
     }
   }
-};
-
-const isEventListener = (attr: string): boolean => {
-  return (
-    attr.startsWith("on") &&
-    (attr.toLowerCase() in window || attr === "onTouchStart")
-  );
-};
-
-const isPropNameValid = (propName: string): boolean => {
-  return ![
-    "className",
-    "selected",
-    "style",
-    "key",
-    "ref",
-    "children",
-    "internaldataargs",
-    "internaldatadom",
-  ].some((el) => el === propName);
-};
-
-const isFunctionNative = (fn: string) =>
-  /\{\s*\[native code\]\s*\}/.test("" + fn);
-
-const isReactElementOutOfClass = (fn: any) =>
-  fn.prototype && fn.prototype.render;
-
-const isEntriesValid = (key: string, value: any) => {
-  return (
-    ["type", "props", "ref", "key"].some(
-      (currKey: string) => currKey === key
-    ) && value
-  );
 };
 
 const React = {
@@ -719,5 +693,25 @@ useState.setownerIndefication = () => {
   useState.ownerIndefication++;
 };
 
-export { Component, useState, ReactDOM };
+/**
+ * useRef the 6 of March, 2023 feature
+ */
+const useRef = (init: any) => {
+  return undefined;
+};
+
+/**
+ * useEffect the 6 of March, 2023 feature
+ */
+const useEffect = (fn: () => any, varsArr: any[]) => {
+  return undefined;
+};
+
+useEffect.callsCounter = 0;
+
+useEffect.setCallsCounter = () => {
+  useEffect.callsCounter++;
+};
+
+export { Component, useState, ReactDOM, useRef, useEffect };
 export default React;

@@ -14,10 +14,10 @@
     "lint": "eslint ./src --ext ts,tsx",
     "type:check": "node ./config/scripts/typecheck.js",
     "i18n:check": "node ./config/scripts/i18n-check.js",
-    "test:e2e": "jest -c e2e/jest.config.ts",
-    "test:e2e-hello": "node e2e/hello_puppeteerTest.js",
-    "test:e2e-usersForTest": "node e2e/usersForTest_puppeteerTest.js",
-    "test:e2e-watch": "jest -c e2e/jest.config.ts --watch"
+    "test:e2e": "jest -c ./config/scripts/e2e/jest.config.ts",
+    "test:e2e-hello": "node ./config/scripts/e2e/hello_puppeteerTest.js",
+    "test:e2e-usersForTest": "node ./config/scripts/e2e/usersForTest_puppeteerTest.js",
+    "test:e2e-watch": "jest -c ./config/scripts/e2e/jest.config.ts --watch"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",

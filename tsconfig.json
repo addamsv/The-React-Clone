@@ -30,7 +30,7 @@
     "test/cssMaker.test.spec.ts",
     "declaration.d.ts",
     "test/react/TextareaUI.test.tsx",
-    "e2e"
+    "config/scripts/e2e"
   ],
   "exclude": ["./node_modules", "./build", "./dist", "test"]
 }
