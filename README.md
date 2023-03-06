@@ -1,9 +1,9 @@
 # **T H E - R E A C T - C L O N E**
-Author 2023 S.Adamovich
+Author: S.Adamovich (2023)
 <br>
 Version: 0.0.0
 <br>
-Necessary: Node ver: 16.14.0
+Necessary: Node ver: 16.14.0 && Yarn
 
 <br><br>
 
