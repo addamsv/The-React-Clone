@@ -20,6 +20,5 @@ jobs:
         run: yarn
       - name: build project
         run: yarn build
-        run: yarn
       - name: type test
         run: yarn type:check
