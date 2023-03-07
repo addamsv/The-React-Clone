@@ -2,6 +2,8 @@ import React, { useState } from "../rct/Rct";
 
 import cite from "../data/data";
 import InnerChildrenComp from "./InnerChildrenComp";
+import img2 from "../assets/img/dislike.svg";
+import img3 from "../assets/img/like.svg";
 
 type ChildrenComps = {
   children?: string; // (item: string) => any; // React.ReactNode; 👈️ type children
@@ -48,6 +50,7 @@ const ChildrenComp = (props: ChildrenComps) => {
       {cite[getIndex()].cite}
       <br />
       <div>
+        {/* ❤️ */}
         likes: <span>{likes}</span>
         <button
           onClick={like}
@@ -55,8 +58,8 @@ const ChildrenComp = (props: ChildrenComps) => {
           className={`children-comp mode-${likes}`}
           style={btnStyle}
         >
-          {/* ❤️ */}
-          like
+          <img width={16} height={16} src={img3} alt="like" />
+          {/* like */}
         </button>
         <button
           onClick={dislike}
@@ -64,7 +67,8 @@ const ChildrenComp = (props: ChildrenComps) => {
           className={`children-comp mode-${likes}`}
           style={btnStyle}
         >
-          dislike
+          {/* dislike */}
+          <img width={16} height={16} src={img2} alt="dislike" />
         </button>
         <InnerChildrenComp text={likes.toString()} />
         <div>
