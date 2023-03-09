@@ -34,8 +34,14 @@ $ yarn build
 <br>
 
 ## Documentation
-dont use useState functions inside other components <br>
-the full ver come soon
+![](./config/README_FILES/imports.png)
+
+The only hook that is supported now is 'useState'.
+<br>
+Don't handle setState functions inside other components
+<br>
+<br>
+the full documentation ver come soon
 
 
 </br>

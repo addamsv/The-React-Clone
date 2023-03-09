@@ -1,7 +1,8 @@
-import React, { ReactDOM } from "./rct/Rct";
+import React from "./rct/rct";
+import { ReactDOM } from "./rct/rct-dom";
+import App from "./components/App";
 
 import "./index.scss";
-import App from "./components/App";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

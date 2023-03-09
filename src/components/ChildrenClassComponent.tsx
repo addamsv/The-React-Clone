@@ -1,6 +1,9 @@
-import React, { Component } from "../rct/Rct";
+import React, { Component } from "../rct/rct";
 
-class ChildrenClassComponent extends Component {
+interface IChldrnCl {
+  text: string;
+}
+class ChildrenClassComponent extends Component<IChldrnCl> {
   state = { done: false };
 
   onBtnClick = () => {

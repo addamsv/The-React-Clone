@@ -1,4 +1,4 @@
-import React from "../rct/Rct";
+import React from "../rct/rct";
 
 const elementus = React.createElement("div", null, "some div element"); // '<script>alert("alllllerrrt")</script>';
 

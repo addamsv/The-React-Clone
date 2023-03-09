@@ -1,12 +1,11 @@
-import React, { useState } from "../rct/Rct";
-
+import React, { useState } from "../rct/rct";
 import cite from "../data/data";
 import InnerChildrenComp from "./InnerChildrenComp";
 import img2 from "../assets/img/dislike.svg";
 import img3 from "../assets/img/like.svg";
 
 type ChildrenComps = {
-  children?: string; // (item: string) => any; // React.ReactNode; 👈️ type children
+  children?: (item: string) => string; // React.ReactNode; 👈️ children type
 };
 
 const ChildrenComp = (props: ChildrenComps) => {
@@ -30,8 +29,8 @@ const ChildrenComp = (props: ChildrenComps) => {
 
   const childsFunction = props.children ? (
     <div>
-      <b>{props.children}</b>
-    </div> // props.children("Hello From Children Fn()")
+      <b>{props.children("Hello From Children Fn()")}</b>
+    </div>
   ) : null;
 
   return (
@@ -72,7 +71,7 @@ const ChildrenComp = (props: ChildrenComps) => {
         </button>
         <InnerChildrenComp text={likes.toString()} />
         <div>
-          <div>after InnerChildrenComp: {likes}</div>
+          <div>after InnerChildrenComp likes: {likes}</div>
         </div>
         {childsFunction}
       </div>

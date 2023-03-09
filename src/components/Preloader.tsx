@@ -1,4 +1,4 @@
-import React from "../rct/Rct";
+import React from "../rct/rct";
 
 import img from "../assets/img/logo.svg";
 

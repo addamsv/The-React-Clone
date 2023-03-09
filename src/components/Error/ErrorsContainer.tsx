@@ -1,21 +1,7 @@
-import React, { ReactDOM, useState } from "../rct/Rct";
+import React from "../../rct/rct";
+import { ReactDOM } from "../../rct/rct-dom";
 import ErrorBoundary from "./ErrorBoundary";
-
-const ErrorButton = () => {
-  const [st, setSt] = useState(false);
-
-  const makeErr = () => setSt(true);
-
-  if (st) {
-    throw new Error("I crashed!");
-  }
-
-  return (
-    <button onClick={makeErr} style={{ marginLeft: "5px", cursor: "pointer" }}>
-      Make Error
-    </button>
-  );
-};
+import ErrorButton from "./ErrorBtn";
 
 const ErrorsContainer = () => {
   const rerender = () => {
@@ -39,8 +25,9 @@ const ErrorsContainer = () => {
       }}
     >
       <h1 style={{ color: "white" }}>Error Boundry Test:</h1>
-      <ErrorBoundary>ErrorBoundary</ErrorBoundary>
-      <ErrorButton />
+      <ErrorBoundary>
+        <ErrorButton />
+      </ErrorBoundary>
 
       <br />
       <div>Last DIV</div>

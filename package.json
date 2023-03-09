@@ -91,6 +91,10 @@
     "plugins": [
       "@typescript-eslint"
     ],
+    "ignorePatterns": [
+      "**/e2e/*.js",
+      "**/e2e/*.ts"
+    ],
     "rules": {
       "import/extensions": [
         "error",

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "../rct/Rct";
+import React, { useEffect, useRef, useState } from "../rct/rct";
 import Test from "./Test";
 
 const App = () => {

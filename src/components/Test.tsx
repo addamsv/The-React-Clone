@@ -1,11 +1,13 @@
-import React, { ReactDOM, useState } from "../rct/Rct";
+import React from "../rct/rct";
 
 import ChildrenComp from "./ChildrenComp";
 import ChildrenClassComponent from "./ChildrenClassComponent";
-import ErrorBoundary from "./ErrorBoundary";
 import Preloader from "./Preloader";
 import { OldStyleMakingCode } from "./OldStyleMakingCode";
-import ErrorsContainer from "./ErrorsContainer";
+import ErrorsContainer from "./Error/ErrorsContainer";
+import WithChildren from "./WithChildren";
+import ErrorButton from "./Error/ErrorBtn";
+import SomeBtn from "./SomeBtn";
 
 const Test = () => {
   const elementus = (
@@ -49,8 +51,12 @@ const Test = () => {
         <h1 style={{ color: "white" }}>Inner DIV</h1>
         <ChildrenClassComponent text="'text out of props test'" />
         <ChildrenComp />
-        <ChildrenComp>children text</ChildrenComp>
-        {/* {(item: string) => `${item}`} */}
+        <ChildrenComp>{(item: string) => item}</ChildrenComp>
+        <WithChildren>
+          <SomeBtn />
+        </WithChildren>
+        <SomeBtn />
+        <SomeBtn />
       </div>
 
       {/* <ErrorsContainer /> */}
