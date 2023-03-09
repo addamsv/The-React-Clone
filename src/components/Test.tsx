@@ -4,9 +4,7 @@ import ChildrenComp from "./ChildrenComp";
 import ChildrenClassComponent from "./ChildrenClassComponent";
 import Preloader from "./Preloader";
 import { OldStyleMakingCode } from "./OldStyleMakingCode";
-import ErrorsContainer from "./Error/ErrorsContainer";
 import WithChildren from "./WithChildren";
-import ErrorButton from "./Error/ErrorBtn";
 import SomeBtn from "./SomeBtn";
 
 const Test = () => {
