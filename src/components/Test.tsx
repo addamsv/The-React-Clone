@@ -57,8 +57,6 @@ const Test = () => {
         <SomeBtn />
       </div>
 
-      {/* <ErrorsContainer /> */}
-
       {OldStyleMakingCode}
     </div>
   );

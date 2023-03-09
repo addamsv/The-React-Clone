@@ -54,12 +54,6 @@ const OldStyleMakingCode = React.createElement(
 OldStyleMakingCode?.props.children.push(
   React.createElement("div", { className: "ok" }, "push ChildrenComp")
 );
-
-React.put(
-  OldStyleMakingCode,
-  React.createElement('div', { className: 'ok' }, 'put new el'),
-  React.createElement('div', { className: 'ok' }, 'put another new el')
-);
  */
 
 export { OldStyleMakingCode };

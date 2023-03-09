@@ -8,14 +8,10 @@ class ErrorBoundary extends Component<IProps> {
   state = { hasError: false };
 
   componentDidCatch() {
-    console.log("catched");
-
     this.setState({ hasError: true });
   }
 
   render() {
-    // console.log(this.props.children);
-
     return this.state.hasError ? (
       <h2>Error Boundary: Error!</h2>
     ) : (
