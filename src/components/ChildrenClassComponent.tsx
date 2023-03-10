@@ -10,6 +10,7 @@ class ChildrenClassComponent extends Component<IChldrnCl> {
     this.setState({ done: !this.state.done });
   };
 
+  /* style props for DEMO purpouse */
   render() {
     return (
       <div

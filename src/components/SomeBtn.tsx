@@ -5,6 +5,7 @@ const SomeBtn = () => {
 
   const changing = () => setSt(st + 1);
 
+  /* style props for DEMO purpouse */
   return (
     <button onClick={changing} style={{ marginLeft: "5px", cursor: "pointer" }}>
       {st.toString()}

@@ -128,7 +128,7 @@ const reconcile = (
   domElement: any,
   cmpElement?: Element
 ): string => {
-  const { type, props } = element;
+  const { props } = element;
 
   setProps(domElement, element, props, cmpElement);
 

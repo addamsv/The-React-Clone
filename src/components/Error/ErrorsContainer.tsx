@@ -15,6 +15,7 @@ const ErrorsContainer = () => {
     root.render(<div>rendered ok</div>);
   };
 
+  /* style props for DEMO purpouse */
   return (
     <div
       style={{

@@ -1,5 +1,9 @@
 import { reconcileInstance } from "../reconcile";
 
+const useSatePublicDom = {
+  dom: null as any,
+};
+
 export const useState = (initialState?: any) => {
   const getStateValueObj = (setFn: any) => {
     let rootPublicDom: any = null;
@@ -10,14 +14,19 @@ export const useState = (initialState?: any) => {
       getRootPublicDom: () => rootPublicDom,
 
       state: (initialState: any) => {
-        const e = window.event;
-        const domEl: any = e?.target;
+        // const e = window.event;
+        // const domEl: any = e?.target;
+        // console.log(useSatePublicDom.dom);
 
-        if (!domEl) {
+        const root: any = useSatePublicDom.dom;
+
+        if (!root) {
           return initialState;
         }
 
-        const root = getRootDomElement(domEl, setFn);
+        // const root = getRootDomElement(domEl, setFn);
+
+        // console.log(root === useSatePublicDom.dom);
 
         if (root.aStateData !== "undefined") {
           return root.aStateData;
@@ -48,6 +57,9 @@ export const useState = (initialState?: any) => {
 
         const prevState = root.aStateData?.toString();
 
+        useSatePublicDom.dom = root;
+
+        /* Set New State Data */
         if (root.aStateData === undefined) {
           Object.defineProperty(root, "aStateData", {
             enumerable: false,
@@ -81,6 +93,7 @@ export const useState = (initialState?: any) => {
           root.aStateData = newState;
         }
 
+        /* Start Reconciliation Algorithm */
         if (prevState !== newState.toString()) {
           reconcileInstance(
             root.aDataRootCompnnt.elementRenderFunction(

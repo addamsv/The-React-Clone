@@ -7,6 +7,7 @@ import { OldStyleMakingCode } from "./OldStyleMakingCode";
 import WithChildren from "./WithChildren";
 import SomeBtn from "./SomeBtn";
 
+/* style props for DEMO purpouse */
 const Test = () => {
   const elementus = (
     <div

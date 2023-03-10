@@ -33,6 +33,7 @@ const ChildrenComp = (props: ChildrenComps) => {
     </div>
   ) : null;
 
+  /* style props for DEMO purpouse */
   return (
     <div
       style={{

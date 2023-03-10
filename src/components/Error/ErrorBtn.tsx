@@ -9,6 +9,7 @@ const ErrorButton = () => {
     throw new Error("I crashed!");
   }
 
+  /* style props for DEMO purpouse */
   return (
     <button onClick={makeErr} style={{ marginLeft: "5px", cursor: "pointer" }}>
       Make Error

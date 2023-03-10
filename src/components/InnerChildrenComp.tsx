@@ -5,6 +5,7 @@ const InnerChildrenComp = ({ text }: { text: string }) => {
     return null;
   }
 
+  /* style props for DEMO purpouse */
   return (
     <div
       id="src_to_render"
