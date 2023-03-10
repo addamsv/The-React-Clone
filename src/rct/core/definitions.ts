@@ -1,5 +1,7 @@
 export const REACT_ELEMENT = Symbol("react.element");
 
+export const REACT_COMPONENT = Symbol("react.component");
+
 export const REACT_FRAGMENT = Symbol("react.fragment");
 
 export const _owner = {

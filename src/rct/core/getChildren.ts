@@ -53,6 +53,6 @@ export const getChildren = (child: any) => {
     //   return child;
     // }
   }
-  /* see instantiate */
+  /* see getInstance */
   return validChild;
 };

@@ -1,10 +1,10 @@
-import { instantiate } from "./core/instantiate";
+import { instantiate } from "./core/instantiate/instantiate";
 
 export const ReactDOM = {
   rootInstance: null as any,
 
   /* react@^18.0.0 */
-  createRoot: (container: HTMLElement | null) => {
+  createRoot: (container: HTMLElement) => {
     return {
       render: (element: any) => {
         ReactDOM.render(element, container);
@@ -18,13 +18,19 @@ export const ReactDOM = {
   },
 
   render: (element: any, container: HTMLElement | null) => {
-    if (container && container.children.length !== 0) {
+    if (!container) {
+      return;
+    }
+
+    if (container.children.length !== 0) {
       container.innerHTML = "";
     }
-    const newInstance = instantiate(element); // Create Public DOM instance
 
-    newInstance.dom.forEach((node: any) => {
-      container?.appendChild(node);
-    });
+    instantiate(element, container);
+
+    // dom.forEach((node: any) => {
+    //   container?.appendChild(node);
+    // });
+    // Nodes Append into Public DOM
   },
 };

@@ -1,4 +1,4 @@
-import { instantiate } from "./instantiate";
+import { makeInstance } from "./instantiate/instantiate";
 import { Element } from "./Interfaces";
 import { setProps } from "./setProps";
 import { isDeepEqual } from "./validation/validation";
@@ -55,7 +55,6 @@ const reconcileChild = (
 
     /** - - - - - - C L A S S E S  &  F U N C T T I O N S - - - - - - */
     if (typeof element.type === "function") {
-      console.log(element);
       const isPropsEqual = isDeepEqual(
         element.props,
         compareChildren.props.children[indx].props
@@ -75,7 +74,7 @@ const reconcileChild = (
         shiftIndexOfRemovedElement++;
       } else if (newElement && !cmpElement) {
         /* Making Element */
-        const newElementInstance = instantiate(newElement);
+        const newElementInstance = makeInstance(newElement);
         domElement.insertBefore(
           newElementInstance.dom[0],
           domElement.childNodes[indx]

@@ -7,10 +7,13 @@ const App = () => {
   /* The feature we'are working at now!!! */
   const divRef = useRef(null);
 
+  setTimeout(() => {
+    setIsLoading(0);
+  }, 5000);
+
   /* The feature we'are working at now!!! */
   useEffect(() => {
     document.title = `The React Clone Test`;
-    console.log(divRef);
     setIsLoading(0);
   }, []);
 

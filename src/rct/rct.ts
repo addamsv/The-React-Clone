@@ -18,7 +18,11 @@ import { useEffect } from "./core/hooks/useEffect";
 import { useRef } from "./core/hooks/useRef";
 import { useState } from "./core/hooks/useState";
 import { Element } from "./core/Interfaces";
-import { REACT_ELEMENT, REACT_FRAGMENT } from "./core/definitions";
+import {
+  REACT_COMPONENT,
+  REACT_ELEMENT,
+  REACT_FRAGMENT,
+} from "./core/definitions";
 import { isFunctionNative } from "./core/validation/validation";
 import { getChildren } from "./core/getChildren";
 
@@ -40,9 +44,15 @@ const React = {
       props.children = getChildren(child);
     }
 
-    type = type || REACT_FRAGMENT;
+    let elTypeof: symbol;
 
-    return { $$typeof: REACT_ELEMENT, key, ref, _owner: {}, type, props };
+    if (type) {
+      elTypeof = typeof type === "function" ? REACT_COMPONENT : REACT_ELEMENT;
+    } else {
+      elTypeof = REACT_FRAGMENT;
+    }
+
+    return { $$typeof: elTypeof, key, ref, _owner: {}, type, props };
   },
 };
 

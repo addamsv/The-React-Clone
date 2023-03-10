@@ -17,15 +17,7 @@ export const useState = (initialState?: any) => {
           return initialState;
         }
 
-        let root;
-        if (domEl?.aDataRootCompnnt) {
-          root = domEl;
-        } else {
-          root = getRootDomElement(domEl, setFn);
-        }
-
-        // console.log("---------", root, domEl, getRootDomElement(domEl, setFn));
-        console.log("called", root);
+        const root = getRootDomElement(domEl, setFn);
 
         if (root.aStateData !== "undefined") {
           return root.aStateData;
@@ -49,8 +41,6 @@ export const useState = (initialState?: any) => {
 
       setState: (newState?: any): any => {
         const root: any = innerObj.rootPublicDom;
-
-        console.log(root);
 
         if (!root) {
           return;
