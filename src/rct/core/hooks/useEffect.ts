@@ -1,12 +1,8 @@
-/**
- * useEffect the 6 of March, 2023 feature
- */
-export const useEffect = (fn: () => any, varsArr: any[]) => {
-  return undefined;
+export const useEffectFnArr: any[] = [];
+
+export const useEffect = (fn: (args?: any) => any, varsArr: any[]) => {
+  useEffectFnArr.push(fn);
+  useEffect.callsCounter++;
 };
 
 useEffect.callsCounter = 0;
-
-useEffect.setCallsCounter = () => {
-  useEffect.callsCounter++;
-};

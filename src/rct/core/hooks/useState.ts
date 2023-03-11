@@ -14,19 +14,11 @@ export const useState = (initialState?: any) => {
       getRootPublicDom: () => rootPublicDom,
 
       state: (initialState: any) => {
-        // const e = window.event;
-        // const domEl: any = e?.target;
-        // console.log(useSatePublicDom.dom);
-
         const root: any = useSatePublicDom.dom;
 
         if (!root) {
           return initialState;
         }
-
-        // const root = getRootDomElement(domEl, setFn);
-
-        // console.log(root === useSatePublicDom.dom);
 
         if (root.aStateData !== "undefined") {
           return root.aStateData;
@@ -94,7 +86,7 @@ export const useState = (initialState?: any) => {
         }
 
         /* Start Reconciliation Algorithm */
-        if (prevState !== newState.toString()) {
+        if (prevState !== newState) {
           reconcileInstance(
             root.aDataRootCompnnt.elementRenderFunction(
               root.aDataRootCompnnt.elementRenderFunctionArgs
@@ -116,25 +108,12 @@ export const useState = (initialState?: any) => {
   const setStateObj = getSetStateObj();
 
   useState.setRootPublicDom = setStateObj.setRootPublicDom;
-  useState.getRootPublicDom = setStateObj.getRootPublicDom;
   useState.ownerIndefication++;
+
   const valueObj = getStateValueObj(setStateObj.setState);
+
   return [valueObj.state(initialState), setStateObj.setState];
 };
 
 useState.setRootPublicDom = null as any;
-useState.setRootPublicDomFofVal = null as any;
-useState.getRootPublicDom = null as any;
 useState.ownerIndefication = 0;
-
-const getRootDomElement = (currDomEl: any, stateFn?: any): any => {
-  if (!currDomEl) {
-    return false;
-  }
-
-  if (!currDomEl.aDataRootCompnnt) {
-    return getRootDomElement(currDomEl.parentNode);
-  }
-
-  return currDomEl;
-};

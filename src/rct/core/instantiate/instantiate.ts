@@ -1,6 +1,8 @@
 import { isFunction, isReactElementOutOfClass } from "../validation/validation";
 import { setProps } from "../setProps";
 import { useState } from "../hooks/useState";
+import { useEffectFnArr } from "../hooks/useEffect";
+import { useRef } from "../hooks/useRef";
 
 type makeInstanceT = { dom: Array<any>; element: any };
 
@@ -16,12 +18,17 @@ export const instantiate = (element: innerElement, container?: HTMLElement) => {
   dom.forEach((node: any) => {
     container?.appendChild(node);
   });
+
+  useEffectFnArr.some((fn) => {
+    fn();
+  });
 };
 
 export const makeInstance = (
   element: innerElement,
   topNode?: HTMLElement,
-  isContainsHook?: boolean
+  isContainsUseState?: boolean,
+  isContainsUseRef?: boolean
 ): makeInstanceT => {
   const { type, props } = element;
   const stackArr = [];
@@ -55,8 +62,12 @@ export const makeInstance = (
 
     setProps(topNode, element, props);
 
-    if (isContainsHook) {
+    if (isContainsUseState) {
       useState.setRootPublicDom(element.props.internaldatadom);
+    }
+
+    if (isContainsUseRef) {
+      useRef.setRootPublicDom(element.props.internaldatadom);
     }
 
     if (props && props.children) {
@@ -108,15 +119,23 @@ export const makeInstance = (
     }
 
     const beforeOID = useState.ownerIndefication;
+    const useRefBefore = useRef.ownerIndefication;
     const element = type(props);
+    const useRefAfter = useRef.ownerIndefication;
     const afterOID = useState.ownerIndefication;
 
+    const isUseRefTrigered = useRefBefore !== useRefAfter;
     const isUseSateTrigered = beforeOID !== afterOID;
 
     element.props.internaldata = type;
     element.props.internaldataargs = props;
 
-    const inst = makeInstance(element, undefined, isUseSateTrigered);
+    const inst = makeInstance(
+      element,
+      undefined,
+      isUseSateTrigered,
+      isUseRefTrigered
+    );
 
     return inst;
   }

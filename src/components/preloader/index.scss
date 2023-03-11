@@ -1,0 +1,17 @@
+.preloader-line {
+  animation-name: preloader-line;
+  animation-duration: 3s;
+  display: block;
+  height: 5px;
+  width: 110px;
+  background: #aaa;
+  border-radius: 2.2px;
+}
+@keyframes preloader-line {
+  0% {
+    width: 0px;
+  }
+  100% {
+    width: 110px;
+  }
+}

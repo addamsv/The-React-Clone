@@ -2,10 +2,12 @@ import React from "../rct/rct";
 
 import ChildrenComp from "./ChildrenComp";
 import ChildrenClassComponent from "./ChildrenClassComponent";
-import Preloader from "./Preloader";
+import Preloader from "./preloader/Preloader";
 import { OldStyleMakingCode } from "./OldStyleMakingCode";
 import WithChildren from "./WithChildren";
 import SomeBtn from "./SomeBtn";
+import SpecialTestComponent from "./specialStateComponent/SpecialStateComponent";
+import InputField from "./InputField";
 
 /* style props for DEMO purpouse */
 const Test = () => {
@@ -47,6 +49,18 @@ const Test = () => {
           borderRadius: "4px",
         }}
       >
+        <h1 style={{ color: "white" }}>Input Field Test</h1>
+        <InputField />
+      </div>
+
+      <div
+        style={{
+          background: "green",
+          padding: "10px",
+          marginTop: "10px",
+          borderRadius: "4px",
+        }}
+      >
         <h1 style={{ color: "white" }}>Inner DIV</h1>
         <ChildrenClassComponent text="'text out of props test'" />
         <ChildrenComp />
@@ -56,6 +70,18 @@ const Test = () => {
         </WithChildren>
         <SomeBtn />
         <SomeBtn />
+      </div>
+
+      <div
+        style={{
+          background: "green",
+          padding: "10px",
+          marginTop: "10px",
+          borderRadius: "4px",
+        }}
+      >
+        <h1 style={{ color: "white" }}>Special State Test</h1>
+        <SpecialTestComponent />
       </div>
 
       {OldStyleMakingCode}
