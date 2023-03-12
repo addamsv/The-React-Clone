@@ -37,7 +37,7 @@ const Test = () => {
         color: "white",
       }}
     >
-      {/* <Preloader /> */}
+      <Preloader />
 
       {elementus}
 
