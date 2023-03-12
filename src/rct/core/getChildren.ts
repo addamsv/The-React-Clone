@@ -1,5 +1,3 @@
-import { isEntriesValid } from "./validation/validation";
-
 export const getChildren = (child: any) => {
   /**
    *  Child Can be Any of types:
@@ -19,12 +17,15 @@ export const getChildren = (child: any) => {
       typeof container !== "string" &&
       typeof container !== "number"
     ) {
+      // console.log(container);
       /* if Object or Array */
-      Object.entries(container).forEach(([key, value]: [string, any]) => {
-        if (!isEntriesValid(key, value)) {
-          delete container[key];
-        }
-      });
+      // Object.entries(container).forEach(([key, value]: [string, any]) => {
+      //   if (!isEntriesValid(key, value)) {
+      //     console.log(key);
+
+      //     delete container[key];
+      //   }
+      // });
 
       if (Object.getOwnPropertyNames(container).length === 0) {
         return false;
@@ -34,8 +35,13 @@ export const getChildren = (child: any) => {
     if (typeof container === "number") {
       return container.toString();
     }
+
     return container || false;
   });
+
+  // if (validChild.length === 0) {
+  //   return null;
+  // }
 
   if (validChild.length === 1) {
     const [child] = validChild;
@@ -56,3 +62,9 @@ export const getChildren = (child: any) => {
   /* see getInstance */
   return validChild;
 };
+
+// const isEntriesValid = (key: string, value: any) => {
+//   return ["$$typeof", "type", "props", "ref", "key", "_owner"].some(
+//     (currKey: string) => currKey === key
+//   );
+// };

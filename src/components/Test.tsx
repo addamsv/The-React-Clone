@@ -37,7 +37,7 @@ const Test = () => {
         color: "white",
       }}
     >
-      <Preloader />
+      {/* <Preloader /> */}
 
       {elementus}
 
@@ -61,15 +61,8 @@ const Test = () => {
           borderRadius: "4px",
         }}
       >
-        <h1 style={{ color: "white" }}>Inner DIV</h1>
-        <ChildrenClassComponent text="'text out of props test'" />
-        <ChildrenComp />
-        <ChildrenComp>{(item: string) => item}</ChildrenComp>
-        <WithChildren>
-          <SomeBtn />
-        </WithChildren>
-        <SomeBtn />
-        <SomeBtn />
+        <h1 style={{ color: "white" }}>Input Field Test</h1>
+        <InputField />
       </div>
 
       <div
@@ -82,6 +75,25 @@ const Test = () => {
       >
         <h1 style={{ color: "white" }}>Special State Test</h1>
         <SpecialTestComponent />
+      </div>
+
+      <div
+        style={{
+          background: "green",
+          padding: "10px",
+          marginTop: "10px",
+          borderRadius: "4px",
+        }}
+      >
+        <h1 style={{ color: "white" }}>Inner DIV</h1>
+        <ChildrenClassComponent text="'text out of props test'" />
+        <ChildrenComp />
+        <ChildrenComp>{(item: string) => item}</ChildrenComp>
+        <WithChildren>
+          <SomeBtn />
+        </WithChildren>
+        <SomeBtn />
+        <SomeBtn />
       </div>
 
       {OldStyleMakingCode}

@@ -1,23 +1,10 @@
-import React, { useEffect, useState } from "../../rct/rct";
+import React from "../../rct/rct";
 
 import img from "../../assets/img/logo.svg";
 
 import "./index.scss";
 
 const Preloader = () => {
-  const [isLoading, setIsLoading] = useState(1);
-
-  useEffect(() => {
-    document.title = `The React Clone Test`;
-    setTimeout(() => {
-      setIsLoading(0);
-    }, 3000);
-  }, []);
-
-  if (!isLoading) {
-    return null;
-  }
-
   /* style props for DEMO purpouse */
   return (
     <div className="preloader">

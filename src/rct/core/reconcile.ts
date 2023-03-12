@@ -1,9 +1,22 @@
+import { useRef } from "../rct";
+import { REACT_COMPONENT, REACT_ELEMENT } from "./definitions";
 import { makeInstance } from "./instantiate/instantiate";
 import { Element } from "./Interfaces";
 import { setProps } from "./setProps";
 import { isDeepEqual } from "./validation/validation";
 
 /**
+ *  ╭───────────────────────────────────────────────────────────────────────╮
+ *  │      R E C O N C I L I A T I O N  A L G O R I T H M  F O R            │
+ *  │                      R E A C T  C L O N E                             │
+ *  │      (Laniakia is Animation/Preseentation/Site Contetnt builder)      │
+ *  │                                                                       │
+ *  │  Copyright (c) S.Adamovich 2017-2023                                  │
+ *  │  License: GNU General Public License v2 or later                      │
+ *  │  License URI: http://www.gnu.org/licenses/gpl-2.0.html                │
+ *  │  Version: 0.0.0 (10-JUL-2022 - 2023)                                  │
+ *  ╰───────────────────────────────────────────────────────────────────────╯
+ *
  *  Create instance
  *  Remove instance
  *  Replace instance
@@ -14,17 +27,21 @@ const isStringOrNumber = (el: any) =>
   typeof el === "string" || typeof el === "number";
 
 const reconcileChild = (
-  domElement: any,
   children: Array<any | string> | string,
-  compareChildren?: any
+  root: any,
+  prevChildren?: any,
+  isContainsUseRef?: boolean,
+  useRefID?: number
 ) => {
-  if (!domElement) {
+  if (!root) {
     return;
   }
 
-  if (isStringOrNumber(children)) {
-    if (children !== compareChildren.props.children) {
-      domElement.innerText = children;
+  if (isStringOrNumber(children) || !children.length) {
+    // console.log(children, prevChildren);
+
+    if (children !== prevChildren) {
+      root.innerText = children;
     }
     return;
   }
@@ -35,67 +52,106 @@ const reconcileChild = (
 
   let shiftIndexOfRemovedElement = 0;
 
-  children.forEach((element: any, indx: number) => {
-    /** - - - - - - S T R I N G S or number inside (down of tree) - - - - - - */
-    if (typeof element !== "object") {
-      if (!isStringOrNumber(element)) {
+  children.forEach((childrenReactElement: any, indx: number) => {
+    /**
+     *
+     *
+     * - - - - - - S T R I N G S or number inside (down of tree) - - - - - -
+     *
+     *
+     *
+     */
+    if (typeof childrenReactElement !== "object") {
+      if (!isStringOrNumber(childrenReactElement)) {
         return;
       }
 
-      if (element !== compareChildren.props.children[indx - 1]) {
-        domElement.insertBefore(
-          document.createTextNode(element as string),
-          domElement.childNodes[indx]
+      if (childrenReactElement !== prevChildren[indx - 1]) {
+        root.insertBefore(
+          document.createTextNode(childrenReactElement as string),
+          root.childNodes[indx]
         );
-        domElement.childNodes[indx + 1].remove();
+        root.childNodes[indx + 1].remove();
       }
 
       return;
     }
 
-    /** - - - - - - C L A S S E S  &  F U N C T T I O N S - - - - - - */
-    if (typeof element.type === "function") {
+    /**
+     *
+     *
+     *
+     *  - - - - - - C L A S S E S  &  F U N C T T I O N S - - - - - -
+     *
+     *
+     *
+     */
+    // if (typeof childrenReactElement.type === "function") {
+    if (childrenReactElement.$$typeof === REACT_COMPONENT) {
+      // console.log("REACT_COMPONENT", childrenReactElement);
+
       const isPropsEqual = isDeepEqual(
-        element.props,
-        compareChildren.props.children[indx].props
+        childrenReactElement.props,
+        prevChildren[indx].props
       );
 
       if (isPropsEqual) {
         return;
       }
 
-      const newElement = element.type(element.props);
-      const cmpElement = compareChildren.props.children[indx].type(
-        compareChildren.props.children[indx].props
-      );
+      const newElement = childrenReactElement.type(childrenReactElement.props);
 
-      if (!newElement && !cmpElement) {
+      const prevElement = prevChildren[indx].type(prevChildren[indx].props);
+
+      if (!newElement && !prevElement) {
         /* Skiping removed Element */
+
+        console.log("------Skiping removed Element------");
+
         shiftIndexOfRemovedElement++;
-      } else if (newElement && !cmpElement) {
+      } else if (newElement && !prevElement) {
+        console.log("------Making Element-------");
+
         /* Making Element */
-        const newElementInstance = makeInstance(newElement);
-        domElement.insertBefore(
-          newElementInstance.dom[0],
-          domElement.childNodes[indx]
+
+        const newReactElementInstance = makeInstance(newElement);
+
+        root.insertBefore(
+          newReactElementInstance.dom[0],
+          root.childNodes[indx]
         );
-        Object.defineProperty(newElementInstance.dom[0], "aDataRootCompnnt", {
-          enumerable: false,
-          configurable: false,
-          writable: true,
-          value: {
-            dom: newElementInstance.dom[0],
-            element,
-            elementRenderFunction: element.type,
-            elementRenderFunctionArgs: element.props,
-          },
-        });
+
+        Object.defineProperty(
+          newReactElementInstance.dom[0],
+          "aDataRootCompnnt",
+          {
+            enumerable: false,
+            configurable: false,
+            writable: true,
+            value: {
+              dom: newReactElementInstance.dom[0],
+              childrenReactElement,
+              elementRenderFunction: childrenReactElement.type,
+              elementRenderFunctionArgs: childrenReactElement.props,
+            },
+          }
+        );
       } else {
-        /* reconcile/Remove Element */
+        /** - - - - - - Remove/Reconcile the Components Element - - - - - */
+
+        console.log(
+          "-------Remove/Reconcile the Components Element:"
+          // root.children[indx - shiftIndexOfRemovedElement - 1],
+          // newElement,
+          // prevElement
+        );
+
         reconcileInstance(
           newElement,
-          domElement.children[indx - shiftIndexOfRemovedElement - 1],
-          cmpElement
+          root.children[indx - shiftIndexOfRemovedElement - 1],
+          prevElement,
+          isContainsUseRef,
+          useRefID
         );
 
         if (!newElement) {
@@ -106,55 +162,105 @@ const reconcileChild = (
       return;
     }
 
-    /** - - - - - - E L E M E N T  I S  D I V | I M G . . . - - - - - - */
-    const isPropsEqual = isDeepEqual(
-      element,
-      compareChildren.props.children[indx]
-    );
-
-    if (!isPropsEqual) {
-      /* cmp component */
-      const status = reconcile(
-        element,
-        domElement.childNodes[indx - shiftIndexOfRemovedElement],
-        compareChildren.props.children[indx]
+    /**
+     *
+     *
+     *
+     * - - - - - - D I V | I M G . . . (I N S T A N C E) - - - - - -
+     *
+     *
+     *
+     */
+    if (childrenReactElement.$$typeof === REACT_ELEMENT) {
+      console.log(
+        "REACT_ELEMENT"
+        //  childrenReactElement
       );
+
+      const isPropsEqual = isDeepEqual(
+        childrenReactElement,
+        prevChildren[indx]
+      );
+
+      if (!isPropsEqual) {
+        reconcileInstance(
+          childrenReactElement,
+          root.childNodes[indx - shiftIndexOfRemovedElement],
+          prevChildren[indx],
+          isContainsUseRef,
+          useRefID
+        );
+      }
     }
   });
 };
 
-const reconcile = (
-  element: any,
-  domElement: any,
-  cmpElement?: Element
-): string => {
-  const { props } = element;
-
-  setProps(domElement, element, props, cmpElement);
-
-  if (props && props.children && domElement) {
-    reconcileChild(domElement, props.children, cmpElement);
-  }
-
-  if (domElement && domElement.aDataRootCompnnt) {
-    Object.assign(domElement.aDataRootCompnnt.element, element);
-    return "root reconciled";
-  }
-
-  return "reconciled";
-};
-
 export const reconcileInstance = (
-  element: any,
-  elDom: any,
-  cmpElement: any
+  newReactElement: any,
+  root: any,
+  prevReactElement: any,
+  isContainsUseRef?: boolean,
+  useRefID?: number
 ) => {
-  if (!element && cmpElement && elDom) {
-    elDom.remove();
+  if (!newReactElement && prevReactElement && root) {
+    root.remove();
     return;
   }
 
-  if (elDom) {
-    reconcile(element, elDom, cmpElement);
+  if (root) {
+    setProps(root, newReactElement, prevReactElement);
+
+    if (newReactElement.props && newReactElement.props.children && root) {
+      reconcileChild(
+        newReactElement.props.children,
+        root,
+        prevReactElement.props.children,
+        isContainsUseRef,
+        useRefID
+      );
+    }
+
+    // if (isContainsUseRef) {
+    //   console.log(useRefID);
+    //   console.log("new");
+    //   console.log(newReactElement);
+    //   console.log("prev");
+    //   console.log(prevReactElement);
+    // }
+
+    /* for instance && composite instance */
+    if (root && root.aDataRootCompnnt && root.aDataRootCompnnt.element) {
+      Object.assign(root.aDataRootCompnnt.element, newReactElement);
+    }
   }
+};
+
+export const reconsile = (element: any) => {
+  const {
+    elementRenderFunction: render,
+    elementRenderFunctionArgs: args = undefined,
+    dom: root,
+    element: prevReactElement,
+  } = element;
+
+  const useRefBefore = useRef.ownerIndefication;
+  const newReactElement = render(args);
+  const useRefAfter = useRef.ownerIndefication;
+
+  const isContainsUseRef = useRefBefore !== useRefAfter;
+  if (isContainsUseRef) {
+    // console.log("use ref");
+
+    // if (isContainsUseRef && element.ref?.id === useRefID) {
+    useRef.setRootPublicDom(root);
+    // }
+  }
+
+  reconcileInstance(
+    newReactElement,
+    root,
+    prevReactElement,
+    isContainsUseRef,
+    useRefAfter
+  );
 };

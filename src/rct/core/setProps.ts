@@ -1,17 +1,22 @@
-import {
-  isDeepEqual,
-  isEventListener,
-  isPropNameValid,
-} from "./validation/validation";
+import { isDeepEqual, isEventListener } from "./validation/validation";
 import { Element } from "./Interfaces";
 
-export const setProps = (
-  topNode: any,
-  element: any,
-  props: any,
-  compareElement?: Element
-) => {
-  if (!(props && topNode)) {
+export const isPropNameValid = (propName: string): boolean => {
+  return ![
+    "className",
+    "selected",
+    "style",
+    "key",
+    "ref",
+    "children",
+    "internaldataargs",
+    "internaldatadom",
+  ].some((el) => el === propName);
+};
+
+export const setProps = (root: any, element: any, compareElement?: Element) => {
+  const props = element.props;
+  if (!(props && root)) {
     return "PROPS ARE NOT SETTED";
   }
 
@@ -23,40 +28,43 @@ export const setProps = (
     if (isEventListener(prop)) {
       if (compareElement) {
         if (compareElement.props[prop] !== prop) {
-          topNode.removeEventListener(
+          root.removeEventListener(
             prop.toLowerCase().substring(2),
             compareElement.props[prop]
           );
         }
       }
-      topNode.addEventListener(prop.toLowerCase().substring(2), value);
+      root.addEventListener(prop.toLowerCase().substring(2), value);
       return;
     }
 
     if (prop === "internaldata") {
-      Object.defineProperty(topNode, "aDataRootCompnnt", {
+      Object.defineProperty(root, "aDataRootCompnnt", {
         enumerable: false,
         configurable: false,
         writable: true,
         value: {
-          dom: topNode,
+          dom: root,
           element,
           elementRenderFunction: value,
           elementRenderFunctionArgs: element.props.internaldataargs,
         },
       });
+
       value.internalInstance = {
-        dom: topNode,
+        dom: root,
         element,
         elementRenderFunction: value,
         elementRenderFunctionArgs: element.props.internaldataargs,
       };
-      element.props.internaldatadom = topNode;
+
+      element.props.internaldatadom = root;
+
       return;
     }
 
     // if (prop === "data-ev") {
-    //   Object.defineProperty(topNode, "aDataEv", {
+    //   Object.defineProperty(root, "aDataEv", {
     //     enumerable: false,
     //     configurable: false,
     //     writable: true,
@@ -67,35 +75,35 @@ export const setProps = (
 
     if (compareElement) {
       if (element.props[prop] !== compareElement.props[prop]) {
-        topNode.setAttribute(prop, value);
+        root.setAttribute(prop, value);
       }
       return;
     }
 
-    topNode.setAttribute(prop, value);
+    root.setAttribute(prop, value);
   });
 
   if (props.className) {
     if (compareElement) {
       if (element.props.className !== compareElement.props.className) {
-        topNode.className = element.props.className;
+        root.className = element.props.className;
       }
     } else {
-      topNode.className = props.className;
+      root.className = props.className;
     }
   }
 
   if (props.selected !== "undefined") {
-    if (props.selected === true && topNode.getAttribute("selected") === null) {
-      topNode.setAttribute("selected", "true");
+    if (props.selected === true && root.getAttribute("selected") === null) {
+      root.setAttribute("selected", "true");
     }
 
     if (
       compareElement &&
-      topNode.getAttribute("selected") !== null &&
+      root.getAttribute("selected") !== null &&
       props.selected === false
     ) {
-      topNode.removeAttribute("selected");
+      root.removeAttribute("selected");
     }
   }
 
@@ -104,17 +112,17 @@ export const setProps = (
       if (compareElement.props.style) {
         /* isStyles equal */
         if (!isDeepEqual(compareElement.props.style, props.style)) {
-          topNode.removeAttribute("style");
-          Object.assign(topNode.style, props.style);
+          root.removeAttribute("style");
+          Object.assign(root.style, props.style);
         }
       }
     } else {
-      Object.assign(topNode.style, props.style);
+      Object.assign(root.style, props.style);
     }
   }
 
   if (!props.style && compareElement && compareElement.props.style) {
-    topNode.removeAttribute("style");
+    root.removeAttribute("style");
   }
 
   return "PROPS ARE SETTED";

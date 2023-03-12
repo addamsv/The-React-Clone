@@ -22,6 +22,7 @@ import {
   REACT_COMPONENT,
   REACT_ELEMENT,
   REACT_FRAGMENT,
+  _owner,
 } from "./core/definitions";
 import { isFunctionNative } from "./core/validation/validation";
 import { getChildren } from "./core/getChildren";
@@ -52,7 +53,14 @@ const React = {
       elTypeof = REACT_FRAGMENT;
     }
 
-    return { $$typeof: elTypeof, key, ref, _owner: {}, type, props };
+    return {
+      $$typeof: elTypeof,
+      key,
+      ref,
+      _owner: { index: _owner.index++ },
+      type,
+      props,
+    };
   },
 };
 

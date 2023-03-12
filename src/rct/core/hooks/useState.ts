@@ -1,11 +1,12 @@
-import { reconcileInstance } from "../reconcile";
+import { reconsile } from "../reconcile";
 
+/* current */
 const useSatePublicDom = {
   dom: null as any,
 };
 
 export const useState = (initialState?: any) => {
-  const getStateValueObj = (setFn: any) => {
+  const getStateValueObj = () => {
     let rootPublicDom: any = null;
 
     return {
@@ -37,8 +38,6 @@ export const useState = (initialState?: any) => {
 
     const setTateObj = {
       setRootPublicDom: (el: any) => (innerObj.rootPublicDom = el),
-
-      getRootPublicDom: () => innerObj.rootPublicDom,
 
       setState: (newState?: any): any => {
         const root: any = innerObj.rootPublicDom;
@@ -87,13 +86,7 @@ export const useState = (initialState?: any) => {
 
         /* Start Reconciliation Algorithm */
         if (prevState !== newState) {
-          reconcileInstance(
-            root.aDataRootCompnnt.elementRenderFunction(
-              root.aDataRootCompnnt.elementRenderFunctionArgs
-            ),
-            root.aDataRootCompnnt.dom,
-            root.aDataRootCompnnt.element
-          );
+          reconsile(root.aDataRootCompnnt);
 
           useState.setRootPublicDom(root);
         }
@@ -110,7 +103,7 @@ export const useState = (initialState?: any) => {
   useState.setRootPublicDom = setStateObj.setRootPublicDom;
   useState.ownerIndefication++;
 
-  const valueObj = getStateValueObj(setStateObj.setState);
+  const valueObj = getStateValueObj();
 
   return [valueObj.state(initialState), setStateObj.setState];
 };

@@ -1,1 +1,2 @@
-console.log('Сборка сторибук...')
+// storybook.js.org/docs/react/get-started/install
+https: console.log("Сборка сторибук...");

@@ -9,6 +9,10 @@ type makeInstanceT = { dom: Array<any>; element: any };
 type innerElement = {
   type: string | any;
   props: any;
+  ref: {
+    id: number;
+    current: any;
+  };
 };
 
 export const instantiate = (element: innerElement, container?: HTMLElement) => {
@@ -28,10 +32,10 @@ export const makeInstance = (
   element: innerElement,
   topNode?: HTMLElement,
   isContainsUseState?: boolean,
-  isContainsUseRef?: boolean
+  isContainsUseRef?: boolean,
+  useRefID?: number
 ): makeInstanceT => {
   const { type, props } = element;
-  const stackArr = [];
 
   /* FRAGMENT */
   if (type === "") {
@@ -60,14 +64,14 @@ export const makeInstance = (
   if (typeof type === "string") {
     topNode = topNode || document.createElement(type);
 
-    setProps(topNode, element, props);
+    setProps(topNode, element);
 
     if (isContainsUseState) {
       useState.setRootPublicDom(element.props.internaldatadom);
     }
 
-    if (isContainsUseRef) {
-      useRef.setRootPublicDom(element.props.internaldatadom);
+    if (isContainsUseRef && element.ref?.id === useRefID) {
+      useRef.setRootPublicDom(topNode);
     }
 
     if (props && props.children) {
@@ -78,7 +82,13 @@ export const makeInstance = (
         props.children.forEach((element: any) => {
           /* Components */
           if (element && typeof element === "object") {
-            const inst = makeInstance(element);
+            const inst = makeInstance(
+              element,
+              undefined,
+              false,
+              isContainsUseRef,
+              useRefID
+            );
 
             inst.dom.forEach((elementToAppend: any) => {
               topNode?.appendChild(elementToAppend);
@@ -134,7 +144,8 @@ export const makeInstance = (
       element,
       undefined,
       isUseSateTrigered,
-      isUseRefTrigered
+      isUseRefTrigered,
+      useRefAfter
     );
 
     return inst;

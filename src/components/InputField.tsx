@@ -6,17 +6,16 @@ const InputField = () => {
   const divRef = useRef(null);
 
   const changing = (val: string) => {
-    divRef.current;
+    console.log(divRef.current);
     setSt(val);
   };
 
   /* Reconciliation Alg is Wrong!!! */
   return (
-    <div>
+    <div ref={divRef}>
       <span>{st === "hello" && st}</span>
       <span>{false}</span>
       <input
-        ref={divRef}
         type="text"
         onInput={(e: any) => changing(e.target.value)}
         placeholder="text hello here"

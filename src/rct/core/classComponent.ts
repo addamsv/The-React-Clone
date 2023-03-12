@@ -31,6 +31,7 @@ export class Component<P = {}> extends ElementClass implements IComponent {
     } else {
       this.state = Object.assign({}, this.state, partialState);
     }
+
     reconcileInstance(
       this.render(),
       this.internalInstance.dom,

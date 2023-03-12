@@ -37,7 +37,11 @@ the full version of documentation come soon
 ![](./config/README_FILES/imports.png)
 
 <br><br>
-The only hooks are supported now is 'useState' && 'useEffect'.
+
+## The only hooks are supported now are:
+ useState<br>
+ useEffect<br>
+ useRef (not fully)<br>
 <br>
 
 ![](./config/README_FILES/hooks.png)

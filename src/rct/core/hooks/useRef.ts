@@ -1,24 +1,21 @@
-export const useRef = (initValue: any) => {
-  const getUseRefValueObj = () => {
-    const innerObj = {
-      current: null as any,
-    };
+/* current */
+const useRefPublicDom = {
+  dom: null as any,
+};
 
-    return {
-      setRootPublicDom: (el: any) => (innerObj.current = el),
-
-      ref: (initValue: any) => {
-        return innerObj;
-      },
-    };
+export const useRef = (initValue: any = null) => {
+  const innerObj = {
+    id: 0,
+    current: initValue as any,
   };
 
-  const useRefValueObj = getUseRefValueObj();
+  const setRootPublicDom = (el: any) => (innerObj.current = el);
 
-  useRef.setRootPublicDom = useRefValueObj.setRootPublicDom;
+  useRef.setRootPublicDom = setRootPublicDom;
   useRef.ownerIndefication++;
+  innerObj.id = useRef.ownerIndefication;
 
-  return useRefValueObj.ref(initValue);
+  return innerObj;
 };
 
 useRef.setRootPublicDom = null as any;
