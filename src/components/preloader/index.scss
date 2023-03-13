@@ -5,6 +5,12 @@
   top: calc(50% - 106px);
   left: calc(50% - 200px);
 }
+.preloader-logo {
+  animation-name: preloader-logo-rotation;
+  animation-duration: 20s;
+  width: 400px;
+  height: 50px;
+}
 .preloader-title {
   display: block;
   text-align: center;
@@ -26,6 +32,14 @@
   width: 110px;
   background: #aaa;
   border-radius: 2.2px;
+}
+@keyframes preloader-logo-rotation {
+  0% {
+    rotate: 0deg;
+  }
+  100% {
+    rotate: 360deg;
+  }
 }
 @keyframes preloader-line {
   0% {
