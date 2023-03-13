@@ -1,111 +1,78 @@
 import { reconsile } from "../reconcile";
 
 /* current */
-const useSatePublicDom = {
-  dom: null as any,
-};
+const useSatePublicDom = { dom: null as any };
 
 export const useState = (initialState?: any) => {
-  const getStateValueObj = () => {
-    let rootPublicDom: any = null;
+  const innerObj = { rootPublicDom: null as any };
 
-    return {
-      setRootPublicDom: (el: any) => (rootPublicDom = el),
+  const setRootPublicDom = (el: any) => (innerObj.rootPublicDom = el);
 
-      getRootPublicDom: () => rootPublicDom,
+  const stateValue = () => {
+    const root: any = useSatePublicDom.dom;
 
-      state: (initialState: any) => {
-        const root: any = useSatePublicDom.dom;
-
-        if (!root) {
-          return initialState;
-        }
-
-        if (root.aStateData !== "undefined") {
-          return root.aStateData;
-        }
-
-        return initialState;
-      },
-    };
+    return !root || root.aStateData === "undefined"
+      ? initialState
+      : root.aStateData;
   };
 
-  const getSetStateObj = () => {
-    const innerObj = {
-      rootPublicDom: null as any,
-      setStateFn: null as any,
-    };
+  const setState = (newState?: any): any => {
+    const root: any = innerObj.rootPublicDom;
 
-    const setTateObj = {
-      setRootPublicDom: (el: any) => (innerObj.rootPublicDom = el),
+    if (!root) {
+      return;
+    }
 
-      setState: (newState?: any): any => {
-        const root: any = innerObj.rootPublicDom;
+    const prevState = root.aStateData?.toString();
 
-        if (!root) {
-          return;
-        }
+    useSatePublicDom.dom = root;
 
-        const prevState = root.aStateData?.toString();
+    /* Set New State Data */
+    if (root.aStateData === undefined) {
+      Object.defineProperty(root, "aStateData", {
+        enumerable: false,
+        configurable: false,
+        writable: true,
+        value: newState,
+      });
+    }
 
-        useSatePublicDom.dom = root;
+    if (
+      typeof root.aStateData === "object" &&
+      typeof newState === "object" &&
+      !Array.isArray(root.aStateData)
+    ) {
+      if (typeof newState === "function") {
+        root.aStateData = Object.assign(
+          {},
+          root.aStateData,
+          newState(root.aStateData)
+        );
+      } else {
+        root.aStateData = Object.assign({}, root.aStateData, newState);
+      }
+    }
 
-        /* Set New State Data */
-        if (root.aStateData === undefined) {
-          Object.defineProperty(root, "aStateData", {
-            enumerable: false,
-            configurable: false,
-            writable: true,
-            value: newState,
-          });
-        }
+    if (
+      typeof root.aStateData === "string" ||
+      typeof root.aStateData === "number" ||
+      Array.isArray(root.aStateData)
+    ) {
+      root.aStateData = newState;
+    }
 
-        if (
-          typeof root.aStateData === "object" &&
-          typeof newState === "object" &&
-          !Array.isArray(root.aStateData)
-        ) {
-          if (typeof newState === "function") {
-            root.aStateData = Object.assign(
-              {},
-              root.aStateData,
-              newState(root.aStateData)
-            );
-          } else {
-            root.aStateData = Object.assign({}, root.aStateData, newState);
-          }
-        }
+    /* Start Reconciliation Algorithm */
+    if (prevState !== newState) {
+      reconsile(root.aDataRootCompnnt);
 
-        if (
-          typeof root.aStateData === "string" ||
-          typeof root.aStateData === "number" ||
-          Array.isArray(root.aStateData)
-        ) {
-          root.aStateData = newState;
-        }
-
-        /* Start Reconciliation Algorithm */
-        if (prevState !== newState) {
-          reconsile(root.aDataRootCompnnt);
-
-          useState.setRootPublicDom(root);
-        }
-      },
-    };
-
-    innerObj.setStateFn = setTateObj.setState;
-
-    return setTateObj;
+      useState.setRootPublicDom(root);
+    }
   };
 
-  const setStateObj = getSetStateObj();
-
-  useState.setRootPublicDom = setStateObj.setRootPublicDom;
+  useState.setRootPublicDom = setRootPublicDom;
   useState.ownerIndefication++;
 
-  const valueObj = getStateValueObj();
-
-  return [valueObj.state(initialState), setStateObj.setState];
+  return [stateValue(), setState];
 };
 
 useState.setRootPublicDom = null as any;
