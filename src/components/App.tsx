@@ -16,7 +16,7 @@ const App = () => {
   // console.log(isLoading ? <Preloader /> : <Test />);
 
   // return isLoading ? <Preloader /> : <Test />;
-  // return <div>{isLoading ? <Preloader /> : <Test />}</div>;
+  return <div>{isLoading ? <Preloader /> : <Test />}</div>;
   return (
     <div>
       <Test />

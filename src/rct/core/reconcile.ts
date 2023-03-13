@@ -1,4 +1,4 @@
-import { useRef } from "../rct";
+import { useRef, useState } from "../rct";
 import { REACT_COMPONENT, REACT_ELEMENT } from "./definitions";
 import { makeInstance } from "./instantiate/instantiate";
 import { Element } from "./Interfaces";
@@ -52,7 +52,7 @@ const reconcileChild = (
 
   let shiftIndexOfRemovedElement = 0;
 
-  children.forEach((childrenReactElement: any, indx: number) => {
+  children.some((childrenReactElement: any, indx: number) => {
     /**
      *
      *
@@ -88,7 +88,46 @@ const reconcileChild = (
      */
     // if (typeof childrenReactElement.type === "function") {
     if (childrenReactElement.$$typeof === REACT_COMPONENT) {
-      // console.log("REACT_COMPONENT", childrenReactElement);
+      console.log(
+        "REACT_COMPONENT"
+        // childrenReactElement
+        // prevChildren[indx].type.name
+      );
+
+      if (childrenReactElement.type.name !== prevChildren[indx].type.name) {
+        console.log("------ Change Component ---------");
+
+        useState.setCurrentPublicDom();
+        // console.log(childrenReactElement.type.internalInstance);
+
+        const { dom: domNodes } = makeInstance(childrenReactElement);
+
+        const [rootNode] = domNodes;
+        // console.log(
+        //   prevChildren[indx],
+        //   indx,
+        //   domNodes.dom[0]
+        //   // root.children[0]
+        // );
+
+        root.children[0].remove();
+
+        root.appendChild(rootNode);
+
+        Object.defineProperty(rootNode, "aDataRootCompnnt", {
+          enumerable: false,
+          configurable: false,
+          writable: true,
+          value: {
+            dom: rootNode,
+            childrenReactElement,
+            elementRenderFunction: childrenReactElement.type,
+            elementRenderFunctionArgs: childrenReactElement.props,
+          },
+        });
+
+        return;
+      }
 
       const isPropsEqual = isDeepEqual(
         childrenReactElement.props,
@@ -243,14 +282,20 @@ export const reconsile = (element: any) => {
     element: prevReactElement,
   } = element;
 
+  // console.log(render.name);
+
+  // console.log(newReactElement._owner, prevReactElement._owner);
+
+  // if (newReactElement._owner.index !== prevReactElement._owner.index) {
+  //   console.log(newReactElement, prevReactElement);
+  // }
+
   const useRefBefore = useRef.ownerIndefication;
   const newReactElement = render(args);
   const useRefAfter = useRef.ownerIndefication;
 
   const isContainsUseRef = useRefBefore !== useRefAfter;
   if (isContainsUseRef) {
-    // console.log("use ref");
-
     // if (isContainsUseRef && element.ref?.id === useRefID) {
     useRef.setRootPublicDom(root);
     // }
