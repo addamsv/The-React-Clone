@@ -1,7 +1,7 @@
 import { reconsile } from "../reconcile";
 
 /* current */
-const useSatePublicDom = { dom: null as any };
+const currentPublicDom = { dom: null as any };
 
 export const useState = (initialState?: any) => {
   const innerObj = { rootPublicDom: null as any };
@@ -9,7 +9,7 @@ export const useState = (initialState?: any) => {
   const setRootPublicDom = (el: any) => (innerObj.rootPublicDom = el);
 
   const stateValue = () => {
-    const root: any = useSatePublicDom.dom;
+    const root: any = currentPublicDom.dom;
 
     return !root || root.aStateData === "undefined"
       ? initialState
@@ -25,7 +25,7 @@ export const useState = (initialState?: any) => {
 
     const prevState = root.aStateData?.toString();
 
-    useSatePublicDom.dom = root;
+    currentPublicDom.dom = root;
 
     /* Set New State Data */
     if (root.aStateData === undefined) {
@@ -64,11 +64,12 @@ export const useState = (initialState?: any) => {
     /* Start Reconciliation Algorithm */
     if (prevState !== newState) {
       reconsile(root.aDataRootCompnnt);
+      // console.log(root);
 
       useState.setRootPublicDom(root);
     }
   };
-
+  setState.innerObj = innerObj;
   useState.setRootPublicDom = setRootPublicDom;
   useState.ownerIndefication++;
 
@@ -76,4 +77,9 @@ export const useState = (initialState?: any) => {
 };
 
 useState.setRootPublicDom = null as any;
+useState.setCurrentPublicDom = () => {
+  useState.setRootPublicDom(null);
+  useState.setRootPublicDom = null;
+  currentPublicDom.dom = null;
+};
 useState.ownerIndefication = 0;
