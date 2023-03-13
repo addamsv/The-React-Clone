@@ -1,3 +1,23 @@
+.preloader {
+  display: block;
+  position: absolute;
+  width: 400px;
+  top: calc(50% - 106px);
+  left: calc(50% - 200px);
+}
+.preloader-title {
+  display: block;
+  text-align: center;
+  color: #aaa;
+}
+.preloader-line-wrapper {
+  margin: auto;
+  display: block;
+  height: 5px;
+  width: 110px;
+  border: 1px solid #aaa;
+  border-radius: 2.2px;
+}
 .preloader-line {
   animation-name: preloader-line;
   animation-duration: 3s;
