@@ -94,7 +94,12 @@ const reconcileChild = (
         // prevChildren[indx].type.name
       );
 
-      if (childrenReactElement.type.name !== prevChildren[indx].type.name) {
+      // console.log(
+      //   childrenReactElement.type
+      //   // prevChildren[indx].type.name
+      // );
+
+      if (childrenReactElement.type !== prevChildren[indx].type) {
         console.log("------ Change Component ---------");
 
         useState.setCurrentPublicDom();
@@ -105,8 +110,8 @@ const reconcileChild = (
         const [rootNode] = domNodes;
         // console.log(
         //   prevChildren[indx],
-        //   indx,
-        //   domNodes.dom[0]
+        //   indx
+        //   // domNodes.dom[0]
         //   // root.children[0]
         // );
 
