@@ -13,6 +13,7 @@ import InputField from "./InputField";
 const Test = () => {
   const elementus = (
     <div
+      className="simple-element"
       style={{
         background: "red",
         padding: "10px",
@@ -37,7 +38,7 @@ const Test = () => {
         color: "white",
       }}
     >
-      <Preloader />
+      {/* <Preloader /> */}
 
       {elementus}
 
@@ -62,6 +63,7 @@ const Test = () => {
         }}
       >
         <h1 style={{ color: "white" }}>Input Field Test</h1>
+        <InputField />
         <InputField />
       </div>
 

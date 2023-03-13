@@ -20,14 +20,17 @@ describe("Main Page", () => {
     await page.goto("http://localhost:3000", { waitUntil: "domcontentloaded" });
   }, 10000);
 
-  it('should include "inc" text on page', async () => {
-    await expect(page).toMatch("Simple React Element");
-  }, 10000);
-
   it("should include the React svg correct image", async () => {
     const images = await page.$$eval("img", (anchors) =>
       [].map.call(anchors, (img) => img["src"])
     );
     expect(images[0]).toMatch(SERVER_URL + "/src/assets/img/logo.svg");
   }, 10000); //JEST_TIMEOUT
+
+  it('should include "inc" text on page', async () => {
+    const el = await page.waitForSelector(".simple-element");
+    await expect(page).toMatch("Simple React Element");
+  }, 10000);
 });
+
+/* https://ru.hexlet.io/courses/frontend-testing-browser/lessons/e2e-testing/theory_unit */
