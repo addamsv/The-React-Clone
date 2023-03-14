@@ -1,4 +1,4 @@
-import React from "../../rct/rct";
+import React from "../../../rct/rct";
 
 const SpecialBtn = ({ stateFn }: { stateFn: (prop: string) => void }) => {
   const changing = () => stateFn("ok");

@@ -1,7 +1,7 @@
 import { reconsile } from "../reconcile";
 
 /* current */
-const currentPublicDom = { dom: null as any };
+const currentPublicDom = { dom: null as any, didUnmounted: false };
 
 export const useState = (initialState?: any) => {
   const innerObj = { rootPublicDom: null as any };
@@ -64,9 +64,18 @@ export const useState = (initialState?: any) => {
     /* Start Reconciliation Algorithm */
     if (prevState !== newState) {
       reconsile(root.aDataRootCompnnt);
-      // console.log(root);
 
-      useState.setRootPublicDom(root);
+      if (currentPublicDom.didUnmounted) {
+        // console.log("didUnmounted");
+        // console.log(root);
+      }
+      if (!currentPublicDom.didUnmounted) {
+        useState.setRootPublicDom(root);
+      }
+
+      currentPublicDom.didUnmounted = false;
+
+      // console.log(root);
     }
   };
   setState.innerObj = innerObj;
@@ -77,9 +86,13 @@ export const useState = (initialState?: any) => {
 };
 
 useState.setRootPublicDom = null as any;
-useState.setCurrentPublicDom = () => {
+
+useState.didUnmounted = () => (currentPublicDom.didUnmounted = true);
+
+useState.clearCurrentPublicDom = () => {
   useState.setRootPublicDom(null);
   useState.setRootPublicDom = null;
   currentPublicDom.dom = null;
 };
+
 useState.ownerIndefication = 0;

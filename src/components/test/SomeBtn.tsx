@@ -1,10 +1,10 @@
-import React, { useState } from "../rct/rct";
+import React, { useState } from "../../rct/rct";
 
 const SomeBtn = () => {
   const [st, setSt] = useState(1);
 
   const changing = () => {
-    console.log(setSt.innerObj);
+    // console.log(setSt.innerObj);
     setSt(st + 1);
   };
 

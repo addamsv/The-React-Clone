@@ -1,4 +1,4 @@
-import React from "../rct/rct";
+import React from "../../rct/rct";
 
 const InnerChildrenComp = ({ text }: { text: string }) => {
   if (text === "1" || text === "2") {
@@ -10,25 +10,25 @@ const InnerChildrenComp = ({ text }: { text: string }) => {
     <div
       id="src_to_render"
       style={{
-        background: "#040",
+        background: "#888",
         padding: "10px",
         marginTop: "10px",
-        color: "#0b0",
+        color: "#555",
         borderRadius: "4px",
       }}
     >
-      If likes === 1 || likes === 2 it should be disappeared InnerChildrenComp
-      likes: {text}
+      <div>If likes === 1 || likes === 2 it should be disappeared</div>
+      <b>likes: {text}</b>
       <div
         style={{
-          background: "yellow",
+          background: "#777",
           padding: "10px",
           marginTop: "10px",
-          color: "green",
+          color: "#444",
           borderRadius: "4px",
         }}
       >
-        likes {text}
+        <b>likes {text}</b>
       </div>
     </div>
   );

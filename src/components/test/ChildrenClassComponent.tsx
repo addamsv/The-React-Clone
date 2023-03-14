@@ -1,4 +1,4 @@
-import React, { Component } from "../rct/rct";
+import React, { Component } from "../../rct/rct";
 
 interface IChldrnCl {
   text: string;

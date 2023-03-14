@@ -1,4 +1,4 @@
-import React, { useState } from "../../rct/rct";
+import React, { useState } from "../../../rct/rct";
 import SpecialBtn from "./SpecialBtn";
 
 const SpecialTestComponent = () => {

@@ -1,4 +1,4 @@
-import React from "../rct/rct";
+import React from "../../rct/rct";
 
 type ChildrenComps = {
   children?: any; // React.ReactNode; 👈️ children type

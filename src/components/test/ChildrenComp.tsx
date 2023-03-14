@@ -1,8 +1,8 @@
-import React, { useState } from "../rct/rct";
-import cite from "../data/data";
+import React, { useState } from "../../rct/rct";
+import cite from "../../data/data";
 import InnerChildrenComp from "./InnerChildrenComp";
-import img2 from "../assets/img/dislike.svg";
-import img3 from "../assets/img/like.svg";
+import img2 from "../../assets/img/dislike.svg";
+import img3 from "../../assets/img/like.svg";
 
 type ChildrenComps = {
   children?: (item: string) => string; // React.ReactNode; 👈️ children type
@@ -47,11 +47,20 @@ const ChildrenComp = (props: ChildrenComps) => {
       <div>
         <b>Function Component</b>
       </div>
+
+      <div>
+        <b>Random Cite (onSetState)</b>
+      </div>
+
       {cite[getIndex()].cite}
-      <br />
+
       <div>
         {/* ❤️ */}
+        {/* <div> */}
+        {/* <b> */}
         likes: <span>{likes}</span>
+        {/* </b> */}
+        {/* </div> */}
         <button
           onClick={like}
           data-ok={`width`}
@@ -59,7 +68,6 @@ const ChildrenComp = (props: ChildrenComps) => {
           style={btnStyle}
         >
           <img width={16} height={16} src={img3} alt="like" />
-          {/* like */}
         </button>
         <button
           onClick={dislike}
@@ -67,12 +75,11 @@ const ChildrenComp = (props: ChildrenComps) => {
           className={`children-comp mode-${likes}`}
           style={btnStyle}
         >
-          {/* dislike */}
           <img width={16} height={16} src={img2} alt="dislike" />
         </button>
         <InnerChildrenComp text={likes.toString()} />
         <div>
-          <div>after InnerChildrenComp likes: {likes}</div>
+          <div>likes: {likes}</div>
         </div>
         {childsFunction}
       </div>

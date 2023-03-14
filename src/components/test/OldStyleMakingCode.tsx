@@ -1,4 +1,4 @@
-import React from "../rct/rct";
+import React from "../../rct/rct";
 
 const elementus = React.createElement("div", null, "some div element"); // '<script>alert("alllllerrrt")</script>';
 
@@ -7,7 +7,7 @@ const OldStyleMakingCode = React.createElement(
   {
     className: "very first",
     style: {
-      background: "black",
+      background: "#aaa",
       marginTop: "10px",
       padding: "10px",
       borderRadius: "4px",

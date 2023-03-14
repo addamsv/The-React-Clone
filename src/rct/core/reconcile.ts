@@ -88,11 +88,11 @@ const reconcileChild = (
      */
     // if (typeof childrenReactElement.type === "function") {
     if (childrenReactElement.$$typeof === REACT_COMPONENT) {
-      console.log(
-        "REACT_COMPONENT"
-        // childrenReactElement
-        // prevChildren[indx].type.name
-      );
+      // console.log(
+      //   "REACT_COMPONENT"
+      //   // childrenReactElement
+      //   // prevChildren[indx].type.name
+      // );
 
       // console.log(
       //   childrenReactElement.type
@@ -100,9 +100,9 @@ const reconcileChild = (
       // );
 
       if (childrenReactElement.type !== prevChildren[indx].type) {
-        console.log("------ Change Component ---------");
+        // console.log("------ Change Component ---------");
 
-        useState.setCurrentPublicDom();
+        useState.clearCurrentPublicDom();
         // console.log(childrenReactElement.type.internalInstance);
 
         const { dom: domNodes } = makeInstance(childrenReactElement);
@@ -131,6 +131,7 @@ const reconcileChild = (
           },
         });
 
+        useState.didUnmounted();
         return;
       }
 
@@ -150,11 +151,11 @@ const reconcileChild = (
       if (!newElement && !prevElement) {
         /* Skiping removed Element */
 
-        console.log("------Skiping removed Element------");
+        // console.log("------Skiping removed Element------");
 
         shiftIndexOfRemovedElement++;
       } else if (newElement && !prevElement) {
-        console.log("------Making Element-------");
+        // console.log("------Making Element-------");
 
         /* Making Element */
 
@@ -183,12 +184,12 @@ const reconcileChild = (
       } else {
         /** - - - - - - Remove/Reconcile the Components Element - - - - - */
 
-        console.log(
-          "-------Remove/Reconcile the Components Element:"
-          // root.children[indx - shiftIndexOfRemovedElement - 1],
-          // newElement,
-          // prevElement
-        );
+        // console.log(
+        ("-------Remove/Reconcile the Components Element:");
+        // root.children[indx - shiftIndexOfRemovedElement - 1],
+        // newElement,
+        // prevElement
+        // );
 
         reconcileInstance(
           newElement,
@@ -216,17 +217,15 @@ const reconcileChild = (
      *
      */
     if (childrenReactElement.$$typeof === REACT_ELEMENT) {
-      console.log(
-        "REACT_ELEMENT"
-        //  childrenReactElement
-      );
+      // console.log("RECONCILE REACT_ELEMENT");
 
       const isPropsEqual = isDeepEqual(
-        childrenReactElement,
-        prevChildren[indx]
+        childrenReactElement.props,
+        prevChildren[indx].props
       );
 
       if (!isPropsEqual) {
+        // console.log(childrenReactElement, prevChildren[indx]);
         reconcileInstance(
           childrenReactElement,
           root.childNodes[indx - shiftIndexOfRemovedElement],

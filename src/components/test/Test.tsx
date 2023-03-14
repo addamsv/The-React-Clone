@@ -1,13 +1,14 @@
-import React from "../rct/rct";
+import React from "../../rct/rct";
 
 import ChildrenComp from "./ChildrenComp";
 import ChildrenClassComponent from "./ChildrenClassComponent";
-import Preloader from "./preloader/Preloader";
 import { OldStyleMakingCode } from "./OldStyleMakingCode";
 import WithChildren from "./WithChildren";
 import SomeBtn from "./SomeBtn";
 import SpecialTestComponent from "./specialStateComponent/SpecialStateComponent";
 import InputField from "./InputField";
+
+import "./index.scss";
 
 /* style props for DEMO purpouse */
 const Test = () => {
@@ -15,7 +16,7 @@ const Test = () => {
     <div
       className="simple-element"
       style={{
-        background: "red",
+        background: "#aaa",
         padding: "10px",
         borderRadius: "4px",
       }}
@@ -31,20 +32,12 @@ const Test = () => {
   );
 
   return (
-    <div
-      style={{
-        width: "400px",
-        margin: "auto",
-        color: "white",
-      }}
-    >
-      {/* <Preloader /> */}
-
+    <div className="test">
       {elementus}
 
       <div
         style={{
-          background: "green",
+          background: "#888",
           padding: "10px",
           marginTop: "10px",
           borderRadius: "4px",
@@ -56,7 +49,7 @@ const Test = () => {
 
       <div
         style={{
-          background: "green",
+          background: "#888",
           padding: "10px",
           marginTop: "10px",
           borderRadius: "4px",
@@ -69,7 +62,7 @@ const Test = () => {
 
       <div
         style={{
-          background: "green",
+          background: "#888",
           padding: "10px",
           marginTop: "10px",
           borderRadius: "4px",
@@ -81,7 +74,7 @@ const Test = () => {
 
       <div
         style={{
-          background: "green",
+          background: "#888",
           padding: "10px",
           marginTop: "10px",
           borderRadius: "4px",

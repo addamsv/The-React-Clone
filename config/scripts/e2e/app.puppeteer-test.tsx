@@ -27,7 +27,7 @@ describe("Main Page", () => {
     expect(images[0]).toMatch(SERVER_URL + "/src/assets/img/logo.svg");
   }, 10000); //JEST_TIMEOUT
 
-  it('should include "inc" text on page', async () => {
+  it('should include "Simple React Element" text on page', async () => {
     const el = await page.waitForSelector(".simple-element");
     await expect(page).toMatch("Simple React Element");
   }, 10000);

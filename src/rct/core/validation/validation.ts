@@ -53,6 +53,7 @@ export const isDeepEqual = (obj1: any, obj2: any): boolean => {
     if (!obj2.hasOwnProperty(key)) {
       return false;
     }
+
     if (!isDeepEqual(obj1[key], obj2[key])) {
       return false;
     }

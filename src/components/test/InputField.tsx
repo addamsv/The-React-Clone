@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "../rct/rct";
+import React, { useRef, useState } from "../../rct/rct";
 
 const InputField = () => {
   const [st, setSt] = useState("");
@@ -6,11 +6,9 @@ const InputField = () => {
   const divRef = useRef(null);
 
   const changing = (val: string) => {
-    console.log(divRef.current);
     setSt(val);
   };
 
-  /* Reconciliation Alg is Wrong!!! */
   return (
     <div ref={divRef}>
       <span>{st === "hello" && st}</span>

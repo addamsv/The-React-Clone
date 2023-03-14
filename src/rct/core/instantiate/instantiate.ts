@@ -26,6 +26,8 @@ export const instantiate = (element: innerElement, container?: HTMLElement) => {
   useEffectFnArr.some((fn) => {
     fn();
   });
+
+  useEffectFnArr.length = 0;
 };
 
 export const makeInstance = (
@@ -67,7 +69,8 @@ export const makeInstance = (
     setProps(topNode, element);
 
     if (isContainsUseState) {
-      useState.setRootPublicDom(element.props.internaldatadom);
+      // console.log(element.props.internaldatadom === topNode);
+      useState.setRootPublicDom(topNode);
     }
 
     if (isContainsUseRef && element.ref?.id === useRefID) {
