@@ -17,7 +17,17 @@ const InnerChildrenComp = ({ text }: { text: string }) => {
         borderRadius: "4px",
       }}
     >
-      <div>If likes === 1 || likes === 2 it should be disappeared</div>
+      <div
+        style={{
+          background: "#fff",
+          padding: "10px",
+          marginTop: "10px",
+          color: "#f00",
+          borderRadius: "4px",
+        }}
+      >
+        <b>If likes === 1 || likes === 2 it should be disappeared</b>
+      </div>
       <b>likes: {text}</b>
       <div
         style={{

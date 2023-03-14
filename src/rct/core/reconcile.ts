@@ -29,17 +29,13 @@ const isStringOrNumber = (el: any) =>
 const reconcileChild = (
   children: Array<any | string> | string,
   root: any,
-  prevChildren?: any,
-  isContainsUseRef?: boolean,
-  useRefID?: number
+  prevChildren?: any
 ) => {
   if (!root) {
     return;
   }
 
   if (isStringOrNumber(children) || !children.length) {
-    // console.log(children, prevChildren);
-
     if (children !== prevChildren) {
       root.innerText = children;
     }
@@ -94,26 +90,21 @@ const reconcileChild = (
       //   // prevChildren[indx].type.name
       // );
 
-      // console.log(
-      //   childrenReactElement.type
-      //   // prevChildren[indx].type.name
-      // );
-
       if (childrenReactElement.type !== prevChildren[indx].type) {
         // console.log("------ Change Component ---------");
 
         useState.clearCurrentPublicDom();
-        // console.log(childrenReactElement.type.internalInstance);
 
-        const { dom: domNodes } = makeInstance(childrenReactElement);
+        const { dom: domNodes, element: newReactElement } =
+          makeInstance(childrenReactElement);
 
         const [rootNode] = domNodes;
-        // console.log(
-        //   prevChildren[indx],
-        //   indx
-        //   // domNodes.dom[0]
-        //   // root.children[0]
-        // );
+
+        /* set useRef */
+        const isContainsUseRef = Boolean(newReactElement.ref?.id);
+        if (isContainsUseRef) {
+          useRef.setRootPublicDom(rootNode);
+        }
 
         root.children[0].remove();
 
@@ -158,34 +149,34 @@ const reconcileChild = (
         // console.log("------Making Element-------");
 
         /* Making Element */
+        const { dom: domNodes, element: newReactElement } =
+          makeInstance(newElement);
+        const [rootNode] = domNodes;
 
-        const newReactElementInstance = makeInstance(newElement);
+        /* set useRef */
+        const isContainsUseRef = Boolean(newReactElement.ref?.id);
+        if (isContainsUseRef) {
+          useRef.setRootPublicDom(rootNode);
+        }
 
-        root.insertBefore(
-          newReactElementInstance.dom[0],
-          root.childNodes[indx]
-        );
+        root.insertBefore(rootNode, root.childNodes[indx]);
 
-        Object.defineProperty(
-          newReactElementInstance.dom[0],
-          "aDataRootCompnnt",
-          {
-            enumerable: false,
-            configurable: false,
-            writable: true,
-            value: {
-              dom: newReactElementInstance.dom[0],
-              childrenReactElement,
-              elementRenderFunction: childrenReactElement.type,
-              elementRenderFunctionArgs: childrenReactElement.props,
-            },
-          }
-        );
+        Object.defineProperty(rootNode, "aDataRootCompnnt", {
+          enumerable: false,
+          configurable: false,
+          writable: true,
+          value: {
+            dom: rootNode,
+            childrenReactElement,
+            elementRenderFunction: childrenReactElement.type,
+            elementRenderFunctionArgs: childrenReactElement.props,
+          },
+        });
       } else {
         /** - - - - - - Remove/Reconcile the Components Element - - - - - */
 
         // console.log(
-        ("-------Remove/Reconcile the Components Element:");
+        // ("-------Remove/Reconcile the Components Element:");
         // root.children[indx - shiftIndexOfRemovedElement - 1],
         // newElement,
         // prevElement
@@ -194,9 +185,7 @@ const reconcileChild = (
         reconcileInstance(
           newElement,
           root.children[indx - shiftIndexOfRemovedElement - 1],
-          prevElement,
-          isContainsUseRef,
-          useRefID
+          prevElement
         );
 
         if (!newElement) {
@@ -219,19 +208,22 @@ const reconcileChild = (
     if (childrenReactElement.$$typeof === REACT_ELEMENT) {
       // console.log("RECONCILE REACT_ELEMENT");
 
+      /* set useRef */
+      const isContainsUseRef = Boolean(childrenReactElement.ref?.id);
+      if (isContainsUseRef) {
+        useRef.setRootPublicDom(root.childNodes[indx]);
+      }
+
       const isPropsEqual = isDeepEqual(
         childrenReactElement.props,
         prevChildren[indx].props
       );
 
       if (!isPropsEqual) {
-        // console.log(childrenReactElement, prevChildren[indx]);
         reconcileInstance(
           childrenReactElement,
           root.childNodes[indx - shiftIndexOfRemovedElement],
-          prevChildren[indx],
-          isContainsUseRef,
-          useRefID
+          prevChildren[indx]
         );
       }
     }
@@ -241,9 +233,7 @@ const reconcileChild = (
 export const reconcileInstance = (
   newReactElement: any,
   root: any,
-  prevReactElement: any,
-  isContainsUseRef?: boolean,
-  useRefID?: number
+  prevReactElement: any
 ) => {
   if (!newReactElement && prevReactElement && root) {
     root.remove();
@@ -251,25 +241,21 @@ export const reconcileInstance = (
   }
 
   if (root) {
+    /* set useRef */
+    const isContainsUseRef = Boolean(newReactElement.ref?.id);
+    if (isContainsUseRef) {
+      useRef.setRootPublicDom(root);
+    }
+
     setProps(root, newReactElement, prevReactElement);
 
     if (newReactElement.props && newReactElement.props.children && root) {
       reconcileChild(
         newReactElement.props.children,
         root,
-        prevReactElement.props.children,
-        isContainsUseRef,
-        useRefID
+        prevReactElement.props.children
       );
     }
-
-    // if (isContainsUseRef) {
-    //   console.log(useRefID);
-    //   console.log("new");
-    //   console.log(newReactElement);
-    //   console.log("prev");
-    //   console.log(prevReactElement);
-    // }
 
     /* for instance && composite instance */
     if (root && root.aDataRootCompnnt && root.aDataRootCompnnt.element) {
@@ -286,30 +272,7 @@ export const reconsile = (element: any) => {
     element: prevReactElement,
   } = element;
 
-  // console.log(render.name);
-
-  // console.log(newReactElement._owner, prevReactElement._owner);
-
-  // if (newReactElement._owner.index !== prevReactElement._owner.index) {
-  //   console.log(newReactElement, prevReactElement);
-  // }
-
-  const useRefBefore = useRef.ownerIndefication;
   const newReactElement = render(args);
-  const useRefAfter = useRef.ownerIndefication;
 
-  const isContainsUseRef = useRefBefore !== useRefAfter;
-  if (isContainsUseRef) {
-    // if (isContainsUseRef && element.ref?.id === useRefID) {
-    useRef.setRootPublicDom(root);
-    // }
-  }
-
-  reconcileInstance(
-    newReactElement,
-    root,
-    prevReactElement,
-    isContainsUseRef,
-    useRefAfter
-  );
+  reconcileInstance(newReactElement, root, prevReactElement);
 };

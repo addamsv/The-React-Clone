@@ -33,9 +33,7 @@ export const instantiate = (element: innerElement, container?: HTMLElement) => {
 export const makeInstance = (
   element: innerElement,
   topNode?: HTMLElement,
-  isContainsUseState?: boolean,
-  isContainsUseRef?: boolean,
-  useRefID?: number
+  isContainsUseState?: boolean
 ): makeInstanceT => {
   const { type, props } = element;
 
@@ -66,15 +64,17 @@ export const makeInstance = (
   if (typeof type === "string") {
     topNode = topNode || document.createElement(type);
 
+    /* set useRef */
+    const isContainsUseRef = Boolean(element.ref?.id);
+    if (isContainsUseRef) {
+      useRef.setRootPublicDom(topNode);
+    }
+
     setProps(topNode, element);
 
     if (isContainsUseState) {
       // console.log(element.props.internaldatadom === topNode);
       useState.setRootPublicDom(topNode);
-    }
-
-    if (isContainsUseRef && element.ref?.id === useRefID) {
-      useRef.setRootPublicDom(topNode);
     }
 
     if (props && props.children) {
@@ -85,13 +85,7 @@ export const makeInstance = (
         props.children.forEach((element: any) => {
           /* Components */
           if (element && typeof element === "object") {
-            const inst = makeInstance(
-              element,
-              undefined,
-              false,
-              isContainsUseRef,
-              useRefID
-            );
+            const inst = makeInstance(element, undefined, false);
 
             inst.dom.forEach((elementToAppend: any) => {
               topNode?.appendChild(elementToAppend);
@@ -132,24 +126,15 @@ export const makeInstance = (
     }
 
     const beforeOID = useState.ownerIndefication;
-    const useRefBefore = useRef.ownerIndefication;
     const element = type(props);
-    const useRefAfter = useRef.ownerIndefication;
     const afterOID = useState.ownerIndefication;
 
-    const isUseRefTrigered = useRefBefore !== useRefAfter;
     const isUseSateTrigered = beforeOID !== afterOID;
 
     element.props.internaldata = type;
     element.props.internaldataargs = props;
 
-    const inst = makeInstance(
-      element,
-      undefined,
-      isUseSateTrigered,
-      isUseRefTrigered,
-      useRefAfter
-    );
+    const inst = makeInstance(element, undefined, isUseSateTrigered);
 
     return inst;
   }

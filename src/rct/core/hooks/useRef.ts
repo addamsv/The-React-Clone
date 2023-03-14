@@ -1,12 +1,7 @@
-/* current */
-const useRefPublicDom = {
-  dom: null as any,
-};
-
 export const useRef = (initValue: any = null) => {
   const innerObj = {
     id: 0,
-    current: initValue as any,
+    current: undefined as any,
   };
 
   const setRootPublicDom = (el: any) => (innerObj.current = el);

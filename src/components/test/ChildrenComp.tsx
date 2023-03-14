@@ -49,7 +49,7 @@ const ChildrenComp = (props: ChildrenComps) => {
       </div>
 
       <div>
-        <b>Random Cite (onSetState)</b>
+        <b style={{ color: "red" }}>Random Cite (onSetState)</b>
       </div>
 
       {cite[getIndex()].cite}

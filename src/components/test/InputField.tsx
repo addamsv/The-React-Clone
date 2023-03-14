@@ -6,13 +6,14 @@ const InputField = () => {
   const divRef = useRef(null);
 
   const changing = (val: string) => {
+    console.log(divRef.current);
+
     setSt(val);
   };
 
   return (
     <div ref={divRef}>
       <span>{st === "hello" && st}</span>
-      <span>{false}</span>
       <input
         type="text"
         onInput={(e: any) => changing(e.target.value)}
