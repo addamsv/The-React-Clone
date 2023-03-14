@@ -38,10 +38,10 @@ the full version of documentation come soon
 
 <br><br>
 
-## The only hooks are supported now are:
+## The only hooks are supported now:
  useState<br>
  useEffect<br>
- useRef (not fully)<br>
+ useRef<br>
 <br>
 
 ![](./config/README_FILES/hooks.png)
